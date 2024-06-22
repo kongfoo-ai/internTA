@@ -1,0 +1,1 @@
+xtuner train config/internlm2_1_8b_qlora_alpaca_e3_copy.py --work-dir train --deepspeed deepspeed_zero2
