@@ -27,10 +27,10 @@ from modelscope import snapshot_download, AutoModel, AutoTokenizer
 logger = logging.get_logger(__name__)
 
 from openxlab.model import download
-#download(model_repo='ljnyyds/zhangsan_say_law',output='./model')
+#download(model_repo='OpenLMLab/internlm2-base-1.8b',output='./OpenLMLab/internlm2-base-1.8b')
 
 def init():
-    model_dir = snapshot_download('admlrz/lirongzhen-pufa-model'
+    model_dir = snapshot_download('kongfoo/internTA'
                                   , cache_dir='./')
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
     # 下载模型
@@ -171,11 +171,11 @@ def on_btn_click():
 @st.cache_resource
 def load_model():
     model = (
-        AutoModelForCausalLM.from_pretrained("admlrz/lirongzhen-pufa-model", trust_remote_code=True)
+        AutoModelForCausalLM.from_pretrained("kongfoo/internTA", trust_remote_code=True)
         .to(torch.bfloat16)
         .cuda()
     )
-    tokenizer = AutoTokenizer.from_pretrained("admlrz/lirongzhen-pufa-model", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("kongfoo/internTA", trust_remote_code=True)
     return model, tokenizer
 
 
@@ -199,7 +199,7 @@ cur_query_prompt = "<|im_start|>user\n{user}<|im_end|>\n<|im_start|>assistant\n"
 def combine_history(prompt):
     messages = st.session_state.messages
     meta_instruction = (
-        "你是一个由上海人工智能实验室提供支持开发的法律大模型。现在你是一个法律学专家，我有一些关于民法典的问题，请你用专业的知识帮我解决。"
+        "你是一个由躬富科技提供支持开发的聊天机器人E.CoPI。现在你是我的助教，我有一些关于学习《合成生物学》课本的问题，请你用专业的知识帮我解决。"
     )
     total_prompt = f"<s><|im_start|>system\n{meta_instruction}<|im_end|>\n"
     for message in messages:
@@ -221,10 +221,10 @@ def main():
     model, tokenizer = load_model()
     print("load model end.")
 
-    user_avator = "assets/user.png"
-    robot_avator = "assets/robot.png"
+    user_avator = "momo.png"
+    robot_avator = "robot.png"
 
-    st.title("张三普法")
+    st.title("我是E.CoPI老师，你的《合成生物学》助教~")
 
     generation_config = prepare_generation_config()
 
