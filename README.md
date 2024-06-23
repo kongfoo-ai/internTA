@@ -7,7 +7,7 @@
 
 模型仓库：[[OpenXLab]](https://openxlab.org.cn/models/detail/Kongfoo_EC/internTA)
 
-演示视频：[[Google]](https://www.bilibili.com/video/BV1RK421s7dm/)
+演示视频：[[Google]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
 
 在线体验Demo：[[GPUShare]](http://i-2.gpushare.com:50259/)
 
@@ -48,84 +48,82 @@ InternTA的实现原理如下图所示：
 
 ```sh
 # 克隆仓库
-git clone https://github.com/BestAnHongjun/InternDog.git
+git clone https://github.com/kongfoo-ai/internTA
 
 # 进入项目目录
-cd InternDog
+cd InternTA
 
 # 安装依赖
 pip install -r requirements.txt
 
-# 运行网页版demo
-python app.py
+# 启动demo, 默认端口为8080如有需要可以修改
+sh run.sh
 
-# 运行终端demo
-python app_cli.py
+# 查看运行日志 
+tail -f nohup.out
 ```
 
 ## 使用教程
 
 ### 1.训练数据生成
 
-使用本项目开发的场景模拟器生成训练数据。
+安装依赖项。
+
+```sh
+pip install -r requirements.txt
+```
+
+使用开源样例生成训练数据。
 
 ```sh
 cd data
-python gen_all_data.py
+python generate_data.py
 ```
 
 ### 2.模型微调
 
-安装依赖项。
+进入项目根目录
 
 ```sh
-pip install -r requirements_all.txt
+cd $ROOT_PATH 
 ```
 
-下载[InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary)大模型。
+检查data目录下是否有名为`personal_assistant.json`的数据。
 
 ```sh
-python python fine-tune/download_pretrain_model.py 
+ls -lh data
 ```
 
-基于xtuner微调模型。
+使用data目录下以上步骤生成的到的数据以及xtuner工具微调模型。
 
 ```sh
-xtuner train ./fine-tune/internlm2_1_8b_qlora_lift_e3.py --deepspeed deepspeed_zero2
+sh train.sh
 ```
 
-生成Adapter。
+观察train目录下的到的模型权重，目录的命名规则为`pth_$NUM_EPOCH`。
+```sh
+ls -lh train
+```
+
+将微调得到的Adapter合并至基模型。
 
 ```sh
-# 注意修改.sh文件第六行模型文件路径
-./tools/1.convert_model.sh
+# 注意需要将待合并权重的目录后缀作为参数传入，用于指定合并哪个目录下的LORA参数
+sh merge.sh $NUM_EPOCH
 ```
 
-合并Adapter。
+### 3.模型测试
 
-```sh
-# 注意修改模型路径
-./tools/2.merge_model.sh
-```
-
-### 3.模型量化
-
-W4A16量化模型。
+测试final目录下最终合并后的模型。
 
 ```sh
 # 注意修改模型路径
-./tools/3.quantize_model.sh
+sh chat.sh
 ```
 
-转化为TurboMind模型。
-
-```sh
-# 注意修改模型路径
-./tools/4.turbomind_model.sh
-```
 
 ## 特别鸣谢
 
 - [InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary)
-- [ZhangsanPufa](https://github.com/AllYoung/InternLM4Law)
+- [internDog](https://github.com/BestAnHongjun/InternDog)
 - [Xtuner](https://github.com/InternLM/xtuner)
