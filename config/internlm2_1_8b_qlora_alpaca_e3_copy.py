@@ -24,11 +24,11 @@ from xtuner.utils import PROMPT_TEMPLATE, SYSTEM_TEMPLATE
 #                          PART 1  Settings                           #
 #######################################################################
 # Model
-pretrained_model_name_or_path = '/hy-tmp/liyi/ft/model'
+pretrained_model_name_or_path = '../model'
 use_varlen_attn = False
 
 # Data
-alpaca_en_path = '/hy-tmp/liyi/ft/data/personal_assistant.json'
+alpaca_en_path = '../data/personal_assistant.json'
 prompt_template = PROMPT_TEMPLATE.internlm2_chat
 max_length = 1024
 pack_to_max_length = True
