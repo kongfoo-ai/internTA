@@ -1,6 +1,6 @@
 # internTA: 基于InternLM2大模型的《合成生物学》助教
 
-<div align="center"><img src="./demo.gif" width="350"></div>
+<div align="center"><img src="./demo.gif" width="500"></div>
 
 ## 摘要
 代码仓库：[[GitHub]](https://github.com/kongfoo-ai/internTA)
@@ -24,11 +24,11 @@
 
 ## 介绍
 
-InternTA使用情景模拟器生成的情景数据作为微调数据集，使用[Xtuner](https://github.com/InternLM/xtuner)工具对[InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary)基础模型进行微调，使用streamlit作为框架开发网页端DEMO应用。
+InternTA从《合成生物学》教材中取材，通过半自动化方式产生教学对话作为微调数据集，使用[Xtuner](https://github.com/InternLM/xtuner)工具对[InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary)基础模型进行微调，使用streamlit作为框架开发网页端DEMO应用。
 
 InternTA的实现原理如下图所示：
 
-<div align="center"><img src="./internTA.png" width="350"></div>
+<div align="center"><img src="./internTA.png" width="500"></div>
 
 其中微调数据准备是最为关键的环节之一。我们准备的微调训练数据包含两类：直接问答数据和引导式问答数据。微调数据准备的步骤如下图所示：
 
