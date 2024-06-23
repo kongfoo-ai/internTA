@@ -3,11 +3,10 @@
 <div align="center"><img src="./demo.gif" width="500"></div>
 
 ## 摘要
-代码仓库：[[GitHub]](https://github.com/kongfoo-ai/internTA)
 
 模型仓库：[[OpenXLab]](https://openxlab.org.cn/models/detail/Kongfoo_EC/internTA)
 
-演示视频：[[Google]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
+演示视频：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
 
 在线体验Demo：[[GPUShare]](http://i-2.gpushare.com:50259/)
 
