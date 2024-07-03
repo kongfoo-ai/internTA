@@ -1,5 +1,7 @@
 # internTA: 基于InternLM2大模型的《合成生物学》助教
 
+[中文版](README.md) | [English Version](README-EN.md)
+
 <div align="center"><img src="./demo.gif" width="500"></div>
 
 ## 摘要
