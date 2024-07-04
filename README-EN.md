@@ -12,13 +12,13 @@ Online experience Demo：[[GPUShare]](http://i-2.gpushare.com:50259/)
 
 
 ## Background
-From artificial meat, synthetic proteins to the gene-editing technology CRISPR-Cas9, synthetic biology has been flourishing across various fields in recent years, leading what is being termed the "Third Biotechnology Revolution." However, the dissemination of synthetic biology knowledge faces several challenges:
+From lab-grown meat, synthetic proteins to the gene-editing technology CRISPR-Cas9, synthetic biology has been flourishing across various fields in recent years, leading what is being termed the "Third Biotechnology Revolution." However, the dissemination of synthetic biology knowledge faces several challenges:
 
 On one hand, synthetic biology is an interdisciplinary field that combines knowledge from biology, chemistry, engineering, and computer science. Many cutting-edge technologies play an indispensable role in advancing synthetic biology.
 
 On the other hand, there is still a gap between China and advanced developed countries in the field of biotechnology, and China is in a state of catching up. There is a significant shortage of teachers and professionals with cross-disciplinary knowledge and rich practical experience.
 
-To address these shortcomings, we have developed the "Synthetic Biology" teaching assistant, InternTA, based on the InternLM2 large language model. The aim is to help students to learn the "Synthetic Biology" course. By providing keywords and ideas, and pointing out relevant chapters in textbooks, we hope that InternTA could guide students to think independently, thereby achieving high-quality learning of synthetic biology knowledge and fulfilling the goal of "teaching a man fishing.”
+To address these shortcomings, we have developed the "Synthetic Biology" teaching assistant, InternTA, based on the InternLM2 large language model. The aim is to help students to learn the "Synthetic Biology" course. By providing keywords and ideas, and pointing out relevant chapters in textbooks, we hope that InternTA could guide students to think independently, thereby achieving high-quality learning of synthetic biology knowledge and fulfilling the goal of "teaching a man to fish rather than giving him a fish.”
 
 ## Introduction
 InternTA draws material from the "Synthetic Biology" textbook. It uses a semi-automated approach to generate instructional dialogues as a fine-tuning dataset. The [Xtuner](https://github.com/InternLM/xtuner) is employed to fine-tune the base model [InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary), and Streamlit is used as the framework to develop a web-based DEMO application.
@@ -90,7 +90,7 @@ Check if there is a file named personal_assistant.json in the data directory.
 ls -lh data
 ```
 
-Fine-tune the model using the data generated in the previous steps and the xtuner tool.
+Fine-tune the model using the data generated in the previous steps and the Xtuner tool.
 
 ```sh
 sh train.sh
