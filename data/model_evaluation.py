@@ -1,10 +1,7 @@
 import json
 import requests
 import jieba
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-from tabulate import tabulate
-import numpy as np
+from rouge_chinese import Rouge
 
 def get_model_answer(prompt):
     url = "http://i-2.gpushare.com:50259/api/generate"
@@ -18,65 +15,101 @@ def get_model_answer(prompt):
     
     if response.status_code == 200:
         response_data = response.json()
-        if 'response' in response_data:
-            return response_data['response']
-        else:
-            print("Response does not contain 'response' key.")
-            return None
+        return response_data.get('response', None)
     else:
-        print("Failed to connect. Status code:", response.status_code)
-        print("Response:", response.text)
+        print(f"Failed to connect. Status code: {response.status_code}")
+        print(f"Response: {response.text}")
         return None
 
-def compute_similarity_tfidf(reference, generated):
+def compute_similarity_rouge(reference, generated):
+    if not generated:
+        return -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0
+    
+    reference = ' '.join(jieba.cut(reference))
+    generated = ' '.join(jieba.cut(generated))
+    
+    rouge = Rouge()
+    
     try:
-        words1 = jieba.lcut(reference)
-        words2 = jieba.lcut(generated)
+        scores = rouge.get_scores(generated, reference)[0]
         
-        processed_sentence1 = " ".join(words1)
-        processed_sentence2 = " ".join(words2)
-        
-        corpus = [processed_sentence1, processed_sentence2]
-        
-        vectorizer = TfidfVectorizer(stop_words=['的', '了', '和', '是', '就', '都', '而', '及', '与', '或', '之'])
-        
-        tfidf_matrix = vectorizer.fit_transform(corpus)
-        
-        cosine_sim = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
-        
-        normalized_similarity = (cosine_sim + 1) / 2
-        
-        return normalized_similarity
+        return (
+            scores['rouge-1']['p'], scores['rouge-1']['r'], scores['rouge-1']['f'],
+            scores['rouge-2']['p'], scores['rouge-2']['r'], scores['rouge-2']['f'],
+            scores['rouge-l']['p'], scores['rouge-l']['r'], scores['rouge-l']['f']
+        )
     except Exception as e:
-        print(f"Error calculating cosine similarity: {e}")
-        return 0
+        print(f"Error calculating ROUGE score: {e}")
+        return -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0
 
-with open('SynBio-Bench.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-
-table_data = []
-
-for topic in data['topics']:
-    topic_name = topic['topic']
-    total_score = 0
-    num_questions = 0
+def process_data(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = json.load(f)
     
-    for question in topic['questions']:
-        reference_answer = topic['answers'][question][0] 
+    for topic in data:
+        topic_name = topic['topic']
+        totals = {
+            'f1': 0,
+            'p1': 0,
+            'r1': 0,
+            'f2': 0,
+            'p2': 0,
+            'r2': 0,
+            'fL': 0,
+            'pL': 0,
+            'rL': 0
+        }
+        num_questions = 0
         
-        model_answer = get_model_answer(question)
+        for question in topic['questions']:
+            reference_answers = topic['answers'].get(question, [])
+            model_answer = get_model_answer(question)
+            
+            if model_answer:
+                accumulators = {
+                    'f1': 0,
+                    'p1': 0,
+                    'r1': 0,
+                    'f2': 0,
+                    'p2': 0,
+                    'r2': 0,
+                    'fL': 0,
+                    'pL': 0,
+                    'rL': 0
+                }
+                
+                for reference_answer in reference_answers:
+                    p1, r1, f1, p2, r2, f2, pL, rL, fL = compute_similarity_rouge(reference_answer, model_answer)
+                    accumulators['p1'] += p1
+                    accumulators['r1'] += r1
+                    accumulators['f1'] += f1
+                    accumulators['p2'] += p2
+                    accumulators['r2'] += r2
+                    accumulators['f2'] += f2
+                    accumulators['pL'] += pL
+                    accumulators['rL'] += rL
+                    accumulators['fL'] += fL
+
+                num_references = len(reference_answers)
+                averages = {key: accumulators[key] / num_references for key in accumulators}
+                
+                f_score = (averages['f1'] + averages['f2'] + averages['fL']) / 3
+                p_score = (averages['p1'] + averages['p2'] + averages['pL']) / 3
+                r_score = (averages['r1'] + averages['r2'] + averages['rL']) / 3
+                
+                totals['f1'] += f_score
+                totals['p1'] += p_score
+                totals['r1'] += r_score
+                num_questions += 1
+            else:
+                print(f"Failed to generate answer for question: {question}")
         
-        if model_answer:
-            score = compute_similarity_tfidf(reference_answer, model_answer)
-            total_score += score
-            num_questions += 1
-            table_data.append([topic_name, question, reference_answer, model_answer, f"{score:.2f}"])
+        if num_questions > 0:
+            average_scores = {key: totals[key] / num_questions for key in totals}
         else:
-            print(f"Failed to generate answer for question: {question}")
-    
-    if num_questions > 0:
-        average_score = total_score / num_questions
-    else:
-        average_score = 0
-    
-    print(f"Average similarity score for topic '{topic_name}': {average_score:.2f}")
+            average_scores = {key: 0 for key in totals}
+        
+        print(f"Similarity scores for topic '{topic_name}': F1 = {average_scores['f1']:.2f}, Precision = {average_scores['p1']:.2f}, Recall = {average_scores['r1']:.2f}")
+
+if __name__ == "__main__":
+    process_data('SynBio-Bench.json')
