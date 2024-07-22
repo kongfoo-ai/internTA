@@ -122,6 +122,24 @@ sh merge.sh $NUM_EPOCH
 sh chat.sh
 ```
 
+### 4.模型回答评估
+ 
+该部分用于计算 InternTA 模型回答的 ROUGE 相似度分数，生成评测结果。
+
+首先，使用这个命令安装所需的python库：
+
+```sh
+pip install jieba rouge_chinese pandas
+```
+运行评估脚本
+
+```sh
+#确保你的 SynBio-Bench.json 文件存在于正确的目录下
+python ./test/test_model_evaluation.py
+```
+该命令将处理数据文件，并输出结果到 test_results.csv 文件。
+
+脚本中的单元测试用于验证从模型 API 获取的回答是否有效以及 ROUGE 相似度分数的计算是否正确。
 
 ## 特别鸣谢
 
