@@ -1,12 +1,16 @@
 from data.model_evaluation import process_data, get_model_answer, compute_similarity_rouge
 import unittest
 import pandas as pd
+import sys
+import os
+current_path = os.path.dirname(os.path.abspath(__file__))
+main_folder_path = os.path.join(current_path, '..')
 
 class TestRougeEvaluation(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
-        cls.filename = 'data/SynBio-Bench.json'
+        cls.filename = os.path.join(main_folder_path, 'data/SynBio-Bench.json')
     
     def test_process_data(self):
         results = process_data(self.filename)
@@ -27,6 +31,10 @@ class TestRougeEvaluation(unittest.TestCase):
             self.assertGreaterEqual(result['correct'], 0)
             self.assertGreaterEqual(result['incorrect'], 0)
             self.assertGreaterEqual(result['percent_correct'], 0)
+        first_topic = results[0]
+        self.assertEqual(first_topic['correct'], 1)
+        self.assertEqual(first_topic['incorrect'], 2)
+        self.assertAlmostEqual(first_topic['percent_correct'], 33.333333, places=6)
            
     def test_get_model_answer(self):
         sample_prompt = "什么是合成生物学?"
