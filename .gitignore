@@ -1,5 +1,8 @@
 #数据
 ./data/personal_assistant.json
 
+# 忽略缓存文件
+/test/__pycache__/
+
 #模型
 ./kongfoo
