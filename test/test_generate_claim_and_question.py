@@ -4,7 +4,7 @@ Unit tests for generate_claim module.
 
 import unittest
 import os
-from generate_claim import extract_atomic_claims, generate_questions
+from data.generate_claim import extract_atomic_claims, generate_questions
 current_path = os.path.dirname(os.path.abspath(__file__))
 main_folder_path = os.path.join(current_path, '..')
 
