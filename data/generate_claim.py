@@ -1,3 +1,10 @@
+"""
+This module processes entities from a JSON file and extracts atomic claims from 
+textbook documents in DOCX format. It then generates questions and answers based 
+on the extracted claims using the OpenAI GPT-3.5-turbo model and saves the results 
+in a JSON file.
+"""
+
 import os
 import json
 import openai
@@ -19,18 +26,25 @@ def read_docx_files(docx_folder):
                 doc = Document(doc_path)
                 for para in doc.paragraphs:
                     combined_text += para.text + "\n"
-            except Exception as e:
-                print(f"读取 {doc_path} 时出错: {e}")
+            except FileNotFoundError as e:
+                print(f"文件 {doc_path} 未找到: {e}")
+            except OSError as e:
+                print(f"读取 {doc_path} 时出错，操作系统错误: {e}")
+            except ValueError as e:
+                print(f"读取 {doc_path} 时出错，值错误: {e}")
     return combined_text
 
 def split_text(text, max_length=4000):
+    """
+    将长文本拆分成多个较小的文本块。
+    """
     words = text.split()
     chunks = []
     chunk = []
     length = 0
 
     for word in words:
-        length += len(word) + 1  
+        length += len(word) + 1
         if length > max_length:
             chunks.append(" ".join(chunk))
             chunk = []
@@ -48,27 +62,30 @@ def extract_atomic_claims(text, entity):
     """
     if not entity:
         return []
-    
+
     claims = []
     text_chunks = split_text(text)
-    
+
     for chunk in text_chunks:
         completion = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {
                     "role": "user",
-                    "content": f"从以下文本中提取与关键词 '{entity}' 相关的知识点，并在找到相关定义后停止处理，确保知识点包含关键词：\n\n{chunk}"
+                    "content": f"从以下文本中提取与关键词 '{entity}' 相关的知识点，"
+                               f"并在找到相关定义后停止处理，确保知识点包含关键词：\n\n{chunk}"
                 },
             ],
         )
         response = completion.choices[0].message.content
-        
+
         if response:
-            claims.extend([claim.strip() for claim in response.strip().split('\n') if claim.strip()])
+            claims.extend([
+                    claim.strip() for claim in response.strip().split('\n') if claim.strip()
+                ])
         else:
             print("接收到的响应为空")
-    return list(set(claims))  
+    return list(set(claims))
 
 def generate_questions(claims):
     """
@@ -76,7 +93,7 @@ def generate_questions(claims):
     """
     if not claims:
         return []
-    
+
     questions = []
     for claim in claims:
         completion = openai.chat.completions.create(
@@ -89,12 +106,13 @@ def generate_questions(claims):
             ],
         )
         response = completion.choices[0].message.content
-        
+
         if response:
-            questions.extend([q.strip() for q in response.strip().split('\n') if q.strip() and not q.strip().startswith('单独的知识测试问题：')])
+            questions.extend([q.strip() for q in response.strip().split('\n')
+                              if q.strip() and not q.strip().startswith('单独的知识测试问题：')])
         else:
             print("接收到的响应为空")
-    return questions[:3] 
+    return questions[:3]
 
 def generate_answers(question, claims, num_answers=3):
     """
@@ -107,17 +125,18 @@ def generate_answers(question, claims, num_answers=3):
             messages=[
                 {
                     "role": "user",
-                    "content": f"根据以下知识点提供答案：\n\n问题: {question}\n\n知识点:\n{', '.join(claims)}\n\n请确保答案直接回答问题，避免重复和无关的内容。"
+                    "content": f"根据以下知识点提供答案：\n\n问题: {question}\n\n知识点:\n"
+                               f"{', '.join(claims)}\n\n请确保答案直接回答问题，避免重复和无关的内容。"
                 },
             ],
         )
         response = completion.choices[0].message.content
-        
+
         if response:
             answers.append(response.strip())
         else:
             print("接收到的响应为空")
-    return answers[:3] 
+    return answers[:3]
 
 def process_entities(entities_filename, docx_folder):
     """
@@ -155,17 +174,17 @@ def read_entities(filename):
     """
     从 JSON 文件中读取entities。
     """
-    with open(filename, 'r', encoding='utf-8') as file:
-        entities = json.load(file)
+    with open(filename, 'r', encoding='utf-8') as json_file:
+        entities = json.load(json_file)
     return entities
 
 if __name__ == "__main__":
-    entities_filename = 'entities.json'
-    docx_folder = '合成生物第七章'
+    ENTITIES_FILENAME = 'entities.json'
+    DOCX_FOLDER = '合成生物第七章'
 
-    synbio_bench = process_entities(entities_filename, docx_folder)
+    SYNBIO_BENCH = process_entities(ENTITIES_FILENAME, DOCX_FOLDER)
 
     with open('SynBio-Bench.json', 'w', encoding='utf-8') as file:
-        json.dump(synbio_bench, file, ensure_ascii=False, indent=4)
+        json.dump(SYNBIO_BENCH, file, ensure_ascii=False, indent=4)
 
     print("SynBio-Bench JSON 文件已生成。")
