@@ -8,7 +8,7 @@ Model repository：[[OpenXLab]](https://openxlab.org.cn/models/detail/Kongfoo_EC
 
 Demo video：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
 
-Online experience Demo：[[GPUShare]](http://i-2.gpushare.com:50259/)
+Online experience Demo：[[Powered by Coze]](https://www.kongfoo.cloud/)
 
 
 ## Background
@@ -38,7 +38,7 @@ One of the most critical steps is the preparation of fine-tuning data. We have p
 
 ## Quick Experience
 
-**Online Experience Address**: [[GPUShare]](http://i-2.gpushare.com:50259/)
+**Online Experience Address**: [[Powered by Coze]](https://www.kongfoo.cloud/)
 
 **Local Experience Method (NVIDIA GPU with 8GB or more VRAM)**:
 

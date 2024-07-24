@@ -8,7 +8,7 @@
 
 模型仓库：[[OpenXLab]](https://openxlab.org.cn/models/detail/Kongfoo_EC/internTA)
 
-演示视频：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
+演示视频：[[Bilibili]](https://www.bilibili.com/video/BV1xRe2eHEsF)
 
 在线体验Demo：[[Powered by Coze]](https://www.kongfoo.cloud/)
 
