@@ -9,9 +9,11 @@ import os
 import json
 import openai
 from docx import Document
+from dotenv import load_dotenv
 
-openai.api_key = "sk-6M2KMdUCzx2WhHKt8bCdCf2dCdC04d33A16e8e622bF65c78"
-openai.base_url = "https://free.gpt.ge/v1/"
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.base_url = os.getenv("OPENAI_BASE_URL")
 openai.default_headers = {"x-foo": "true"}
 
 def read_docx_files(docx_folder):
