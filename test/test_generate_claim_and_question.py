@@ -1,11 +1,15 @@
+'''
+Unit tests for generate_claim module.
+'''
+
 import unittest
-from generate_claim import extract_atomic_claims, generate_questions
-import sys
 import os
+from generate_claim import extract_atomic_claims, generate_questions
 current_path = os.path.dirname(os.path.abspath(__file__))
 main_folder_path = os.path.join(current_path, '..')
 
 class TestGenerateData(unittest.TestCase):
+    """Tests for the data generation functions in generate_claim module."""
     def setUp(self):
         self.entities = "自适应元件"
         self.text = (
@@ -18,14 +22,13 @@ class TestGenerateData(unittest.TestCase):
         self.expected_question_keywords = ["自适应元件", "？"]
 
     def test_claim_extraction_and_question_generation(self):
+        """Test the claim extraction and question generation functions."""
         claims = extract_atomic_claims(self.text, self.entities)
         # claims contain expected keywords
         for keyword in self.expected_claim_keywords:
             self.assertTrue(
                 any(keyword in claim for claim in claims),
-                f"The extracted claims do not contain the expected keyword: {keyword}"
-            )
-        
+                f"The extracted claims do not contain the expected keyword: {keyword}") 
         # claims should not be empty
         self.assertGreater(len(claims), 0, "Claims extraction resulted in no claims.")
         for claim in claims:
@@ -51,10 +54,10 @@ class TestGenerateData(unittest.TestCase):
             )
 
     def test_empty_entities(self):
+        """Test the functions with empty entities."""
         entities = ""
         claims = extract_atomic_claims('', entities)
         self.assertEqual(claims, [], "The extracted claims should be empty for empty entities.")
-        
         questions = generate_questions(claims)
         self.assertEqual(questions, [], "The generated questions should be empty for empty claims.")
 
