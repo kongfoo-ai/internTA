@@ -10,7 +10,7 @@
 
 演示视频：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
 
-在线体验Demo：[[GPUShare]](http://i-2.gpushare.com:50259/)
+在线体验Demo：[[Powered by Coze]](https://www.kongfoo.cloud/)
 
 ## 背景
 
@@ -43,7 +43,7 @@ InternTA的实现原理如下图所示：
 
 ## 快速体验
 
-**在线体验地址**：[[GPUShare]](http://i-2.gpushare.com:50259/)
+**在线体验地址**：[[Powered by Coze]](https://www.kongfoo.cloud/)
 
 **本地体验方法**(8G显存以上NVIDIA GPU)：
 
