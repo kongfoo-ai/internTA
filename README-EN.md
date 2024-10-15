@@ -8,7 +8,7 @@ Model repository：[[OpenXLab]](https://openxlab.org.cn/models/detail/Kongfoo_EC
 
 Demo video：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
 
-Online experience Demo：[[Powered by Coze]](https://www.kongfoo.cloud/)
+Online experience Demo：[[Powered by Coze]](https://ecopi.chat/)
 
 
 ## Background
