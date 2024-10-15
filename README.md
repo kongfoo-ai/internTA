@@ -10,7 +10,7 @@
 
 演示视频：[[Bilibili]](https://www.bilibili.com/video/BV1xRe2eHEsF)
 
-在线体验Demo：[[Powered by Coze]](https://www.kongfoo.cloud/)
+在线体验Demo：[[Powered by Coze]](https://ecopi.chat/)
 
 ## 背景
 
