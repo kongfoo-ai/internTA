@@ -1,0 +1,75 @@
+ecopiapi: 1.0.0
+info:
+  title: InternTA Chat Completions API
+  description: API for creating chat completions using the InternTA service
+  version: 1.0.0
+
+servers:
+  - url: https://api.ecopi.chat.com/v1
+    description: Production server
+
+paths:
+  /chat/completions:
+    post:
+      summary: Create a chat completion
+      description: Creates a completion for the chat message
+      operationId: createChatCompletion
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - messages
+              properties:
+                model:
+                  type: string
+                  description: ID of the model to use
+                  example: "internta-v02"
+                messages:
+                  type: array
+                  description: A list of messages comprising the conversation
+                  items:
+                    type: object
+                    required:
+                      - role
+                      - content
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user, assistant]
+                        description: The role of the message author
+                      content:
+                        type: string
+                        description: The content of the message
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: object
+                          properties:
+                            role:
+                              type: string
+                            content:
+                              type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
