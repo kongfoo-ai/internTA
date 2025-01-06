@@ -1,0 +1,23 @@
+{
+    "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+    "timestamp": "2023-01-22T04:34:27.052924",
+    "generation": 9,
+    "is_quality_control_question": false,
+    "is_initial_screening_question": false,
+    "question": {
+        "problem": "What is the greatest common factor of $20 !$ and $200,\\!000$? (Reminder: If $n$ is a positive integer, then $n!$ stands for the product $1\\cdot 2\\cdot 3\\cdots (n-1)\\cdot n$.)",
+        "ground_truth_solution": "The prime factorization of $200,000$ is $2^6 \\cdot 5^5$. Then count the number of factors of $2$ and $5$ in $20!$. Since there are $10$ even numbers, there are more than $6$ factors of $2$. There are $4$ factors of $5$. So the greatest common factor is $2^6 \\cdot 5^4=\\boxed{40,\\!000}$.",
+        "ground_truth_answer": "40,\\!000",
+        "pre_generated_steps": [
+            "I want to find the largest positive integer that divides both $20 !$ and $200,\\!000$ evenly.",
+            "One way to do this is to factor both numbers into prime factors and look for the common ones."
+        ],
+        "pre_generated_answer": "320,000",
+        "pre_generated_verifier_score": 0.010779580529581414
+    },
+    "label": {
+        "steps": [],
+        "total_time": 278270,
+        "finish_reason": "found_error"
+    }
+}
