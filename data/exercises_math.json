@@ -6,12 +6,18 @@
   "is_initial_screening_question": false,
 
   "question": {
-    "problem": "Consider the equation \\( A + B \\rightleftharpoons C, \\) where the association rate constant \\( k_a = 0.05\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M}\\) and \\( \\theta \\approx 0.99996 \\). Calculate the expected concentrations for the complex \\( C \\) and the unbound \\( A \\) molecules.",
+    "problem": "Consider the equation \\( A + B \\rightleftharpoons C, \\) where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M}\\) and \\( \\theta \\approx 0.99996 \\). Calculate the expected concentrations for the complex \\( C \\) and the unbound \\( A \\) molecules.",
     "ground_truth_solution": "Using the Hill equation, the concentration of the complex \\( [C] \\) is given by: \\( [C] = [A_\\text{initial}] \\cdot \\theta \\). Substituting \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta \\approx 0.99996 \\): \\( [C] = 1 \\cdot 0.99996 \\approx 0.99996 \\, \\text{M} \\). The unbound \\( [A] \\) is given by \\( [A] = [A_\\text{initial}] - [C] \\). Substituting: \\( [A] = 1 - 0.99996 \\approx 0.00004 \\, \\text{M} \\). \\( [C] \\approx 0.99996 \\, \\text{M}, [A] \\approx 0.00004 \\, \\text{M} \\).",
-    "ground_truth_answer": "\\[ [C] \\approx 0.99996 \\, \\text{M}, \\quad [A] \\approx 0.00004 \\, \\text{M} \\]"
+    "ground_truth_answer": "\\[ [C] \\approx 0.99996 \\, \\text{M}, \\quad [A] \\approx 0.00004 \\, \\text{M} \\]",
+
+  "pre_generated_steps": [],
+  
+  "pre_generated_answer": "",
+  "pre_generated_verifier_score": 1.0
+
   },
 
-  "label": {
+  "label":{
     "steps": [
       {
         "completions": [
