@@ -35,6 +35,7 @@ def check_structure(data, expected):
             return False
         for key, value_type in expected.items():
             if key not in data or not check_structure(data[key], value_type):
+                print(f"Key {key} not found in data or does not match expected type {value_type}")
                 return False
     elif isinstance(expected, list):
         if not isinstance(data, list):
