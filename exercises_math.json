@@ -1,0 +1,101 @@
+{
+  "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+  "timestamp": "2023-01-22T04:34:27.052924",
+  "generation": 1,
+  "is_quality_control_question": false,
+  "is_initial_screening_question": false,
+
+  "question": {
+    "problem": "Consider the equation \\( A + B \\rightleftharpoons C, \\) where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M}\\) and \\( \\theta \\approx 0.99996 \\). Calculate the expected concentrations for the complex \\( C \\) and the unbound \\( A \\) molecules.",
+    "ground_truth_solution": "Using the Hill equation, the concentration of the complex \\( [C] \\) is given by: \\( [C] = [A_\\text{initial}] \\cdot \\theta \\). Substituting \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta \\approx 0.99996 \\): \\( [C] = 1 \\cdot 0.99996 \\approx 0.99996 \\, \\text{M} \\). The unbound \\( [A] \\) is given by \\( [A] = [A_\\text{initial}] - [C] \\). Substituting: \\( [A] = 1 - 0.99996 \\approx 0.00004 \\, \\text{M} \\). \\( [C] \\approx 0.99996 \\, \\text{M}, [A] \\approx 0.00004 \\, \\text{M} \\).",
+    "ground_truth_answer": "\\[ [C] \\approx 0.99996 \\, \\text{M}, \\quad [A] \\approx 0.00004 \\, \\text{M} \\]",
+
+  "pre_generated_steps": [],
+  
+  "pre_generated_answer": "",
+  "pre_generated_verifier_score": 1.0
+
+  },
+
+  "label":{
+    "steps": [
+      {
+        "completions": [
+          {
+            "text": "Knowledge point: The Hill equation is used to calculate the fraction of binding sites occupied by a ligand as a function of ligand concentration, assuming the Hill coefficient \\( n = 1 \\) for this case.",
+            "rating": 1,
+            "flagged": null
+          }
+        ],
+        "human_completion": null,
+        "chosen_completion": 0
+      },
+      {
+        "completions": [
+          {
+            "text": "Step 1: Determine \\( \\theta \\), the fraction of binding sites occupied. In this case, \\( \\theta \\approx 0.99996 \\) is provided.",
+            "rating": 1,
+            "flagged": null
+          },
+          {
+            "text": "Common error: Misinterpreting \\( \\theta \\) as a percentage rather than a fraction.",
+            "rating": -1,
+            "flagged": null
+          }
+        ],
+        "human_completion": null,
+        "chosen_completion": 0
+      },
+      {
+        "completions": [
+          {
+            "text": "Step 2: Calculate the concentration of the complex \\( [C] \\) using \\( [C] = [A_\\text{initial}] \\cdot \\theta \\). Substituting \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta = 0.99996 \\): \\( [C] = 1 \\cdot 0.99996 \\approx 0.99996 \\, \\text{M} \\).",
+            "rating": 1,
+            "flagged": null
+          },
+          {
+            "text": "Common error: Incorrect approach: Assuming \\( [C] \\) is calculated directly using \\( k_a \\) and \\( k_d \\), ignoring the Hill equation and equilibrium constants.",
+            "rating": -1,
+            "flagged": null
+          }
+        ],
+        "human_completion": null,
+        "chosen_completion": 0
+      },
+      {
+        "completions": [
+          {
+            "text": "Step 3: Subtract \\( [C] \\) from the initial concentration of \\( A \\) to find the unbound \\( [A] \\): \\( [A] = [A_\\text{initial}] - [C] \\). Substituting: \\( [A] = 1 - 0.99996 \\approx 0.00004 \\, \\text{M} \\).",
+            "rating": 1,
+            "flagged": null
+          },
+          {
+            "text": "Common error: Forgetting to subtract \\( [C] \\) from \\( [A_\\text{initial}] \\), resulting in incorrect unbound \\( [A] \\).",
+            "rating": -1,
+            "flagged": null
+          }
+        ],
+        "human_completion": null,
+        "chosen_completion": 0
+      },
+      {
+        "completions": [
+          {
+            "text": "Step 4: Substitute values: \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta = 0.99996 \\) to compute \\( [C] \\approx 0.99996 \\, \\text{M} \\) and \\( [A] \\approx 0.00004 \\, \\text{M} \\).",
+            "rating": 1,
+            "flagged": null
+          },
+          {
+            "text": "Common error: Forgetting to subtract \\( [C] \\) from \\( [A_\\text{initial}] \\), resulting in incorrect unbound \\( [A] \\).",
+            "rating": -1,
+            "flagged": null
+          }
+        ],
+        "human_completion": null,
+        "chosen_completion": 0
+      }
+    ],
+    "total_time": 30000,
+    "finish_reason": "complete"
+  }
+}
