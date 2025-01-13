@@ -1,0 +1,1619 @@
+[
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "Using your preferred programming language, simulate the ODEs describing the system \\( A + B \\rightleftharpoons C \\) over a time period of 10 seconds. The initial concentrations are \\( [A] = 1\\,M \\), \\( [B] = 5\\,M \\), and \\( [C] = 0\\,M \\). The association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\).",
+            "ground_truth_solution": "To simulate the system of ODEs for the reversible reaction \\( A + B \\rightleftharpoons C \\), we use the following rate equations:\n\n\\[ \\frac{d[A]}{dt} = -k_a [A][B] + k_d [C] \\]\n\\[ \\frac{d[B]}{dt} = -k_a [A][B] + k_d [C] \\]\n\\[ \\frac{d[C]}{dt} = k_a [A][B] - k_d [C] \\]\nThe initial concentrations are:\\n- \\( [A]_0 = 1\\,M \\)\\n- \\( [B]_0 = 5\\,M \\)\\n- \\( [C]_0 = 0\\,M \\)\\nWe will simulate the reaction over a time span of 10 seconds using Python. The implementation is as follows:\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n\n# Reaction rates\nk_a = 0.05  # Forward rate constant\nk_d = 0.00001  # Reverse rate constant\n\n# ODE system\ndef reaction_odes(t, y, k_a, k_d):\n    A, B, C = y\n    dA_dt = -k_a * A * B + k_d * C\n    dB_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dB_dt, dC_dt]\n\n# Time span\ntime_span = [0, 10]  # 10 seconds\n\n# Solve ODEs\nsolution = solve_ivp(reaction_odes, time_span, initial_concentrations, args=(k_a, k_d), t_eval=np.linspace(0, 10, 100))\n\n# Plot results\nplt.plot(solution.t, solution.y[0], label='[A]')\nplt.plot(solution.t, solution.y[1], label='[B]')\nplt.plot(solution.t, solution.y[2], label='[C]')\nplt.xlabel('Time (s)')\nplt.ylabel('Concentration (M)')\nplt.legend()\nplt.show()\n```\n### Explanation of the Code:\n The function `reaction` defines the system of three ODEs.\n The initial conditions are set as \\([A]_0 = 1 \\, \\text{M}, [B]_0 = 5 \\, \\text{M}, [C]_0 = 0 \\, \\text{M}\\).\n The constants \\(k_a = 0.05 \\, \\text{s}^{-1}\\text{M}^{-1}\\) and \\(k_d = 0.00001 \\, \\text{s}^{-1}\\) are used as parameters.\n `solve_ivp` is used to numerically solve the system of ODEs over the time range \\([0, 10] \\, \\text{s}\\).\n The results are plotted to visualize the concentrations of \\(A\\), \\(B\\), and \\(C\\) over time.\n\n### Expected Results:\n \\([A]\\) and \\([B]\\) decrease as they react to form \\([C]\\).\n- \\([C]\\) increases over time as the system approaches equilibrium.",
+            "ground_truth_answer": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n\n# Reaction rates\nk_a = 0.05  # Forward rate constant\nk_d = 0.00001  # Reverse rate constant\n\n# ODE system\ndef reaction_odes(t, y, k_a, k_d):\n    A, B, C = y\n    dA_dt = -k_a * A * B + k_d * C\n    dB_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dB_dt, dC_dt]\n\n# Time span\ntime_span = [0, 10]  # 10 seconds\n\n# Solve ODEs\nsolution = solve_ivp(reaction_odes, time_span, initial_concentrations, args=(k_a, k_d), t_eval=np.linspace(0, 10, 100))\n\n# Plot results\nplt.plot(solution.t, solution.y[0], label='[A]')\nplt.plot(solution.t, solution.y[1], label='[B]')\nplt.plot(solution.t, solution.y[2], label='[C]')\nplt.xlabel('Time (s)')\nplt.ylabel('Concentration (M)')\nplt.legend()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "To simulate the system of ODEs for the reversible reaction \\( A + B \\rightleftharpoons C \\), we use the following rate equations:",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "We are going to use Python to solve some differential equations related to a reaction.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "\\[\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]\\]",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "\\[\\frac{d[A]}{dt} = k_a [A][B] - k_d [C]\\]",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "\\[\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]\\]",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "\\[\\frac{d[B]}{dt} = -k_a [A][B] - k_d [C]\\]",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "\\[\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]\\]",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "\\[\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]\\]",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "The initial concentrations are:\n\n- \\( [A]_0 = 1 \\, \\text{M} \\)\n- \\( [B]_0 = 5 \\, \\text{M} \\)\n- \\( [C]_0 = 0 \\, \\text{M} \\)\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "At the start, A is 1 M, B is 5 M, and C is 0 M.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "We will simulate the reaction over a time span of 10 seconds using Python. Below is the implementation:",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "import numpy as np, matplotlib.pyplot as plt",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Reaction rates\nk_a = 0.05  # Forward rate constant\nk_d = 0.00001  # Reverse rate constant\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# ODE system\ndef reaction_odes(t, y, k_a, k_d):\n    A, B, C = y\n    dA_dt = -k_a * A * B + k_d * C\n    dB_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dB_dt, dC_dt]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "def reaction_odes(t, y):\n    A, B, C = y\n    dA_dt = k_f * A * B - k_r * C\n    return dA_dt",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Initial concentrations\ny0 = [1.0, 5.0, 0.0]  # [A], [B], [C]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "y0 = [1, 5, 0]",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Time span for the simulation\nt_span = (0, 10)  # From 0 to 10 seconds\nt_eval = np.linspace(*t_span, 100)  # Points to evaluate the solution\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Solve the ODEs\nsolution = solve_ivp(reaction_odes, t_span, y0, args=(k_a, k_d), t_eval=t_eval)\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Extract results\nt = solution.t\nA, B, C = solution.y\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "plt.plot(solution.t, solution.y[0])\nplt.plot(solution.t, solution.y[1])\nplt.plot(solution.t, solution.y[2])\nplt.show()",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Plot the results\nplt.figure(figsize=(8, 6))\nplt.plot(t, A, label='[A]')\nplt.plot(t, B, label='[B]')\nplt.plot(t, C, label='[C]')\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "plt.title('Concentration vs Time')\nplt.xlabel('Time (s)')\nplt.ylabel('Concentration (M)')\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Explanation of the Code:\n The function `reaction` defines the system of three ODEs.\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "The initial conditions are set as \\([A]_0 = 1 \\, \\text{M}, [B]_0 = 5 \\, \\text{M}, [C]_0 = 0 \\, \\text{M}\\).\n The constants \\(k_a = 0.05 \\, \\text{s}^{-1}\\text{M}^{-1}\\) and \\(k_d = 0.00001 \\, \\text{s}^{-1}\\) are used as parameters.\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "`solve_ivp` is used to numerically solve the system of ODEs over the time range \\([0, 10] \\, \\text{s}\\).\n The results are plotted to visualize the concentrations of \\(A\\), \\(B\\), and \\(C\\) over time.\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Expected Results:\n \\([A]\\) and \\([B]\\) decrease as they react to form \\([C]\\).\n- \\([C]\\) increases over time as the system approaches equilibrium.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 35000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "To visualize the comparison, we plot the results from solving the ODEs numerically alongside the steady-state values calculated from the Hill equation.\n\nThe Hill equation gives the steady-state proportion of bound \\( A \\) to the total \\( A \\):\n\n\\[\n\\theta = \\frac{[B]^n}{K_d + [B]^n}\n\\]where\\(K_d=\\frac{k_d}{k_a}\\)\n\nAt steady state:\n\n\\[\n[C] = \\theta \\cdot [A_\\text{initial}], \\quad [A] = [A_\\text{initial}] - [C]\n\\]\n\nModified Python code to plot the Hill equation values alongside the ODE results:\n\n```python\n# Define the corrected reaction function\ndef reaction_fixed(t, y, k_a, k_d, B0):\n    A, C = y\n    B = B0 - C  # Conservation of mass\n    dA_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dC_dt]\n\n# Solve ODEs using the corrected reaction function\ny0_fixed = [A0, C0]\nsolution_fixed = solve_ivp(reaction_fixed, t_span, y0_fixed, args=(k_a, k_d, B0), t_eval=t_eval)\nt_fixed = solution_fixed.t\nA_ode_fixed = solution_fixed.y[0]\nC_ode_fixed = solution_fixed.y[1]\nB_ode_fixed = B0 - C_ode_fixed  # Recalculate B using conservation of mass\n\n# Recalculate Hill equation results\nK_d=k_d/k_a\ntheta=B0/(B0+K_d)\nC_hill_fixed = theta * A0\nA_hill_fixed = A0 - C_hill_fixed\nB_hill_fixed = B0 - C_hill_fixed\n\n# Plot ODE results and Hill equation results\nplt.figure(figsize=(10, 6))\n\n# Plot ODE solutions\nplt.plot(t_fixed, A_ode_fixed, label=\"[A] (ODE)\", color=\"blue\")\nplt.plot(t_fixed, B_ode_fixed, label=\"[B] (ODE)\", color=\"green\")\nplt.plot(t_fixed, C_ode_fixed, label=\"[C] (ODE)\", color=\"red\")\n\n# Add Hill equation results\nplt.axhline(C_hill_fixed, color=\"red\", linestyle=\"--\", label=\"[C] (Hill Equation)\")\nplt.axhline(A_hill_fixed, color=\"blue\", linestyle=\"--\", label=\"[A] (Hill Equation)\")\nplt.axhline(B_hill_fixed, color=\"green\", linestyle=\"--\", label=\"[B] (Hill Equation)\")\n\n# Customize the plot\nplt.title(\"Comparison of ODE Solutions and Hill Equation\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\n\n# Show the plot\nplt.show()\n```\n\n# Comparison of ODE Solutions and Hill Equation\n\n## Observations\n\n1. **ODE Results**:\n   - **Blue Line**: \\( [A](t) \\), representing the dynamic decrease of \\( A \\) over time as the reaction progresses.\n   - **Green Line**: \\( [B](t) \\), representing the dynamic decrease of \\( B \\) as it reacts with \\( A \\).\n   - **Red Line**: \\( [C](t) \\), representing the dynamic increase of \\( C \\) as the reaction approaches equilibrium.\n\n2. **Hill Equation Predictions** (Steady-State Values):\n   - **Blue Dashed Line**: Predicted steady-state concentration of \\( [A] \\).\n   - **Green Dashed Line**: Predicted steady-state concentration of \\( [B] \\).\n   - **Red Dashed Line**: Predicted steady-state concentration of \\( [C] \\).\n\n## Key Takeaways\n\n- The ODE solutions depict the **time-dependent dynamics** of the reaction, capturing the transient phase as the system evolves towards equilibrium.\n- The Hill equation results provide the **steady-state concentrations**, which closely align with the final values of the ODE solutions.\n- This demonstrates the **consistency** between the dynamic model (ODEs) and the steady-state approximation (Hill equation).",
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "To visualize the comparison, we plot the results from solving the ODEs numerically alongside the steady-state values calculated from the Hill equation.\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "The Hill equation gives the steady-state proportion of bound \\( A \\) to the total \\( A \\):\n\n\\[\n\\theta = \\frac{[B]^n}{K_d + [B]^n}\n\\]where\\(K_d=\\frac{k_d}{k_a}\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "The Hill equation gives the steady-state proportion of bound \\( A \\) to the total \\( A \\):\n\n\\[\n\\theta = \\frac{[B]}{K_d^n + [B]}\n\\]\n\n",
+                            "rating": -1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "The Hill equation gives the steady-state proportion of bound \\( A \\) to the total \\( A \\):\n\n\\[\n\\theta = \\frac{[B]}{K_d + [B]}\n\\]\n\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "At steady state:\n\n\\[\n[C] = \\theta \\cdot [A_\\text{initial}], \\quad [A] = [A_\\text{initial}] - [C]\n\\]\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Modified Python code to plot the Hill equation values alongside the ODE results:\n\n```python\n# Define the corrected reaction function\ndef reaction_fixed(t, y, k_a, k_d, B0):\n    A, C = y\n    B = B0 - C  # Conservation of mass\n    dA_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dC_dt]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Modified Python code to plot the Hill equation values alongside the ODE results:\n\n```python\n# Define the corrected reaction function\ndef reaction_fixed(t, y, k_a, k_d, B0):\n    A, C = y\n    B = B0\n    dA_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dC_dt]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Solve ODEs using the corrected reaction function\ny0_fixed = [A0, C0]\nsolution_fixed = solve_ivp(reaction_fixed, t_span, y0_fixed, args=(k_a, k_d, B0), t_eval=t_eval)\nt_fixed = solution_fixed.t\nA_ode_fixed = solution_fixed.y[0]\nC_ode_fixed = solution_fixed.y[1]\nB_ode_fixed = B0 - C_ode_fixed  # Recalculate B using conservation of mass\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Solve ODEs using the corrected reaction function\ny0_fixed = [A0, C0]\nsolution_fixed = solve_ivp(reaction_fixed, t_span, y0_fixed, t_eval=t_eval)\nt_fixed = solution_fixed.t\nA_ode_fixed = solution_fixed.y[0]\nC_ode_fixed = solution_fixed.y[1]\nB_ode_fixed = B0 - C_ode_fixed  # Recalculate B using conservation of mass\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Recalculate Hill equation results\nK_d=k_d/k_a\ntheta=B0/(B0+K_d)\nC_hill_fixed = theta * A0\nA_hill_fixed = A0 - C_hill_fixed\nB_hill_fixed = B0 - C_hill_fixed\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Recalculate Hill equation results\nC_hill_fixed = theta * A0\nA_hill_fixed = A0 - C_hill_fixed\nB_hill_fixed = B0 + C_hill_fixed\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Plot ODE results and Hill equation results\nplt.figure(figsize=(10, 6))\n\n# Plot ODE solutions\nplt.plot(t_fixed, A_ode_fixed, label=\"[A] (ODE)\", color=\"blue\")\nplt.plot(t_fixed, B_ode_fixed, label=\"[B] (ODE)\", color=\"green\")\nplt.plot(t_fixed, C_ode_fixed, label=\"[C] (ODE)\", color=\"red\")\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Plot ODE results and Hill equation results\nplt.figure(figsize=(10, 6))\n\n# Plot ODE solutions\nplt.plot(t_fixed, A_ode_fixed)\nplt.plot(t_fixed, B_ode_fixed)\nplt.plot(t_fixed, C_ode_fixed)\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Add Hill equation results\nplt.axhline(C_hill_fixed, color=\"red\", linestyle=\"--\", label=\"[C] (Hill Equation)\")\nplt.axhline(A_hill_fixed, color=\"blue\", linestyle=\"--\", label=\"[A] (Hill Equation)\")\nplt.axhline(B_hill_fixed, color=\"green\", linestyle=\"--\", label=\"[B] (Hill Equation)\")\n```",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Customize the plot\nplt.title(\"Comparison of ODE Solutions and Hill Equation\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\n\n# Show the plot\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Comparison of ODE Solutions and Hill Equation\n\n## Observations\n\n1. **ODE Results**:\n   - **Blue Line**: \\( [A](t) \\), representing the dynamic decrease of \\( A \\) over time as the reaction progresses.\n   - **Green Line**: \\( [B](t) \\), representing the dynamic decrease of \\( B \\) as it reacts with \\( A \\).\n   - **Red Line**: \\( [C](t) \\), representing the dynamic increase of \\( C \\) as the reaction approaches equilibrium.\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "2. **Hill Equation Predictions** (Steady-State Values):\n   - **Blue Dashed Line**: Predicted steady-state concentration of \\( [A] \\).\n   - **Green Dashed Line**: Predicted steady-state concentration of \\( [B] \\).\n   - **Red Dashed Line**: Predicted steady-state concentration of \\( [C] \\).\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "2. **Hill Equation Predictions** (Steady-State Values):\n   - **Blue Dashed Line**: Predicted steady-state concentration of \\( [B] \\).\n   - **Green Dashed Line**: Predicted steady-state concentration of \\( [A] \\).\n   - **Red Dashed Line**: Predicted steady-state concentration of \\( [C] \\).\n\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "## Key Takeaways\n\n- The ODE solutions depict the **time-dependent dynamics** of the reaction, capturing the transient phase as the system evolves towards equilibrium.\n- The Hill equation results provide the **steady-state concentrations**, which closely align with the final values of the ODE solutions.\n- This demonstrates the **consistency** between the dynamic model (ODEs) and the steady-state approximation (Hill equation).\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        },
+        "question": {
+            "problem": "Based on previous code, plot the results of the solved ODEs describing the system \\( A + B \\rightleftharpoons C \\) over a time period of 10 seconds alongside the steady-state values given by the Hill equation on the same graph. The initial concentrations are \\( [A] = 1\\,M \\), \\( [B] = 5\\,M \\), and \\( [C] = 0\\,M \\). The association rate constant is \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\), and the dissociation rate constant is \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Assume the Hill coefficient \\( n = 1 \\).\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n\n# Reaction rates\nk_a = 0.05  # Forward rate constant\nk_d = 0.00001  # Reverse rate constant\n\n# ODE system\ndef reaction_odes(t, y, k_a, k_d):\n    A, B, C = y\n    dA_dt = -k_a * A * B + k_d * C\n    dB_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dB_dt, dC_dt]\n\n# Time span\ntime_span = [0, 10]  # 10 seconds\n\n# Solve ODEs\nsolution = solve_ivp(reaction_odes, time_span, initial_concentrations, args=(k_a, k_d), t_eval=np.linspace(0, 10, 100))\n```",
+            "ground_truth_solution": "To visualize the comparison, we plot the results from solving the ODEs numerically alongside the steady-state values calculated from the Hill equation.\n\nThe Hill equation gives the steady-state proportion of bound \\( A \\) to the total \\( A \\):\n\n\\[\n\\theta = \\frac{[B]^n}{K_d + [B]^n}\n\\]where\\(K_d=\\frac{k_d}{k_a}\\)\n\nAt steady state:\n\n\\[\n[C] = \\theta \\cdot [A_\\text{initial}], \\quad [A] = [A_\\text{initial}] - [C]\n\\]\n\nModified Python code to plot the Hill equation values alongside the ODE results:\n\n```python\n# Define the corrected reaction function\ndef reaction_fixed(t, y, k_a, k_d, B0):\n    A, C = y\n    B = B0 - C  # Conservation of mass\n    dA_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dC_dt]\n\n# Solve ODEs using the corrected reaction function\ny0_fixed = [A0, C0]\nsolution_fixed = solve_ivp(reaction_fixed, t_span, y0_fixed, args=(k_a, k_d, B0), t_eval=t_eval)\nt_fixed = solution_fixed.t\nA_ode_fixed = solution_fixed.y[0]\nC_ode_fixed = solution_fixed.y[1]\nB_ode_fixed = B0 - C_ode_fixed  # Recalculate B using conservation of mass\n\n# Recalculate Hill equation results\nK_d=k_d/k_a\ntheta=B0/(B0+K_d)\nC_hill_fixed = theta * A0\nA_hill_fixed = A0 - C_hill_fixed\nB_hill_fixed = B0 - C_hill_fixed\n\n# Plot ODE results and Hill equation results\nplt.figure(figsize=(10, 6))\n\n# Plot ODE solutions\nplt.plot(t_fixed, A_ode_fixed, label=\"[A] (ODE)\", color=\"blue\")\nplt.plot(t_fixed, B_ode_fixed, label=\"[B] (ODE)\", color=\"green\")\nplt.plot(t_fixed, C_ode_fixed, label=\"[C] (ODE)\", color=\"red\")\n\n# Add Hill equation results\nplt.axhline(C_hill_fixed, color=\"red\", linestyle=\"--\", label=\"[C] (Hill Equation)\")\nplt.axhline(A_hill_fixed, color=\"blue\", linestyle=\"--\", label=\"[A] (Hill Equation)\")\nplt.axhline(B_hill_fixed, color=\"green\", linestyle=\"--\", label=\"[B] (Hill Equation)\")\n\n# Customize the plot\nplt.title(\"Comparison of ODE Solutions and Hill Equation\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\n\n# Show the plot\nplt.show()\n```\n\n# Comparison of ODE Solutions and Hill Equation\n\n## Observations\n\n1. **ODE Results**:\n   - **Blue Line**: \\( [A](t) \\), representing the dynamic decrease of \\( A \\) over time as the reaction progresses.\n   - **Green Line**: \\( [B](t) \\), representing the dynamic decrease of \\( B \\) as it reacts with \\( A \\).\n   - **Red Line**: \\( [C](t) \\), representing the dynamic increase of \\( C \\) as the reaction approaches equilibrium.\n\n2. **Hill Equation Predictions** (Steady-State Values):\n   - **Blue Dashed Line**: Predicted steady-state concentration of \\( [A] \\).\n   - **Green Dashed Line**: Predicted steady-state concentration of \\( [B] \\).\n   - **Red Dashed Line**: Predicted steady-state concentration of \\( [C] \\).\n\n## Key Takeaways\n\n- The ODE solutions depict the **time-dependent dynamics** of the reaction, capturing the transient phase as the system evolves towards equilibrium.\n- The Hill equation results provide the **steady-state concentrations**, which closely align with the final values of the ODE solutions.\n- This demonstrates the **consistency** between the dynamic model (ODEs) and the steady-state approximation (Hill equation).",
+            "ground_truth_answer": "# Define the corrected reaction function\ndef reaction_fixed(t, y, k_a, k_d, B0):\n    A, C = y\n    B = B0 - C  # Conservation of mass\n    dA_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dC_dt]\n\n# Solve ODEs using the corrected reaction function\ny0_fixed = [A0, C0]\nsolution_fixed = solve_ivp(reaction_fixed, t_span, y0_fixed, args=(k_a, k_d, B0), t_eval=t_eval)\nt_fixed = solution_fixed.t\nA_ode_fixed = solution_fixed.y[0]\nC_ode_fixed = solution_fixed.y[1]\nB_ode_fixed = B0 - C_ode_fixed  # Recalculate B using conservation of mass\n\n# Recalculate Hill equation results\nK_d=k_d/k_a\ntheta=B0/(B0+K_d)\nC_hill_fixed = theta * A0\nA_hill_fixed = A0 - C_hill_fixed\nB_hill_fixed = B0 - C_hill_fixed\n\n# Plot ODE results and Hill equation results\nplt.figure(figsize=(10, 6))\n\n# Plot ODE solutions\nplt.plot(t_fixed, A_ode_fixed, label=\"[A] (ODE)\", color=\"blue\")\nplt.plot(t_fixed, B_ode_fixed, label=\"[B] (ODE)\", color=\"green\")\nplt.plot(t_fixed, C_ode_fixed, label=\"[C] (ODE)\", color=\"red\")\n\n# Add Hill equation results\nplt.axhline(C_hill_fixed, color=\"red\", linestyle=\"--\", label=\"[C] (Hill Equation)\")\nplt.axhline(A_hill_fixed, color=\"blue\", linestyle=\"--\", label=\"[A] (Hill Equation)\")\nplt.axhline(B_hill_fixed, color=\"green\", linestyle=\"--\", label=\"[B] (Hill Equation)\")\n\n# Customize the plot\nplt.title(\"Comparison of ODE Solutions and Hill Equation\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\n\n# Show the plot\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "To evaluate, systematically decrease \\( k_a \\) and observe the time taken to reach steady state:\n\n```python\n# Varying k_a\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a, k_d), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[2]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-4), None)\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n```When \\( k_a \\approx 0.005 \\, \\text{s}^{-1} \\), steady-state may take more than 1 minute.\n",
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "To evaluate, systematically decrease \\( k_a \\) and observe the time taken to reach steady state:\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Varying k_a\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a, k_d), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[2]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-4), None)\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a, k_d), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[1]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-3), None)  # Tolerance too large\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n```",
+                            "rating": -1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a,), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[2]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-4), None)\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "When \\( k_a \\approx 0.005 \\, \\text{s}^{-1} \\), steady-state may take more than 1 minute.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "For \\( k_a \\approx 0.005 \\, \\text{s}^{-1} \\), it could take 10 seconds to reach steady state.\n",
+                            "rating": -1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "When \\( k_a \\approx 0.01 \\, \\text{s}^{-1} \\), steady-state may take over 2 minutes, which conflicts with expected dynamics.\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        },
+        "question": {
+            "problem": "Based on previous code, Try decreasing the value for \\( k_a \\). What is the limit at which the reaching of steady state extends beyond 1 minute? The initial concentrations are \\( [A] = 1\\,M \\), \\( [B] = 5\\,M \\), and \\( [C] = 0\\,M \\). The association rate constant is \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\), and the dissociation rate constant is \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Assume the Hill coefficient \\( n = 1 \\).\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.integrate import solve_ivp\n\n# Reaction rates\nk_a = 0.05  # Forward rate constant\nk_d = 0.00001  # Reverse rate constant\n\n# ODE system\ndef reaction_odes(t, y, k_a, k_d):\n    A, B, C = y\n    dA_dt = -k_a * A * B + k_d * C\n    dB_dt = -k_a * A * B + k_d * C\n    dC_dt = k_a * A * B - k_d * C\n    return [dA_dt, dB_dt, dC_dt]\n\n# Time span\ntime_span = [0, 10]  # 10 seconds\n\n# Solve ODEs\nsolution = solve_ivp(reaction_odes, time_span, initial_concentrations, args=(k_a, k_d), t_eval=np.linspace(0, 10, 100))\n```",
+            "ground_truth_solution": "To evaluate, systematically decrease \\( k_a \\) and observe the time taken to reach steady state:\n\n```python\n# Varying k_a\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a, k_d), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[2]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-4), None)\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n```When \\( k_a \\approx 0.005 \\, \\text{s}^{-1} \\), steady-state may take more than 1 minute.\n",
+            "ground_truth_answer": "# Varying k_a\nfor new_k_a in [0.05, 0.01, 0.005, 0.001]:\n    solution = solve_ivp(reaction, t_span, y0, args=(new_k_a, k_d), t_eval=t_eval)\n    A, C = solution.y[0], solution.y[2]\n    C_steady_time = next((t[i] for i in range(len(C)) if abs(C[i] - C[-1]) < 1e-4), None)\n    print(f\"k_a = {new_k_a}, Time to steady state: {C_steady_time:.2f} seconds\")\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "The Total ODEs for the system are:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\nExample Python code to simulate the ODEs:\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001  # Transcription rate (M/s)\ndelta_mRNA = 0.001  # mRNA degradation rate (1/s)\nk_TL = 0.002  # Translation rate (1/s)\ndelta_Protein = 0.001  # Protein degradation rate (1/s)\n\n# Initial conditions\nmRNA0 = 0  # Initial mRNA concentration (M)\nProtein0 = 0  # Initial protein concentration (M)\ny0 = [mRNA0, Protein0]\n\n# Time range (2.5 hours = 9000 seconds)\nt_span = (0, 9000)  # Start and end times (seconds)\nt_eval = np.linspace(0, 9000, 500)  # Evaluate at 500 points for smooth plotting\n\n# Solve the ODEs\nsolution = solve_ivp(\n    gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n)\n\n# Extract results\nt = solution.t\nmRNA, Protein = solution.y\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(t, mRNA, label=\"[mRNA]\", color=\"blue\")\nplt.plot(t, Protein, label=\"[Protein]\", color=\"red\")\nplt.title(\"Gene Expression Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\nExpected Results: A graph showing mRNA stabilizing rapidly and protein following after a delay.",
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "The Total ODEs for the system are:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "The ODEs for mRNA and Protein concentrations are:\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{Protein}] - \\delta_\\text{mRNA} [\\text{Protein}] \\]\n\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Example Python code to simulate the ODEs:\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nimport scipy\nimport matplotlib.pyplot as plt\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * Protein - delta_Protein * mRNA  # Reversed variables\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Parameters\nk_TX = 0.001  # Transcription rate (M/s)\ndelta_mRNA = 0.001  # mRNA degradation rate (1/s)\nk_TL = 0.002  # Translation rate (1/s)\ndelta_Protein = 0.001  # Protein degradation rate (1/s)\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Parameters\nk_TX = 1\ndelta_mRNA = 0.001\nk_TL = 0.2\ndelta_Protein = 0.001\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Initial conditions\nmRNA0 = 0  # Initial mRNA concentration (M)\nProtein0 = 0  # Initial protein concentration (M)\ny0 = [mRNA0, Protein0]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Initial conditions\nmRNA0 = 1\nProtein0 = 0\ny0 = [mRNA0, Protein0]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Time range (2.5 hours = 9000 seconds)\nt_span = (0, 9000)  # Start and end times (seconds)\nt_eval = np.linspace(0, 9000, 500)  # Evaluate at 500 points for smooth plotting\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nt_span = (0, 9000)  # Start and end times (seconds)\nt_eval = np.linspace(0, 2.5, 500)\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Solve the ODEs\nsolution = solve_ivp(gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval)\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nsolution = solve_ivp(gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL), t_eval=t_eval)\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Extract results\nt = solution.t\nmRNA, Protein = solution.y\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nmRNA = solution.t\nProtein = solution.y[1]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(t, mRNA, label=\"[mRNA]\", color=\"blue\")\nplt.plot(t, Protein, label=\"[Protein]\", color=\"red\")\nplt.title(\"Gene Expression Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nplt.plot(t, mRNA, label=\"[Protein]\", color=\"blue\")\nplt.plot(t, Protein, label=\"[mRNA]\", color=\"red\")  # Label mismatch\nplt.show()\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Expected Results: A graph showing mRNA stabilizing rapidly and protein following after a delay.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Expected Results: Both mRNA and protein stabilize at the same time, with no delay for protein.\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        },
+        "question": {
+            "problem": "Consider the Total ODEs:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\],\n\nwith the following values for the rate coefficients:\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}. \\]\n\nSet initial values to be \\( 0 \\, \\text{M} \\) for both mRNA and Protein concentration. Simulate the ODEs over a time period of 2.5 hours and plot them together on a graph of concentration against time.",
+            "ground_truth_solution": "The Total ODEs for the system are:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\nExample Python code to simulate the ODEs:\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001  # Transcription rate (M/s)\ndelta_mRNA = 0.001  # mRNA degradation rate (1/s)\nk_TL = 0.002  # Translation rate (1/s)\ndelta_Protein = 0.001  # Protein degradation rate (1/s)\n\n# Initial conditions\nmRNA0 = 0  # Initial mRNA concentration (M)\nProtein0 = 0  # Initial protein concentration (M)\ny0 = [mRNA0, Protein0]\n\n# Time range (2.5 hours = 9000 seconds)\nt_span = (0, 9000)  # Start and end times (seconds)\nt_eval = np.linspace(0, 9000, 500)  # Evaluate at 500 points for smooth plotting\n\n# Solve the ODEs\nsolution = solve_ivp(\n    gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n)\n\n# Extract results\nt = solution.t\nmRNA, Protein = solution.y\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(t, mRNA, label=\"[mRNA]\", color=\"blue\")\nplt.plot(t, Protein, label=\"[Protein]\", color=\"red\")\nplt.title(\"Gene Expression Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\nExpected Results: A graph showing mRNA stabilizing rapidly and protein following after a delay.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001  # Transcription rate (M/s)\ndelta_mRNA = 0.001  # mRNA degradation rate (1/s)\nk_TL = 0.002  # Translation rate (1/s)\ndelta_Protein = 0.001  # Protein degradation rate (1/s)\n\n# Initial conditions\nmRNA0 = 0  # Initial mRNA concentration (M)\nProtein0 = 0  # Initial protein concentration (M)\ny0 = [mRNA0, Protein0]\n\n# Time range (2.5 hours = 9000 seconds)\nt_span = (0, 9000)  # Start and end times (seconds)\nt_eval = np.linspace(0, 9000, 500)  # Evaluate at 500 points for smooth plotting\n\n# Solve the ODEs\nsolution = solve_ivp(\n    gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n)\n\n# Extract results\nt = solution.t\nmRNA, Protein = solution.y\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(t, mRNA, label=\"[mRNA]\", color=\"blue\")\nplt.plot(t, Protein, label=\"[Protein]\", color=\"red\")\nplt.title(\"Gene Expression Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "Set \\( \\delta_\\text{Protein} = 0 \\) and simulate the system. The ODE for protein becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n\nExample Python code to vary \\( \\delta_\\text{Protein} \\):\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\ndelta_mRNA = 0.001\nk_TL = 0.002\n\n# Initial conditions\ny0 = [0, 0]\n\n# Time range\nt_span = (0, 9000)\nt_eval = np.linspace(0, 9000, 500)\n\n# Vary protein degradation rates\nfor delta_Protein in [0, 0.0005, 0.001, 0.002, 0.005]:\n    solution = solve_ivp(\n        gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n    )\n    Protein = solution.y[1]\n    t = solution.t  # Time values from the solver\n    plt.plot(t, Protein, label=f\"delta_Protein = {delta_Protein}\")\n\nplt.title(\"Effect of Protein Dilution on Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"[Protein] (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\nExpected Results: When \\( \\delta_\\text{Protein} = 0 \\), protein concentration grows indefinitely. Increasing \\( \\delta_\\text{Protein} \\) results in lower steady-state protein concentrations.",
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Set \\( \\delta_\\text{Protein} = 0 \\) and simulate the system. The ODE for protein becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Set \\( \\delta_\\text{Protein} = 0 \\). The ODE for protein becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{Protein}] \\]\n\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Example Python code to vary \\( \\delta_\\text{Protein} \\):\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * Protein - delta_Protein * mRNA  # Reversed variables\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Parameters\nk_TX = 0.001\ndelta_mRNA = 0.001\nk_TL = 0.002\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nk_TX = 1\ndelta_mRNA = 0.1\nk_TL = 2\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Initial conditions\ny0 = [0, 0]\n\n# Time range\nt_span = (0, 9000)\nt_eval = np.linspace(0, 9000, 500)\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\ny0 = [1, 0]\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Vary protein degradation rates\nfor delta_Protein in [0, 0.0005, 0.001, 0.002, 0.005]:\n    solution = solve_ivp(\n        gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n    )\n    Protein = solution.y[1]\n    t = solution.t  # Time values from the solver\n    plt.plot(t, Protein, label=f\"delta_Protein = {delta_Protein}\")\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nfor delta_Protein in [0, 0.0005, 0.001]:\n    solution = solve_ivp(\n        gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n    )\n    plt.plot(solution.t, solution.y[0], label=f\"delta_Protein = {delta_Protein}\") \n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\nplt.title(\"Effect of Protein Dilution on Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"[Protein] (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\nplt.title(\"Effect of Protein Dilution\")\nplt.ylabel(\"Concentration\")  # Missing units\nplt.legend()\nplt.show()\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Expected Results: When \\( \\delta_\\text{Protein} = 0 \\), protein concentration grows indefinitely. Increasing \\( \\delta_\\text{Protein} \\) results in lower steady-state protein concentrations.\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        },
+        "question": {
+            "problem": "Consider the following ODEs for mRNA and Protein concentrations:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\nRate coefficients:\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}. \\]\n\nInitial conditions: \\( [\\text{mRNA}] = 0 \\text{M}, [\\text{Protein}] = 0 \\text{M} \\). The Python code below simulates the ODEs over 2.5 hours:\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\ndelta_mRNA = 0.001\nk_TL = 0.002\ndelta_Protein = 0.001\n\n# Initial conditions\ny0 = [0, 0]\n\n# Time range\nt_span = (0, 9000)\nt_eval = np.linspace(0, 9000, 500)\n\n# Solve the ODEs\nsolution = solve_ivp(\n    gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n)\n```\n\n**Task**: Experiment with the parameters. What happens when \\( \\delta_\\text{Protein} = 0 \\)? Simulate 5 different values for \\( \\delta_\\text{Protein} \\) (including zero) and plot all results on the same graph.",
+            "ground_truth_solution": "Set \\( \\delta_\\text{Protein} = 0 \\) and simulate the system. The ODE for protein becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n\nExample Python code to vary \\( \\delta_\\text{Protein} \\):\n\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\ndelta_mRNA = 0.001\nk_TL = 0.002\n\n# Initial conditions\ny0 = [0, 0]\n\n# Time range\nt_span = (0, 9000)\nt_eval = np.linspace(0, 9000, 500)\n\n# Vary protein degradation rates\nfor delta_Protein in [0, 0.0005, 0.001, 0.002, 0.005]:\n    solution = solve_ivp(\n        gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n    )\n    Protein = solution.y[1]\n    t = solution.t  # Time values from the solver\n    plt.plot(t, Protein, label=f\"delta_Protein = {delta_Protein}\")\n\nplt.title(\"Effect of Protein Dilution on Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"[Protein] (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\nExpected Results: When \\( \\delta_\\text{Protein} = 0 \\), protein concentration grows indefinitely. Increasing \\( \\delta_\\text{Protein} \\) results in lower steady-state protein concentrations.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef gene_expression(t, y, k_TX, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\ndelta_mRNA = 0.001\nk_TL = 0.002\n\n# Initial conditions\ny0 = [0, 0]\n\n# Time range\nt_span = (0, 9000)\nt_eval = np.linspace(0, 9000, 500)\n\n# Vary protein degradation rates\nfor delta_Protein in [0, 0.0005, 0.001, 0.002, 0.005]:\n    solution = solve_ivp(\n        gene_expression, t_span, y0, args=(k_TX, delta_mRNA, k_TL, delta_Protein), t_eval=t_eval\n    )\n    Protein = solution.y[1]\n    t = solution.t  # Time values from the solver\n    plt.plot(t, Protein, label=f\"delta_Protein = {delta_Protein}\")\n\nplt.title(\"Effect of Protein Dilution on Dynamics\")\nplt.xlabel(\"Time (s)\")\nplt.ylabel(\"[Protein] (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "Set \\( \\delta_\\text{Protein} = 0 \\). The equation for protein dynamics becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n\nThis implies that the protein concentration will grow unbounded if there is a steady supply of mRNA. Simulate the system using five different transcription and translation rates (\\(k_\\text{TX}\\) and \\(k_\\text{TL}\\)) to observe their effects:\n\n### Simulation Steps:\n1. Use the following values for \\(k_\\text{TX}\\) and \\(k_\\text{TL}\\):\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 10\\)\n   - \\(k_\\text{TX} = 0.5, k_\\text{TL} = 5\\)\n   - \\(k_\\text{TX} = 0.2, k_\\text{TL} = 2\\)\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 1\\)\n   - \\(k_\\text{TX} = 0.1, k_\\text{TL} = 0.5\\)\n\n2. Set the initial concentrations of mRNA and protein to zero.\n\n3. Simulate over time to observe the dynamics.\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef ode_system_zero_dilution(y, t, k_TX, k_TL, delta_mRNA):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA  # Protein dilution set to 0\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Rate sets for simulation\nrates = [\n    (1, 10, 0.1),\n    (0.5, 5, 0.05),\n    (0.2, 2, 0.02),\n    (1, 1, 0.1),\n    (0.1, 0.5, 0.01)\n]\n\n# Simulate and plot results\nplt.figure(figsize=(10, 6))\nfor k_TX, k_TL, delta_mRNA in rates:\n    sol = odeint(ode_system_zero_dilution, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n    plt.plot(time, sol[:, 1], label=f\"k_TX={k_TX}, k_TL={k_TL}\")\n\nplt.title(\"Protein Dynamics with Zero Dilution\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"[Protein]\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n\n### Expected Results:\nThe simulation produces a graph showing protein concentrations growing indefinitely for all parameter sets. Higher transcription and translation rates result in faster growth of protein concentrations.",
+        "question": {
+            "problem": "Consider the following ODEs for mRNA and Protein concentrations:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\nRate coefficients:\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}. \\]\n\nInitial conditions: \\( [\\text{mRNA}] = 0 \\text{M}, [\\text{Protein}] = 0 \\text{M} \\).\n\n Try messing around with the rate coefficients. What happens if we set protein dilution to zero? Try simulating 5 different rates, and plot them all on the same graph to visualize the effect it has.",
+            "ground_truth_solution": "Set \\( \\delta_\\text{Protein} = 0 \\). The equation for protein dynamics becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n\nThis implies that the protein concentration will grow unbounded if there is a steady supply of mRNA. Simulate the system using five different transcription and translation rates (\\(k_\\text{TX}\\) and \\(k_\\text{TL}\\)) to observe their effects:\n\n### Simulation Steps:\n1. Use the following values for \\(k_\\text{TX}\\) and \\(k_\\text{TL}\\):\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 10\\)\n   - \\(k_\\text{TX} = 0.5, k_\\text{TL} = 5\\)\n   - \\(k_\\text{TX} = 0.2, k_\\text{TL} = 2\\)\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 1\\)\n   - \\(k_\\text{TX} = 0.1, k_\\text{TL} = 0.5\\)\n\n2. Set the initial concentrations of mRNA and protein to zero.\n\n3. Simulate over time to observe the dynamics.\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef ode_system_zero_dilution(y, t, k_TX, k_TL, delta_mRNA):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA  # Protein dilution set to 0\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Rate sets for simulation\nrates = [\n    (1, 10, 0.1),\n    (0.5, 5, 0.05),\n    (0.2, 2, 0.02),\n    (1, 1, 0.1),\n    (0.1, 0.5, 0.01)\n]\n\n# Simulate and plot results\nplt.figure(figsize=(10, 6))\nfor k_TX, k_TL, delta_mRNA in rates:\n    sol = odeint(ode_system_zero_dilution, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n    plt.plot(time, sol[:, 1], label=f\"k_TX={k_TX}, k_TL={k_TL}\")\n\nplt.title(\"Protein Dynamics with Zero Dilution\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"[Protein]\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n\n### Expected Results:\nThe simulation produces a graph showing protein concentrations growing indefinitely for all parameter sets. Higher transcription and translation rates result in faster growth of protein concentrations.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODEs\ndef ode_system_zero_dilution(y, t, k_TX, k_TL, delta_mRNA):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA  # Protein dilution set to 0\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Rate sets for simulation\nrates = [\n    (1, 10, 0.1),\n    (0.5, 5, 0.05),\n    (0.2, 2, 0.02),\n    (1, 1, 0.1),\n    (0.1, 0.5, 0.01)\n]\n\n# Simulate and plot results\nplt.figure(figsize=(10, 6))\nfor k_TX, k_TL, delta_mRNA in rates:\n    sol = odeint(ode_system_zero_dilution, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n    plt.plot(time, sol[:, 1], label=f\"k_TX={k_TX}, k_TL={k_TL}\")\n\nplt.title(\"Protein Dynamics with Zero Dilution\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"[Protein]\")\nplt.legend()\nplt.grid(True)\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Set \\( \\delta_\\text{Protein} = 0 \\). The equation for protein dynamics becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] \\]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Set \\( \\delta_\\text{Protein} = 0 \\). The equation for protein dynamics becomes:\n\n\\[ \\frac{d[\\text{Protein}]}{dt} = \\delta_\\text{Protein} \\cdot [\\text{mRNA}] \\]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "This implies that the protein concentration will grow unbounded if there is a steady supply of mRNA. Simulate the system using five different transcription and translation rates (\\(k_\\text{TX}\\) and \\(k_\\text{TL}\\)) to observe their effects:\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "This implies that the protein concentration will grow unbounded if there is a steady supply of mRNA. Simulate the system using three different transcription rates only:\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Simulation Steps:\n1. Use the following values for \\(k_\\text{TX}\\) and \\(k_\\text{TL}\\):\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 10\\)\n   - \\(k_\\text{TX} = 0.5, k_\\text{TL} = 5\\)\n   - \\(k_\\text{TX} = 0.2, k_\\text{TL} = 2\\)\n   - \\(k_\\text{TX} = 1, k_\\text{TL} = 1\\)\n   - \\(k_\\text{TX} = 0.1, k_\\text{TL} = 0.5\\)\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Simulation Steps:\n1. Use the following values for \\(k_\\text{TX}\\) and \\(k_\\text{TL}\\):\n    \\(k_\\text{TX} = 1, k_\\text{TL} = 5\\)\n   \\(k_\\text{TX} = 0.5, k_\\text{TL} = 2\\)\n    \\(k_\\text{TX} = 0.2, k_\\text{TL} = 1\\)\n    \\(k_\\text{TX} = 1, k_\\text{TL} = 0.5\\)\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "2. Set the initial concentrations of mRNA and protein to zero.\n\n3. Simulate over time to observe the dynamics.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "2. Set the initial concentration of mRNA to 1 and protein to 0. \n\n3. Simulate over time to observe the dynamics.\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n```\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Example Python Code:\n```python\nimport numpy as np\nfrom scipy import integrate\nimport matplotlib.pyplot as plt\n```\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Define the ODEs\ndef ode_system_zero_dilution(y, t, k_TX, k_TL, delta_mRNA):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA  # Protein dilution set to 0\n    return [dmRNA_dt, dProtein_dt]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Define the ODEs\ndef ode_system_zero_dilution(y, t, k_TX, k_TL, delta_mRNA):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * mRNA - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA  # Protein dilution set to 0\n    return [dmRNA_dt, dProtein_dt]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Rate sets for simulation\nrates = [\n    (1, 10, 0.1),\n    (0.5, 5, 0.05),\n    (0.2, 2, 0.02),\n    (1, 1, 0.1),\n    (0.1, 0.5, 0.01)\n]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Rate sets for simulation\nrates = [\n    (1, 10, 0.1),\n    (0.5, 5, 0.05),\n    (0.2, 2, 0.02),\n    (1, 1)\n]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Simulate and plot results\nplt.figure(figsize=(10, 6))\nfor k_TX, k_TL, delta_mRNA in rates:\n    sol = odeint(ode_system_zero_dilution, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n    plt.plot(time, sol[:, 1], label=f\"k_TX={k_TX}, k_TL={k_TL}\")\n\nplt.title(\"Protein Dynamics with Zero Dilution\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"[Protein]\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Simulate and plot results\nplt.figure(figsize=(10, 6))\nfor k_TX, k_TL, delta_mRNA in rates:\n    sol = odeint(ode_system_zero_dilution, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n    plt.plot(sol[:, 1], label=f\"k_TX={k_TX}, k_TL={k_TL}\")\n\nplt.title(\"Protein Dynamics with Zero Dilution\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Expected Results:\nThe simulation produces a graph showing protein concentrations growing indefinitely for all parameter sets. Higher transcription and translation rates result in faster growth of protein concentrations.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "With a weak promoter, the transcription factor regulates transcription through the Hill equation:\n\n\\[ \\theta = \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n\nFor the transcription rate:\n\n- **Activation:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\theta = k_\\text{TX} \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n\n- **Repression:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} (1 - \\theta) = k_\\text{TX} \\left( 1 - \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\right) \\]\n\n### Parameters:\n- \\([\\text{TF}] = 0.01 \\ \\text{M}, n = 1, K_d = 10^{-6} \\ \\text{M} \\)\n- \\(k_\\text{TX} = 1, k_\\text{TL} = 10, \\delta_\\text{mRNA} = 0.1, \\delta_\\text{Protein} = 0.05 \\)\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODE system\ndef ode_system_hill_activation(y, t, k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd):\n    mRNA, Protein = y\n    theta = (TF**n) / (Kd + TF**n)  # Hill equation for activation\n    dmRNA_dt = k_TX * theta - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Hill equation parameters\nTF = 0.01  # Transcription factor concentration\nn = 1      # Hill coefficient\nKd = 1e-6  # Dissociation constant\nk_TX = 1   # Maximum transcription rate\nk_TL = 10  # Translation rate\ndelta_mRNA = 0.1  # mRNA degradation rate\ndelta_Protein = 0.05  # Protein degradation rate\n\n# Solve ODEs with Hill activation\nsolution_hill = odeint(\n    ode_system_hill_activation, initial_conditions, time,\n    args=(k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd)\n)\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(time, solution_hill[:, 0], label=\"[mRNA] (Hill activation)\")\nplt.plot(time, solution_hill[:, 1], label=\"[Protein] (Hill activation)\")\nplt.title(\"mRNA and Protein Dynamics with Hill Activation\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"Concentration\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n\n### Expected Results:\nThe mRNA and protein concentrations stabilize at steady-state values due to regulation by the Hill function. This demonstrates the effect of transcription factor activation on gene expression dynamics.",
+        "question": {
+            "problem": "Consider the following ODEs for mRNA and Protein concentrations:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} [\\text{mRNA}] - \\delta_\\text{Protein} [\\text{Protein}] \\]\n\nRate coefficients:\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}. \\]\n\nInitial conditions: \\( [\\text{mRNA}] = 0 \\text{M}, [\\text{Protein}] = 0 \\text{M} \\).\n\nInstead of assuming the promoter is strong, try incorporating the Hill equation into the transcription rate ODE. Set \\( [TF] = 0.01 \\, \\text{M}, \\, n = 1 \\) and \\( K_d = 10^{-6} \\, \\text{M} \\).",
+            "ground_truth_solution": "With a weak promoter, the transcription factor regulates transcription through the Hill equation:\n\n\\[ \\theta = \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n\nFor the transcription rate:\n\n- **Activation:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\theta = k_\\text{TX} \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n\n- **Repression:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} (1 - \\theta) = k_\\text{TX} \\left( 1 - \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\right) \\]\n\n### Parameters:\n- \\([\\text{TF}] = 0.01 \\ \\text{M}, n = 1, K_d = 10^{-6} \\ \\text{M} \\)\n- \\(k_\\text{TX} = 1, k_\\text{TL} = 10, \\delta_\\text{mRNA} = 0.1, \\delta_\\text{Protein} = 0.05 \\)\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODE system\ndef ode_system_hill_activation(y, t, k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd):\n    mRNA, Protein = y\n    theta = (TF**n) / (Kd + TF**n)  # Hill equation for activation\n    dmRNA_dt = k_TX * theta - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Hill equation parameters\nTF = 0.01  # Transcription factor concentration\nn = 1      # Hill coefficient\nKd = 1e-6  # Dissociation constant\nk_TX = 1   # Maximum transcription rate\nk_TL = 10  # Translation rate\ndelta_mRNA = 0.1  # mRNA degradation rate\ndelta_Protein = 0.05  # Protein degradation rate\n\n# Solve ODEs with Hill activation\nsolution_hill = odeint(\n    ode_system_hill_activation, initial_conditions, time,\n    args=(k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd)\n)\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(time, solution_hill[:, 0], label=\"[mRNA] (Hill activation)\")\nplt.plot(time, solution_hill[:, 1], label=\"[Protein] (Hill activation)\")\nplt.title(\"mRNA and Protein Dynamics with Hill Activation\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"Concentration\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```\n\n### Expected Results:\nThe mRNA and protein concentrations stabilize at steady-state values due to regulation by the Hill function. This demonstrates the effect of transcription factor activation on gene expression dynamics.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n\n# Define the ODE system\ndef ode_system_hill_activation(y, t, k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd):\n    mRNA, Protein = y\n    theta = (TF**n) / (Kd + TF**n)  # Hill equation for activation\n    dmRNA_dt = k_TX * theta - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Hill equation parameters\nTF = 0.01  # Transcription factor concentration\nn = 1      # Hill coefficient\nKd = 1e-6  # Dissociation constant\nk_TX = 1   # Maximum transcription rate\nk_TL = 10  # Translation rate\ndelta_mRNA = 0.1  # mRNA degradation rate\ndelta_Protein = 0.05  # Protein degradation rate\n\n# Solve ODEs with Hill activation\nsolution_hill = odeint(\n    ode_system_hill_activation, initial_conditions, time,\n    args=(k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd)\n)\n\n# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(time, solution_hill[:, 0], label=\"[mRNA] (Hill activation)\")\nplt.plot(time, solution_hill[:, 1], label=\"[Protein] (Hill activation)\")\nplt.title(\"mRNA and Protein Dynamics with Hill Activation\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"Concentration\")\nplt.legend()\nplt.grid(True)\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "With a weak promoter, the transcription factor regulates transcription through the Hill equation:\n\n\\[ \\theta = \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "With a weak promoter, the transcription factor regulates transcription through the Hill equation:\n\n\\[ \\theta = \\frac{K_d}{K_d + [\\text{TF}]^n} \\]  \n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "For the transcription rate:\n\n- **Activation:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\theta = k_\\text{TX} \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n\n- **Repression:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} (1 - \\theta) = k_\\text{TX} \\left( 1 - \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\right) \\]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "For the transcription rate:\n\n- **Activation:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left(1 - \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\right) \\]  # Wrong formula for activation\n\n- **Repression:**\n  \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{TF}]^n}{K_d + [\\text{TF}]^n} \\]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Parameters:\n- \\([\\text{TF}] = 0.01 \\ \\text{M}, n = 1, K_d = 10^{-6} \\ \\text{M} \\)\n- \\(k_\\text{TX} = 1, k_\\text{TL} = 10, \\delta_\\text{mRNA} = 0.1, \\delta_\\text{Protein} = 0.05 \\)\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Parameters:\n \\([\\text{TF}] = 0.01 \\ \\text{mM}, n = 1, K_d = 10^{-6} \\ \\text{M} \\)\n \\(k_\\text{TX} = 1, k_\\text{TL} = 10, \\delta_\\text{mRNA} = 0.1, \\delta_\\text{Protein} = 0.5 \\)\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import odeint\nimport matplotlib.pyplot as plt\n```\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Example Python Code:\n```python\nimport scipy\nimport matplotlib.pyplot  \n```\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Define the ODE system\ndef ode_system_hill_activation(y, t, k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd):\n    mRNA, Protein = y\n    theta = (TF**n) / (Kd + TF**n)  # Hill equation for activation\n    dmRNA_dt = k_TX * theta - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Define the ODE system\ndef ode_system_hill_activation(y, t, k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd):\n    mRNA, Protein = y\n    theta = (TF**n) / Kd\n    dmRNA_dt = k_TX * theta - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0, 0]  # Initial [mRNA] and [Protein]\n\n# Hill equation parameters\nTF = 0.01  # Transcription factor concentration\nn = 1      # Hill coefficient\nKd = 1e-6  # Dissociation constant\nk_TX = 1   # Maximum transcription rate\nk_TL = 10  # Translation rate\ndelta_mRNA = 0.1  # mRNA degradation rate\ndelta_Protein = 0.05  # Protein degradation rate\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Parameters for simulation\ntime = np.linspace(0, 50, 500)  # Time range for simulation\ninitial_conditions = [0]\n\n# Hill equation parameters\nTF = 0.01  # Transcription factor concentration\nn = 1\nKd = 10e-6\nk_TX = 1   # Maximum transcription rate\nk_TL = 10\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Solve ODEs with Hill activation\nsolution_hill = odeint(ode_system_hill_activation, initial_conditions, time,args=(k_TX, k_TL, delta_mRNA, delta_Protein, TF, n, Kd))\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Solve ODEs with Hill activation\nsolution_hill = odeint(ode_system_hill_activation, initial_conditions, time, args=(k_TX, k_TL, delta_mRNA))\n",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(time, solution_hill[:, 0], label=\"[mRNA] (Hill activation)\")\nplt.plot(time, solution_hill[:, 1], label=\"[Protein] (Hill activation)\")\nplt.title(\"mRNA and Protein Dynamics with Hill Activation\")\nplt.xlabel(\"Time\")\nplt.ylabel(\"Concentration\")\nplt.legend()\nplt.grid(True)\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Plot results\nplt.figure(figsize=(10, 6))\nplt.plot(solution_hill[:, 0], label=\"[mRNA]\")  \nplt.title(\"Dynamics with Hill Activation\")\nplt.legend()\nplt.show()\n```",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Expected Results:\nThe mRNA and protein concentrations stabilize at steady-state values due to regulation by the Hill function. This demonstrates the effect of transcription factor activation on gene expression dynamics.\n",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "The ODEs describing the system are:\n\n\\[ \\begin{aligned} \n\\frac{d[\\text{mRNA1}]}{dt} &= \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}], \\\\ \n\\frac{d[\\text{Protein1}]}{dt} &= k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}], \\\\\n\\frac{d[\\text{mRNA2}]}{dt} &= \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}], \\\\\n\\frac{d[\\text{Protein2}]}{dt} &= k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}], \\\\\n\\frac{d[\\text{mRNA3}]}{dt} &= \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}], \\\\\n\\frac{d[\\text{Protein3}]}{dt} &= k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]. \\\\\n\\end{aligned} \\]\n\n### Parameters:\n- \\(a_1 = a_2 = a_3 = 0.001 \\ \\text{M/s}\\)\n- \\(a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\ \\text{M/s}\\)\n- \\(K_d = 10^{-6} \\ \\text{M}, n_1 = n_2 = n_3 = 2\\)\n- \\(\\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1}, k_\\text{TL} = 0.002 \\ \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1}\\)\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = y\n    \n    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd)**n)) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1 - delta_Protein * Protein1\n    \n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd)**n)) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2 - delta_Protein * Protein2\n    \n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd)**n)) + a0 - delta_mRNA * mRNA3\n    dProtein3_dt = k_TL * mRNA3 - delta_Protein * Protein3\n    \n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]\n\n# Parameters\na1 = 0.001  # M/s\na0 = 1e-6  # M/s\nKd = 1e-6  # M\nn = 2  # Hill coefficient\ndelta_mRNA = 0.001  # 1/s\nk_TL = 0.002  # 1/s\ndelta_Protein = 0.001  # 1/s\n\n# Initial conditions\ny0 = [0.1, 0.1, 0, 0, 0, 0]  # Initial concentrations for mRNA1, Protein1, etc.\n\n# Time range\nt_span = (0, 36000)  # 10 hours in seconds\nt_eval = np.linspace(0, 36000, 1000)  # Evaluate at 1000 points\n\n# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=t_eval, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y\n\n# Plot the results\nplt.figure(figsize=(12, 6))\nplt.plot(t / 3600, Protein1, label=\"Protein1\", color=\"red\")\nplt.plot(t / 3600, Protein2, label=\"Protein2\", color=\"blue\")\nplt.plot(t / 3600, Protein3, label=\"Protein3\", color=\"green\")\nplt.title(\"Repressilator Protein Concentrations Over Time\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n### Expected Results:\nThe simulation should show oscillatory behavior for all three proteins with a phase shift between them. Protein1 peaks, followed by Protein2, and then Protein3.",
+        "question": {
+            "problem": "Rescale the units to align with empirical observations. Use the following equations:\n\n\\[ \\frac{d[\\text{mRNA}_i]}{dt} = \\frac{a_1}{1 + [P_j]^n} + a_0 - [\\text{mRNA}_i] \\tag{3.15} \\]\n\n\\[ \\frac{d[P_i]}{dt} = \\beta([\\text{mRNA}_i] - [P_i]) \\]\n\nSet constants as:\n\\[ a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s}; \\]\n\\[ K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2; \\]\n\\[ \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\quad \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}. \\]\n\nInitial values:\n- \\([\\text{mRNA}_1] = 0.1 \\, \\text{M}\\), \\([P_1] = 0.1 \\, \\text{M}\\)\n- \\([\\text{mRNA}_2], [P_2], [\\text{mRNA}_3], [P_3] = 0 \\, \\text{M}\\).\n\nDefine 6 ODEs, solve, and plot the 3 protein concentrations over 10 hours.",
+            "ground_truth_solution": "The ODEs describing the system are:\n\n\\[ \\begin{aligned} \n\\frac{d[\\text{mRNA1}]}{dt} &= \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}], \\\\ \n\\frac{d[\\text{Protein1}]}{dt} &= k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}], \\\\\n\\frac{d[\\text{mRNA2}]}{dt} &= \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}], \\\\\n\\frac{d[\\text{Protein2}]}{dt} &= k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}], \\\\\n\\frac{d[\\text{mRNA3}]}{dt} &= \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}], \\\\\n\\frac{d[\\text{Protein3}]}{dt} &= k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]. \\\\\n\\end{aligned} \\]\n\n### Parameters:\n- \\(a_1 = a_2 = a_3 = 0.001 \\ \\text{M/s}\\)\n- \\(a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\ \\text{M/s}\\)\n- \\(K_d = 10^{-6} \\ \\text{M}, n_1 = n_2 = n_3 = 2\\)\n- \\(\\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1}, k_\\text{TL} = 0.002 \\ \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1}\\)\n\n### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = y\n    \n    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd)**n)) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1 - delta_Protein * Protein1\n    \n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd)**n)) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2 - delta_Protein * Protein2\n    \n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd)**n)) + a0 - delta_mRNA * mRNA3\n    dProtein3_dt = k_TL * mRNA3 - delta_Protein * Protein3\n    \n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]\n\n# Parameters\na1 = 0.001  # M/s\na0 = 1e-6  # M/s\nKd = 1e-6  # M\nn = 2  # Hill coefficient\ndelta_mRNA = 0.001  # 1/s\nk_TL = 0.002  # 1/s\ndelta_Protein = 0.001  # 1/s\n\n# Initial conditions\ny0 = [0.1, 0.1, 0, 0, 0, 0]  # Initial concentrations for mRNA1, Protein1, etc.\n\n# Time range\nt_span = (0, 36000)  # 10 hours in seconds\nt_eval = np.linspace(0, 36000, 1000)  # Evaluate at 1000 points\n\n# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=t_eval, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y\n\n# Plot the results\nplt.figure(figsize=(12, 6))\nplt.plot(t / 3600, Protein1, label=\"Protein1\", color=\"red\")\nplt.plot(t / 3600, Protein2, label=\"Protein2\", color=\"blue\")\nplt.plot(t / 3600, Protein3, label=\"Protein3\", color=\"green\")\nplt.title(\"Repressilator Protein Concentrations Over Time\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n### Expected Results:\nThe simulation should show oscillatory behavior for all three proteins with a phase shift between them. Protein1 peaks, followed by Protein2, and then Protein3.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = y\n    \n    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd)**n)) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1 - delta_Protein * Protein1\n    \n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd)**n)) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2 - delta_Protein * Protein2\n    \n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd)**n)) + a0 - delta_mRNA * mRNA3\n    dProtein3_dt = k_TL * mRNA3 - delta_Protein * Protein3\n    \n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]\n\n# Parameters\na1 = 0.001  # M/s\na0 = 1e-6  # M/s\nKd = 1e-6  # M\nn = 2  # Hill coefficient\ndelta_mRNA = 0.001  # 1/s\nk_TL = 0.002  # 1/s\ndelta_Protein = 0.001  # 1/s\n\n# Initial conditions\ny0 = [0.1, 0.1, 0, 0, 0, 0]  # Initial concentrations for mRNA1, Protein1, etc.\n\n# Time range\nt_span = (0, 36000)  # 10 hours in seconds\nt_eval = np.linspace(0, 36000, 1000)  # Evaluate at 1000 points\n\n# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=t_eval, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y\n\n# Plot the results\nplt.figure(figsize=(12, 6))\nplt.plot(t / 3600, Protein1, label=\"Protein1\", color=\"red\")\nplt.plot(t / 3600, Protein2, label=\"Protein2\", color=\"blue\")\nplt.plot(t / 3600, Protein3, label=\"Protein3\", color=\"green\")\nplt.title(\"Repressilator Protein Concentrations Over Time\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "The ODEs describing the system are:\n\n\\[ \\begin{aligned} \n\\frac{d[\\text{mRNA1}]}{dt} &= \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}], \\\\ \n\\frac{d[\\text{Protein1}]}{dt} &= k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}], \\\\\n\\frac{d[\\text{mRNA2}]}{dt} &= \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}], \\\\\n\\frac{d[\\text{Protein2}]}{dt} &= k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}],",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "The ODEs describing the system are:\n\n\\[ \\begin{aligned} \n\\frac{d[\\text{mRNA1}]}{dt} &= \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}}, \\\\ \n\\frac{d[\\text{Protein1}]}{dt} &= k_\\text{TL}[\\text{mRNA1}], \\\\\n\\frac{d[\\text{mRNA2}]}{dt} &= \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}}, \\\\\n\\frac{d[\\text{Protein2}]}{dt} &= k_\\text{TL}[\\text{mRNA2}],",
+                            "rating": -1,
+                            "flagged": "Missed terms for mRNA degradation and protein degradation in ODEs."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "\\frac{d[\\text{mRNA3}]}{dt} &= \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}], \\\\\n\\frac{d[\\text{Protein3}]}{dt} &= k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]. \\\\\n\\end{aligned} \\]",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "\\frac{d[\\text{mRNA3}]}{dt} &= \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}}, \\\\\n\\frac{d[\\text{Protein3}]}{dt} &= k_\\text{TL}[\\text{mRNA3}]. \\\\\n\\end{aligned} \\]",
+                            "rating": -1,
+                            "flagged": "Missed terms for both mRNA degradation and protein degradation."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Parameters:\n- \\(a_1 = a_2 = a_3 = 0.001 \\ \\text{M/s}\\)\n- \\(a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\ \\text{M/s}\\)\n- \\(K_d = 10^{-6} \\ \\text{M}, n_1 = n_2 = n_3 = 2\\)\n- \\(\\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1}, k_\\text{TL} = 0.002 \\ \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1}\\)",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Parameters:\n- \\(a_1 = a_2 = a_3 = 0.01 \\ \\text{M/s}\\)\n- \\(a_0 = a_{0_2} = a_{0_3} = 10^{-5} \\ \\text{M/s}\\)\n- \\(K_d = 10^{-5} \\ \\text{M}, n_1 = n_2 = n_3 = 3\\)\n- \\(\\delta_\\text{mRNA} = 0.01 \\ \\text{s}^{-1}, k_\\text{TL} = 0.02 \\ \\text{s}^{-1}, \\delta_\\text{Protein} = 0.01 \\ \\text{s}^{-1}\\)",
+                            "rating": -1,
+                            "flagged": "Incorrect parameter values significantly change the system dynamics."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Example Python Code:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = y",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Example Python Code:\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0):\n    mRNA1, Protein1 = y",
+                            "rating": -1,
+                            "flagged": "Missing key variables and parameters for the repressilator ODE system."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd)**n)) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1 - delta_Protein * Protein1\n\n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd)**n)) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2 - delta_Protein * Protein2\n\n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd)**n)) + a0 - delta_mRNA * mRNA3\n    dProtein3_dt = k_TL * mRNA3 - delta_Protein * Protein3\n\n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd))) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1\n\n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd))) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2\n\n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd))) + a0\n    dProtein3_dt = k_TL * mRNA3\n\n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]",
+                            "rating": -1,
+                            "flagged": "Missed the power term `n` in the Hill function and omitted protein degradation terms."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Parameters\na1 = 0.001  # M/s\na0 = 1e-6  # M/s\nKd = 1e-6  # M\nn = 2  # Hill coefficient\ndelta_mRNA = 0.001  # 1/s\nk_TL = 0.002  # 1/s\ndelta_Protein = 0.001  # 1/s",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Parameters\na1 = 0.01  # Incorrect unit\nKd = 1e-3  # Changed parameter scale\nn = 1  # Reduced Hill coefficient\ndelta_mRNA = 0.01  # Increased degradation rate",
+                            "rating": -1,
+                            "flagged": "Parameter values have been incorrectly modified, which can significantly alter the system's behavior."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Initial conditions\ny0 = [0.1, 0.1, 0, 0, 0, 0]  # Initial concentrations for mRNA1, Protein1, etc.\n\n# Time range\nt_span = (0, 36000)  # 10 hours in seconds\nt_eval = np.linspace(0, 36000, 1000)  # Evaluate at 1000 points",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Initial conditions\ny0 = [0, 0, 0, 0, 0, 0]  # All initial concentrations are zero\n\n# Time range\nt_span = (0, 1000)  # Shortened simulation time",
+                            "rating": -1,
+                            "flagged": "Incorrectly set all initial conditions to zero and significantly reduced the simulation time."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=t_eval, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=None, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y",
+                            "rating": -1,
+                            "flagged": "Did not set `t_eval`, causing fewer time points in the solution."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Plot the results\nplt.figure(figsize=(12, 6))\nplt.plot(t / 3600, Protein1, label=\"Protein1\", color=\"red\")\nplt.plot(t / 3600, Protein2, label=\"Protein2\", color=\"blue\")\nplt.plot(t / 3600, Protein3, label=\"Protein3\", color=\"green\")\nplt.title(\"Repressilator Protein Concentrations Over Time\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Plot the results\nplt.figure(figsize=(12, 6))\nplt.plot(t / 3600, Protein1, label=\"Protein1\")\nplt.plot(t / 3600, Protein2, label=\"Protein2\")\nplt.title(\"Repressilator Results\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.show()",
+                            "rating": -1,
+                            "flagged": "Omitted one protein (Protein3) and did not include a grid for better visualization."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Expected Results:\nThe simulation should show oscillatory behavior for all three proteins with a phase shift between them. Protein1 peaks, followed by Protein2, and then Protein3.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Expected Results:\nThe simulation shows constant protein concentrations for all three proteins without oscillation.",
+                            "rating": -1,
+                            "flagged": "Incorrectly assumes no oscillation occurs, which contradicts the expected repressilator behavior."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "1. **Decreasing Hill Coefficient (\\( n \\))**:\n   Lowering \\( n \\) reduces the steepness of repression, leading to increased overlap and smoother oscillations between protein dynamics.\n   Experiment by setting \\( n = 1, 1.5, 2 \\) and observe the changes in oscillatory patterns.\n\n2. **Increasing Promoter Leakiness (\\( a_0 \\))**:\n   Higher \\( a_0 \\) increases the baseline transcription rate, causing higher steady-state concentrations and dampened oscillations.\n   Experiment by setting \\( a_0 = 1e-6, 1e-5, 1e-4 \\) to observe the impact on oscillatory behavior.\n\n### Example Python Code:\n```python\n# Experiment with Hill coefficient\nfor n in [1, 1.5, 2]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"n={n}\")\n\nplt.title(\"Effect of Hill Coefficient on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n\n# Experiment with promoter leakiness\nfor a0 in [1e-6, 1e-5, 1e-4]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"a0={a0}\")\n\nplt.title(\"Effect of Promoter Leakiness on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n### Expected Observations:\n- **Decreasing \\( n \\)**: Oscillations become less sharp and more continuous as repression weakens.\n- **Increasing \\( a_0 \\)**: Higher baseline transcription reduces oscillatory amplitude and leads to more stable protein levels.",
+        "question": {
+            "problem": "Use the provided Python code to solve the repressilator ODEs:\n\n```python\n# Define the repressilator ODEs\ndef repressilator(t, y, a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = y\n    \n    dmRNA1_dt = (a1 / (1 + (Protein3 / Kd)**n)) + a0 - delta_mRNA * mRNA1\n    dProtein1_dt = k_TL * mRNA1 - delta_Protein * Protein1\n    \n    dmRNA2_dt = (a1 / (1 + (Protein1 / Kd)**n)) + a0 - delta_mRNA * mRNA2\n    dProtein2_dt = k_TL * mRNA2 - delta_Protein * Protein2\n    \n    dmRNA3_dt = (a1 / (1 + (Protein2 / Kd)**n)) + a0 - delta_mRNA * mRNA3\n    dProtein3_dt = k_TL * mRNA3 - delta_Protein * Protein3\n    \n    return [dmRNA1_dt, dProtein1_dt, dmRNA2_dt, dProtein2_dt, dmRNA3_dt, dProtein3_dt]\n\n# Parameters\na1 = 0.001  # M/s\na0 = 1e-6  # M/s\nKd = 1e-6  # M\nn = 2  # Hill coefficient\ndelta_mRNA = 0.001  # 1/s\nk_TL = 0.002  # 1/s\ndelta_Protein = 0.001  # 1/s\n\n# Initial conditions\ny0 = [0.1, 0.1, 0, 0, 0, 0]  # Initial concentrations\n\n# Time range\nt_span = (0, 36000)  # 10 hours in seconds\nt_eval = np.linspace(0, 36000, 1000)\n\n# Solve the ODEs\nsolution = solve_ivp(\n    repressilator, t_span, y0, t_eval=t_eval, args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein)\n)\n\n# Extract solutions\nt = solution.t\nmRNA1, Protein1, mRNA2, Protein2, mRNA3, Protein3 = solution.y\n```\n\nExperiment with modifying the Hill coefficient \\(n\\) and the promoter leakiness \\(a_0\\). What happens to the protein dynamics when \\(n\\) decreases or \\(a_0\\) increases?",
+            "ground_truth_solution": "1. **Decreasing Hill Coefficient (\\( n \\))**:\n   Lowering \\( n \\) reduces the steepness of repression, leading to increased overlap and smoother oscillations between protein dynamics.\n   Experiment by setting \\( n = 1, 1.5, 2 \\) and observe the changes in oscillatory patterns.\n\n2. **Increasing Promoter Leakiness (\\( a_0 \\))**:\n   Higher \\( a_0 \\) increases the baseline transcription rate, causing higher steady-state concentrations and dampened oscillations.\n   Experiment by setting \\( a_0 = 1e-6, 1e-5, 1e-4 \\) to observe the impact on oscillatory behavior.\n\n### Example Python Code:\n```python\n# Experiment with Hill coefficient\nfor n in [1, 1.5, 2]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"n={n}\")\n\nplt.title(\"Effect of Hill Coefficient on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n\n# Experiment with promoter leakiness\nfor a0 in [1e-6, 1e-5, 1e-4]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"a0={a0}\")\n\nplt.title(\"Effect of Promoter Leakiness on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n### Expected Observations:\n- **Decreasing \\( n \\)**: Oscillations become less sharp and more continuous as repression weakens.\n- **Increasing \\( a_0 \\)**: Higher baseline transcription reduces oscillatory amplitude and leads to more stable protein levels.",
+            "ground_truth_answer": "# Experiment with Hill coefficient\nfor n in [1, 1.5, 2]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"n={n}\")\n\nplt.title(\"Effect of Hill Coefficient on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n\n# Experiment with promoter leakiness\nfor a0 in [1e-6, 1e-5, 1e-4]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"a0={a0}\")\n\nplt.title(\"Effect of Promoter Leakiness on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "1. Decreasing Hill Coefficient (\\( n \\)):\n   Lowering \\( n \\) reduces the steepness of repression, leading to increased overlap and smoother oscillations between protein dynamics.\n   Experiment by setting \\( n = 1, 1.5, 2 \\) and observe the changes in oscillatory patterns.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "1. Decreasing Hill Coefficient (\\( n \\)):\n   Lowering \\( n \\) causes oscillations to disappear entirely, which is incorrect.\n",
+                            "rating": -1,
+                            "flagged": "Misunderstood the effect of decreasing \\( n \\), which reduces sharpness but does not eliminate oscillations."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "2. Increasing Promoter Leakiness (\\( a_0 \\)):\n   Higher \\( a_0 \\) increases the baseline transcription rate, causing higher steady-state concentrations and dampened oscillations.\n   Experiment by setting \\( a_0 = 1e-6, 1e-5, 1e-4 \\) to observe the impact on oscillatory behavior.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "2. Increasing Promoter Leakiness (\\( a_0 \\)):\n   Higher \\( a_0 \\) has no effect on oscillations, which remain sharp and unchanged.\n",
+                            "rating": -1,
+                            "flagged": "Misunderstood the role of \\( a_0 \\), which increases baseline transcription and reduces oscillatory amplitude."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "### Example Python Code:\n```python\n# Experiment with Hill coefficient\nfor n in [1, 1.5, 2]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"n={n}\")\n\nplt.title(\"Effect of Hill Coefficient on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "### Example Python Code:\n```python\n# Experiment with Hill coefficient\nfor n in [1, 1.5, 2]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=None,\n args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t, Protein1, label=f\"n={n}\")\n\nplt.title(\"Effect of Hill Coefficient on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.show()\n```",
+                            "rating": -1,
+                            "flagged": "Did not set `t_eval`, resulting in fewer time points and a less detailed plot."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "# Experiment with promoter leakiness\nfor a0 in [1e-6, 1e-5, 1e-4]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, a0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"a0={a0}\")\n\nplt.title(\"Effect of Promoter Leakiness on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "# Experiment with promoter leakiness\nfor a0 in [1e-6, 1e-5, 1e-4]:\n    solution = solve_ivp(repressilator, t_span, y0, t_eval=t_eval,\n                         args=(a1, 0, Kd, n, delta_mRNA, k_TL, delta_Protein))\n    Protein1 = solution.y[1]\n    plt.plot(t / 3600, Protein1, label=f\"a0={a0}\")\n\nplt.title(\"Effect of Promoter Leakiness on Protein1 Dynamics\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": -1,
+                            "flagged": "Used a constant `a0 = 0` instead of varying its value, which invalidates the experiment."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Expected Observations:\n- Decreasing \\( n \\): Oscillations become less sharp and more continuous as repression weakens.\n- Increasing \\( a_0 \\): Higher baseline transcription reduces oscillatory amplitude and leads to more stable protein levels.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Expected Observations:\n- Decreasing \\( n \\): Oscillations disappear entirely.\n- Increasing \\( a_0 \\): Has no impact on oscillatory behavior.\n",
+                            "rating": -1,
+                            "flagged": "Incorrectly assumes that decreasing \\( n \\) eliminates oscillations and that \\( a_0 \\) has no effect, both of which contradict the expected dynamics."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "340d89bc-f5b7-45e9-b272-909ba68ee363",
+        "timestamp": "2023-01-22T04:34:27.052924",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "solution": "1. **Define the ODEs for Auto-Activation**:\n   - The ODEs governing the dynamics are:\n     \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\]\n     \\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\]\n\n2. **Solve and Simulate the System**:\n   - Parameters:\n     - \\( k_\\text{TX} = 0.001 \\ \\text{M/s} \\)\n     - \\( K_d = 10^{-8} \\ \\text{M} \\)\n     - \\( n = 1 \\)\n     - \\( \\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1} \\)\n     - \\( k_\\text{TL} = 0.002 \\ \\text{s}^{-1} \\)\n     - \\( \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1} \\)\n   - Initial conditions:\n     - \\( [\\text{mRNA}] = 0 \\ \\text{M} \\)\n     - \\( [\\text{Protein}] = 10^{-7} \\ \\text{M} \\)\n\n3. **Python Code**:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs for auto-activation\ndef auto_activation(t, y, k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * (Protein**n / (K_d + Protein**n)) - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\nK_d = 1e-8\nn = 1\ndelta_mRNA = 0.001\nk_TL = 0.002\ndelta_Protein = 0.001\n\n# Initial conditions\ny0 = [0, 1e-7]  # Initial concentrations of mRNA and Protein\n\n# Time ranges\nt_span_1min = (0, 60)\nt_eval_1min = np.linspace(0, 60, 100)\nt_span_2hrs = (0, 7200)\nt_eval_2hrs = np.linspace(0, 7200, 500)\n\n# Solve for 1 minute and 2 hours\nsolution_1min = solve_ivp(auto_activation, t_span_1min, y0, t_eval=t_eval_1min,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\nsolution_2hrs = solve_ivp(auto_activation, t_span_2hrs, y0, t_eval=t_eval_2hrs,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\n\n# Extract solutions\nt_1min, mRNA_1min, Protein_1min = solution_1min.t, solution_1min.y[0], solution_1min.y[1]\nt_2hrs, mRNA_2hrs, Protein_2hrs = solution_2hrs.t, solution_2hrs.y[0], solution_2hrs.y[1]\n\n# Plot results\nplt.figure(figsize=(12, 6))\nplt.plot(t_1min, mRNA_1min, label=\"mRNA (1 min)\", color=\"blue\", linestyle=\"--\")\nplt.plot(t_1min, Protein_1min, label=\"Protein (1 min)\", color=\"red\", linestyle=\"--\")\nplt.plot(t_2hrs / 3600, mRNA_2hrs, label=\"mRNA (2 hrs)\", color=\"blue\")\nplt.plot(t_2hrs / 3600, Protein_2hrs, label=\"Protein (2 hrs)\", color=\"red\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.title(\"Auto-Activation Dynamics\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n4. **Expected Observations**:\n   - **Over 1 minute**:\n     - mRNA concentration rises quickly but does not reach steady state.\n     - Protein concentration increases slowly.\n   - **Over 2 hours**:\n     - Both mRNA and protein concentrations reach steady state.\n     - Protein stabilizes later than mRNA.",
+        "question": {
+            "problem": "Using your preferred programming language, simulate the ODEs for an auto-activation system:\n\n\\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\]\n\\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\]\n\nover a time period of 1 minute. The parameters are:\n- \\( k_\\text{TX} = 0.001 \\ \\text{M/s} \\)\n- \\( K_d = 10^{-8} \\ \\text{M} \\)\n- \\( n = 1 \\)\n- \\( \\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1} \\)\n- \\( k_\\text{TL} = 0.002 \\ \\text{s}^{-1} \\)\n- \\( \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1} \\)\n\nInitial concentrations are:\n- \\( [\\text{mRNA}] = 0 \\ \\text{M} \\)\n- \\( [\\text{Protein}] = 10^{-7} \\ \\text{M} \\).\n\nSolve and plot mRNA and protein concentration over a time period of 1 minute and 2 hours.",
+            "ground_truth_solution": "1. **Define the ODEs for Auto-Activation**:\n   - The ODEs governing the dynamics are:\n     \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\]\n     \\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\]\n\n2. **Solve and Simulate the System**:\n   - Parameters:\n     - \\( k_\\text{TX} = 0.001 \\ \\text{M/s} \\)\n     - \\( K_d = 10^{-8} \\ \\text{M} \\)\n     - \\( n = 1 \\)\n     - \\( \\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1} \\)\n     - \\( k_\\text{TL} = 0.002 \\ \\text{s}^{-1} \\)\n     - \\( \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1} \\)\n   - Initial conditions:\n     - \\( [\\text{mRNA}] = 0 \\ \\text{M} \\)\n     - \\( [\\text{Protein}] = 10^{-7} \\ \\text{M} \\)\n\n3. **Python Code**:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs for auto-activation\ndef auto_activation(t, y, k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * (Protein**n / (K_d + Protein**n)) - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\nK_d = 1e-8\nn = 1\ndelta_mRNA = 0.001\nk_TL = 0.002\ndelta_Protein = 0.001\n\n# Initial conditions\ny0 = [0, 1e-7]  # Initial concentrations of mRNA and Protein\n\n# Time ranges\nt_span_1min = (0, 60)\nt_eval_1min = np.linspace(0, 60, 100)\nt_span_2hrs = (0, 7200)\nt_eval_2hrs = np.linspace(0, 7200, 500)\n\n# Solve for 1 minute and 2 hours\nsolution_1min = solve_ivp(auto_activation, t_span_1min, y0, t_eval=t_eval_1min,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\nsolution_2hrs = solve_ivp(auto_activation, t_span_2hrs, y0, t_eval=t_eval_2hrs,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\n\n# Extract solutions\nt_1min, mRNA_1min, Protein_1min = solution_1min.t, solution_1min.y[0], solution_1min.y[1]\nt_2hrs, mRNA_2hrs, Protein_2hrs = solution_2hrs.t, solution_2hrs.y[0], solution_2hrs.y[1]\n\n# Plot results\nplt.figure(figsize=(12, 6))\nplt.plot(t_1min, mRNA_1min, label=\"mRNA (1 min)\", color=\"blue\", linestyle=\"--\")\nplt.plot(t_1min, Protein_1min, label=\"Protein (1 min)\", color=\"red\", linestyle=\"--\")\nplt.plot(t_2hrs / 3600, mRNA_2hrs, label=\"mRNA (2 hrs)\", color=\"blue\")\nplt.plot(t_2hrs / 3600, Protein_2hrs, label=\"Protein (2 hrs)\", color=\"red\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.title(\"Auto-Activation Dynamics\")\nplt.legend()\nplt.grid()\nplt.show()\n```\n\n4. **Expected Observations**:\n   - **Over 1 minute**:\n     - mRNA concentration rises quickly but does not reach steady state.\n     - Protein concentration increases slowly.\n   - **Over 2 hours**:\n     - Both mRNA and protein concentrations reach steady state.\n     - Protein stabilizes later than mRNA.",
+            "ground_truth_answer": "import numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs for auto-activation\ndef auto_activation(t, y, k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * (Protein**n / (K_d + Protein**n)) - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n\n# Parameters\nk_TX = 0.001\nK_d = 1e-8\nn = 1\ndelta_mRNA = 0.001\nk_TL = 0.002\ndelta_Protein = 0.001\n\n# Initial conditions\ny0 = [0, 1e-7]  # Initial concentrations of mRNA and Protein\n\n# Time ranges\nt_span_1min = (0, 60)\nt_eval_1min = np.linspace(0, 60, 100)\nt_span_2hrs = (0, 7200)\nt_eval_2hrs = np.linspace(0, 7200, 500)\n\n# Solve for 1 minute and 2 hours\nsolution_1min = solve_ivp(auto_activation, t_span_1min, y0, t_eval=t_eval_1min,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\nsolution_2hrs = solve_ivp(auto_activation, t_span_2hrs, y0, t_eval=t_eval_2hrs,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\n\n# Extract solutions\nt_1min, mRNA_1min, Protein_1min = solution_1min.t, solution_1min.y[0], solution_1min.y[1]\nt_2hrs, mRNA_2hrs, Protein_2hrs = solution_2hrs.t, solution_2hrs.y[0], solution_2hrs.y[1]\n\n# Plot results\nplt.figure(figsize=(12, 6))\nplt.plot(t_1min, mRNA_1min, label=\"mRNA (1 min)\", color=\"blue\", linestyle=\"--\")\nplt.plot(t_1min, Protein_1min, label=\"Protein (1 min)\", color=\"red\", linestyle=\"--\")\nplt.plot(t_2hrs / 3600, mRNA_2hrs, label=\"mRNA (2 hrs)\", color=\"blue\")\nplt.plot(t_2hrs / 3600, Protein_2hrs, label=\"Protein (2 hrs)\", color=\"red\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.title(\"Auto-Activation Dynamics\")\nplt.legend()\nplt.grid()\nplt.show()\n",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "1. **Define the ODEs for Auto-Activation**:\n   - The ODEs governing the dynamics are:\n     \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\]\n     \\[ \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\]\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "1. **Define the ODEs for Auto-Activation**:\n   - Incorrectly writes the mRNA ODE as:\n     \\[ \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA}[\\text{mRNA}] \\]\n     Omitting the Hill equation term.\n",
+                            "rating": -1,
+                            "flagged": "Student omitted the Hill equation for mRNA activation, which is critical for auto-activation dynamics."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "2. **Solve and Simulate the System**:\n   - Parameters:\n     - \\( k_\\text{TX} = 0.001 \\ \\text{M/s} \\)\n     - \\( K_d = 10^{-8} \\ \\text{M} \\)\n     - \\( n = 1 \\)\n     - \\( \\delta_\\text{mRNA} = 0.001 \\ \\text{s}^{-1} \\)\n     - \\( k_\\text{TL} = 0.002 \\ \\text{s}^{-1} \\)\n     - \\( \\delta_\\text{Protein} = 0.001 \\ \\text{s}^{-1} \\)\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "2. **Solve and Simulate the System**:\n   - Parameters:\n     - \\( k_\\text{TX} = 0.01 \\ \\text{M/s} \\)\n     - \\( K_d = 10^{-6} \\ \\text{M} \\)\n     - \\( n = 2 \\)\n     - Other parameters as given.\n",
+                            "rating": -1,
+                            "flagged": "Incorrectly modifies parameters such as \\( k_\\text{TX}, K_d, n \\), leading to unexpected simulation results."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "   - Initial conditions:\n     - \\( [\\text{mRNA}] = 0 \\ \\text{M} \\)\n     - \\( [\\text{Protein}] = 10^{-7} \\ \\text{M} \\)\n\n3. **Python Code**:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs for auto-activation\ndef auto_activation(t, y, k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * (Protein**n / (K_d + Protein**n)) - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "   - Initial conditions:\n     - \\( [\\text{mRNA}] = 10^{-6} \\ \\text{M} \\)\n     - \\( [\\text{Protein}] = 0 \\ \\text{M} \\)\n\n3. **Python Code**:\n```python\nimport numpy as np\nfrom scipy.integrate import solve_ivp\nimport matplotlib.pyplot as plt\n\n# Define the ODEs for auto-activation\ndef auto_activation(t, y, k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein):\n    mRNA, Protein = y\n    dmRNA_dt = k_TX * (Protein / K_d) - delta_mRNA * mRNA\n    dProtein_dt = k_TL * mRNA - delta_Protein * Protein\n    return [dmRNA_dt, dProtein_dt]\n```",
+                            "rating": -1,
+                            "flagged": "Incorrectly set the initial conditions, and removed the Hill equation term in the ODEs."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Parameters\nk_TX = 0.001\nK_d = 1e-8\nn = 1\ndelta_mRNA = 0.001\nk_TL = 0.002\ndelta_Protein = 0.001\n\n# Initial conditions\ny0 = [0, 1e-7]  # Initial concentrations of mRNA and Protein\n\n# Time ranges\nt_span_1min = (0, 60)\nt_eval_1min = np.linspace(0, 60, 100)\nt_span_2hrs = (0, 7200)\nt_eval_2hrs = np.linspace(0, 7200, 500)\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Parameters\nk_TX = 0.001\nK_d = 1e-8\nn = 1\ndelta_mRNA = 0.001\nk_TL = 0.002\n# Initial conditions\n```",
+                            "rating": -1,
+                            "flagged": "Omitted necessary parameters or incorrectly skipped initial conditions, causing incomplete simulation setup."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Solve for 1 minute and 2 hours\nsolution_1min = solve_ivp(auto_activation, t_span_1min, y0, t_eval=t_eval_1min,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\nsolution_2hrs = solve_ivp(auto_activation, t_span_2hrs, y0, t_eval=t_eval_2hrs,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\n\n# Extract solutions\nt_1min, mRNA_1min, Protein_1min = solution_1min.t, solution_1min.y[0], solution_1min.y[1]\nt_2hrs, mRNA_2hrs, Protein_2hrs = solution_2hrs.t, solution_2hrs.y[0], solution_2hrs.y[1]\n```",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "```python\n# Solve for 1 minute and 2 hours\nsolution_1min = solve_ivp(auto_activation, t_span_1min, y0, t_eval=None,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\nsolution_2hrs = solve_ivp(auto_activation, t_span_2hrs, y0, t_eval=None,args=(k_TX, K_d, n, delta_mRNA, k_TL, delta_Protein))\n```",
+                            "rating": -1,
+                            "flagged": "Omitted the `t_eval` parameter, causing fewer time points and less detailed simulation results."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "```python\n# Plot results\nplt.figure(figsize=(12, 6))\nplt.plot(t_1min, mRNA_1min, label=\"mRNA (1 min)\", color=\"blue\", linestyle=\"--\")\nplt.plot(t_1min, Protein_1min, label=\"Protein (1 min)\", color=\"red\", linestyle=\"--\")\nplt.plot(t_2hrs / 3600, mRNA_2hrs, label=\"mRNA (2 hrs)\", color=\"blue\")\nplt.plot(t_2hrs / 3600, Protein_2hrs, label=\"Protein (2 hrs)\", color=\"red\")\nplt.xlabel(\"Time (hours)\")\nplt.ylabel(\"Concentration (M)\")\nplt.title(\"Auto-Activation Dynamics\")\nplt.legend()\nplt.grid()\nplt.show()\n```",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "4. **Expected Observations**:\n   - **Over 1 minute**:\n     - mRNA concentration rises quickly but does not reach steady state.\n     - Protein concentration increases slowly.\n   - **Over 2 hours**:\n     - Both mRNA and protein concentrations reach steady state.\n     - Protein stabilizes later than mRNA.\n",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "4. **Expected Observations**:\n   - **Over 1 minute**:\n     - mRNA concentration reaches steady state.\n     - Protein concentration stabilizes immediately.\n   - **Over 2 hours**:\n     - No noticeable change in concentrations.\n",
+                            "rating": -1,
+                            "flagged": "Misinterpreted the expected dynamics, assuming unrealistic stabilization within 1 minute or no dynamics over 2 hours."
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    }
+]
