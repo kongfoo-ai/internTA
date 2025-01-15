@@ -102,6 +102,102 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
+            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M} \\) \n Calculate the Hill equation, \\( \\theta \\).",
+            "ground_truth_solution": "Calculate the Hill equation, \\( \\theta \\):    \\[    \\theta = \\frac{[B]^n}{K_d + [B]^n}    \\] \\n    Given:    \\[    [B] = 5 \\, \\text{M}, \\quad K_d = 0.0002 \\, \\text{M}, \\quad n = 1    \\] \\n    Substituting the values:    \\[    \\theta = \\frac{5^1}{0.0002 + 5^1} = \\frac{5}{5.0002}    \\] \\n    Simplify:    \\[    \\theta \\approx 0.99996    \\]    \\textbf{Answer:}    \\[    \\theta \\approx 0.99996    \\]",
+            "ground_truth_answer": "\\( \\theta \\approx 0.99996 \\)",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: The Hill equation is used to calculate the fraction of binding sites occupied as a function of ligand concentration. It is expressed as \\( \\theta = \\frac{[B]^n}{K_d + [B]^n} \\), where \\( n \\) is the Hill coefficient.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Write the Hill equation: \\( \\theta = \\frac{[B]^n}{K_d + [B]^n} \\).",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Write the Hill equation: \\( \\theta = \\frac{K_d}{[B]^n + K_d} \\).",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Substitute the given values into the equation: \\( [B] = 5 \\, \\text{M} \\), \\( K_d = 0.0002 \\, \\text{M} \\), \\( n = 1 \\). The equation becomes: \\( \\theta = \\frac{5^1}{0.0002 + 5^1} \\).",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Substitute the given values into the equation: \\( \\theta = \\frac{K_d}{5^1 + 0.0002} \\).",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Simplify the expression: \\( \\theta = \\frac{5}{5.0002} \\).",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Simplify the expression: \\( \\theta = \\frac{0.0002}{5.0002} \\).",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Approximate the value: \\( \\theta \\approx 0.99996 \\).",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Approximate the value: \\( \\theta \\approx 0.00004 \\).",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
             "problem": "Consider the above models with the following constants:\\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\nAuto-Activation \\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 10^{-7} \\, \\text{M} \\), respectively. \\n Incorporate leakiness into the model (add \\( a_0 \\) with a value of \\( 10^{-5} \\, \\text{M/s} \\)). How does this affect the accuracy of the model? For example, plot graphs of varying initial protein concentration. At what magnitude do the lines become indistinct from one another?",
             "ground_truth_solution": "Add \\( a_0 = 10^{-5} \\, \\text{M/s} \\) to the transcription rate:\\[\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}].\\]\\n Simulate the ODEs and observe the effect. A larger \\( a_0 \\) leads to higher baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
             "ground_truth_answer": "Larger \\( a_0 \\) increases baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
