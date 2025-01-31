@@ -6,8 +6,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 0.0001 \\, \\text{M} \\), respectively.\\n Vary initial protein concentration, both increasing and decreasing the order of magnitude. Is there a trend in the steady state reached?",
-            "ground_truth_solution": "Experiment with varying \\( [\\text{Protein}]_0 \\) over several orders of magnitude (e.g., \\( 10^{-5}, 10^{-6}, 10^{-7} \\, \\text{M} \\)) and observe the steady state. \\n Higher initial protein concentrations will cause faster inhibition of mRNA transcription, leading to a lower steady-state protein concentration.",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $0.0001 \\, \\text{M}$, respectively.\n\nVary initial protein concentration, both increasing and decreasing the order of magnitude. Is there a trend in the steady state reached?",
+            "ground_truth_solution": "Experiment with varying $[\\text{Protein}]_0$ over several orders of magnitude (e.g., $10^{-5}, 10^{-6}, 10^{-7} \\, \\text{M}$) and observe the steady state.\n\nHigher initial protein concentrations will cause faster inhibition of mRNA transcription, leading to a lower steady-state protein concentration.",
             "ground_truth_answer": "Higher initial protein concentrations lead to faster inhibition of mRNA transcription and lower steady-state protein concentrations.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -29,12 +29,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Set up the system with the provided constants: \\( k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Set up the system with the provided constants: $k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Set up the system with constants: \\( k_\\text{TX} = 0.01 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Set up the system with constants: $k_\\text{TX} = 0.01 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -45,12 +45,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Set initial conditions: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Set initial conditions: \\( [\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions: $[\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -61,12 +61,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Vary initial protein concentrations over several orders of magnitude (e.g., \\( 10^{-5}, 10^{-6}, 10^{-7} \\, \\text{M} \\)).",
+                            "text": "Step 3: Vary initial protein concentrations over several orders of magnitude (e.g., $10^{-5}, 10^{-6}, 10^{-7} \\, \\text{M}$).",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Fix initial protein concentration to \\( 0.0001 \\, \\text{M} \\) without variation.",
+                            "text": "Step 3: Fix initial protein concentration to $0.0001 \\, \\text{M}$ without variation.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -102,9 +102,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M} \\) \n Calculate the Hill equation, \\( \\theta \\).",
-            "ground_truth_solution": "Calculate the Hill equation, \\( \\theta \\):    \\[    \\theta = \\frac{[B]^n}{K_d + [B]^n}    \\] \\n    Given:    \\[    [B] = 5 \\, \\text{M}, \\quad K_d = 0.0002 \\, \\text{M}, \\quad n = 1    \\] \\n    Substituting the values:    \\[    \\theta = \\frac{5^1}{0.0002 + 5^1} = \\frac{5}{5.0002}    \\] \\n    Simplify:    \\[    \\theta \\approx 0.99996    \\]    \\textbf{Answer:}    \\[    \\theta \\approx 0.99996    \\]",
-            "ground_truth_answer": "\\( \\theta \\approx 0.99996 \\)",
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. $K_d = 0.0002$ M\nCalculate the Hill equation, $\\theta$.",
+            "ground_truth_solution": "Calculate the Hill equation, $\\theta$:\n\n$$\\theta = \\frac{[B]^n}{K_d + [B]^n}$$\n\nGiven:\n$$[B] = 5\\, \\text{M}, \\quad K_d = 0.0002\\, \\text{M}, \\quad n = 1$$\n\nSubstituting the values:\n$$\\theta = \\frac{5^1}{0.0002 + 5^1} = \\frac{5}{5.0002}$$\n\nSimplify:\n$$\\theta \\approx 0.99996$$\n\nAnswer:\n$$\\theta \\approx 0.99996$$",
+            "ground_truth_answer": "$\\theta \\approx 0.99996$",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -114,7 +114,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: The Hill equation is used to calculate the fraction of binding sites occupied as a function of ligand concentration. It is expressed as \\( \\theta = \\frac{[B]^n}{K_d + [B]^n} \\), where \\( n \\) is the Hill coefficient.",
+                            "text": "Knowledge point: The Hill equation is used to calculate the fraction of binding sites occupied as a function of ligand concentration. It is expressed as $\\theta = \\frac{[B]^n}{K_d + [B]^n}$, where $n$ is the Hill coefficient.",
                             "rating": 1,
                             "flagged": null
                         }
@@ -125,12 +125,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Write the Hill equation: \\( \\theta = \\frac{[B]^n}{K_d + [B]^n} \\).",
+                            "text": "Step 1: Write the Hill equation: $\\theta = \\frac{[B]^n}{K_d + [B]^n}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Write the Hill equation: \\( \\theta = \\frac{K_d}{[B]^n + K_d} \\).",
+                            "text": "Step 1: Write the Hill equation: $\\theta = \\frac{K_d}{[B]^n + K_d}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -141,12 +141,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Substitute the given values into the equation: \\( [B] = 5 \\, \\text{M} \\), \\( K_d = 0.0002 \\, \\text{M} \\), \\( n = 1 \\). The equation becomes: \\( \\theta = \\frac{5^1}{0.0002 + 5^1} \\).",
+                            "text": "Step 2: Substitute the given values into the equation: $[B] = 5\\, \\text{M}$, $K_d = 0.0002\\, \\text{M}$, $n = 1$. The equation becomes: $\\theta = \\frac{5^1}{0.0002 + 5^1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Substitute the given values into the equation: \\( \\theta = \\frac{K_d}{5^1 + 0.0002} \\).",
+                            "text": "Step 2: Substitute the given values into the equation: $\\theta = \\frac{K_d}{5^1 + 0.0002}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -157,12 +157,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Simplify the expression: \\( \\theta = \\frac{5}{5.0002} \\).",
+                            "text": "Step 3: Simplify the expression: $\\theta = \\frac{5}{5.0002}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Simplify the expression: \\( \\theta = \\frac{0.0002}{5.0002} \\).",
+                            "text": "Step 3: Simplify the expression: $\\theta = \\frac{0.0002}{5.0002}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -173,12 +173,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Approximate the value: \\( \\theta \\approx 0.99996 \\).",
+                            "text": "Step 4: Approximate the value: $\\theta \\approx 0.99996$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Approximate the value: \\( \\theta \\approx 0.00004 \\).",
+                            "text": "Step 4: Approximate the value: $\\theta \\approx 0.00004$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -198,9 +198,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\n\\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\nAuto-Activation \\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 10^{-7} \\, \\text{M} \\), respectively. \\n Incorporate leakiness into the model (add \\( a_0 \\) with a value of \\( 10^{-5} \\, \\text{M/s} \\)). How does this affect the accuracy of the model? For example, plot graphs of varying initial protein concentration. At what magnitude do the lines become indistinct from one another?",
-            "ground_truth_solution": "Add \\( a_0 = 10^{-5} \\, \\text{M/s} \\) to the transcription rate:\\[\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}].\\]\\n Simulate the ODEs and observe the effect. A larger \\( a_0 \\) leads to higher baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
-            "ground_truth_answer": "Larger \\( a_0 \\) increases baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Activation**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $10^{-7} \\, \\text{M}$, respectively.\n\nIncorporate leakiness into the model (add $a_0$ with a value of $10^{-5} \\, \\text{M/s}$). How does this affect the accuracy of the model? For example, plot graphs of varying initial protein concentration. At what magnitude do the lines become indistinct from one another?",
+            "ground_truth_solution": "Add $a_0 = 10^{-5} \\, \\text{M/s}$ to the transcription rate:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}].$\n\nSimulate the ODEs and observe the effect. A larger $a_0$ leads to higher baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
+            "ground_truth_answer": "Larger $a_0$ increases baseline mRNA and protein levels, reducing the sharpness of the activation threshold.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -210,7 +210,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: Adding a basal transcription rate \\( a_0 \\) models leakiness, introducing a constant background level of mRNA production.",
+                            "text": "Knowledge point: Adding a basal transcription rate $a_0$ models leakiness, introducing a constant background level of mRNA production.",
                             "rating": 1,
                             "flagged": null
                         }
@@ -221,12 +221,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Incorporate \\( a_0 = 10^{-5} \\, \\text{M/s} \\) into the transcription rate equation: \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Incorporate $a_0 = 10^{-5} \\, \\text{M/s}$ into the transcription rate equation: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Incorporate \\( a_0 \\) without a specific value into the transcription rate equation: \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Incorporate $a_0$ without a specific value into the transcription rate equation: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -237,12 +237,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Simulate the ODEs with varying initial protein concentrations (e.g., \\( 10^{-9} \\, \\text{M}, 10^{-7} \\, \\text{M}, 10^{-6} \\, \\text{M} \\)).",
+                            "text": "Step 2: Simulate the ODEs with varying initial protein concentrations (e.g., $10^{-9} \\, \\text{M}, 10^{-7} \\, \\text{M}, 10^{-6} \\, \\text{M}$).",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Simulate the ODEs with fixed initial protein concentration (e.g., \\( 10^{-7} \\, \\text{M} \\)).",
+                            "text": "Step 2: Simulate the ODEs with fixed initial protein concentration (e.g., $10^{-7} \\, \\text{M}$).",
                             "rating": -1,
                             "flagged": null
                         }
@@ -253,12 +253,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Plot the results and observe that increasing \\( a_0 \\) reduces the sharpness of the activation threshold, leading to higher baseline mRNA and protein levels.",
+                            "text": "Step 3: Plot the results and observe that increasing $a_0$ reduces the sharpness of the activation threshold, leading to higher baseline mRNA and protein levels.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Plot the results and observe no significant effect of \\( a_0 \\) on the sharpness of the activation threshold.",
+                            "text": "Step 3: Plot the results and observe no significant effect of $a_0$ on the sharpness of the activation threshold.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -269,12 +269,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Determine that at large values of \\( a_0 \\) or very small initial protein concentrations, the lines for varying initial protein levels become indistinguishable.",
+                            "text": "Step 4: Determine that at large values of $a_0$ or very small initial protein concentrations, the lines for varying initial protein levels become indistinguishable.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Determine that initial protein concentrations always significantly affect the steady-state levels regardless of \\( a_0 \\).",
+                            "text": "Step 4: Determine that initial protein concentrations always significantly affect the steady-state levels regardless of $a_0$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -294,8 +294,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "For this coding challenge, we use the equations we derived using SI units, as opposed to the equations in the original paper. We first set the constants as follows:\\n \\[a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};\\]\\n \\[K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;\\]\\n \\[\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};\\]\\n \\[\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.\\]\\n Set initial values to be \\( 0.1 \\, \\text{M} \\) for \\( \\text{mRNA1} \\) and \\( \\text{Protein1} \\), and \\( 0 \\, \\text{M} \\) for \\( \\text{mRNA2}, \\text{Protein2}, \\text{mRNA3} \\) and \\( \\text{Protein3} \\).\\n Define the 6 ODEs to solve.",
-            "ground_truth_solution": "The constants are defined as follows:\\n \\[ a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s}, \\]\\n \\[ K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2, \\]\\n \\[\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1}, \\]\\n \\[ \\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}. \\]\\n **Initial Values:** \\n - \\( \\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M} \\), \\n - \\( \\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M} \\), \\n - \\( \\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M} \\).\\n **Define the 6 ODEs:**\\n The ODEs describing the system are:\\n \\begin{align} \\frac{d[\\text{mRNA1}]}{dt} &= \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}], \\tag{3.17} \\\\\\\\ \\frac{d[\\text{Protein1}]}{dt} &= k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}], \\tag{3.18} \\\\\\\\ \\frac{d[\\text{mRNA2}]}{dt} &= \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}], \\tag{3.19} \\\\\\\\ \\frac{d[\\text{Protein2}]}{dt} &= k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}], \\tag{3.20} \\\\\\\\ \\frac{d[\\text{mRNA3}]}{dt} &= \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}], \\tag{3.21} \\\\\\\\ \\frac{d[\\text{Protein3}]}{dt} &= k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]. \\tag{3.22} \\end{align}",
+            "problem": "For this coding challenge, we use the equations we derived using SI units, as opposed to the equations in the original paper. We first set the constants as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial values to be $0.1 \\, \\text{M}$ for $\\text{mRNA1}$ and $\\text{Protein1}$, and $0 \\, \\text{M}$ for $\\text{mRNA2}, \\text{Protein2}, \\text{mRNA3}$ and $\\text{Protein3}$. Define the 6 ODEs to solve.",
+            "ground_truth_solution": "The constants are defined as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s},$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2,$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1},$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\n**Initial Values:**\n\n- $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M},$\n\n- $\\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M},$\n\n- $\\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M}.$\n\n**Define the 6 ODEs:**\n\nThe ODEs describing the system are:\n\n$\\frac{d[\\text{mRNA1}]}{dt} = \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}]$,\n\n$\\frac{d[\\text{Protein1}]}{dt} = k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}]$,\n\n$\\frac{d[\\text{mRNA2}]}{dt} = \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}]$,\n\n$\\frac{d[\\text{Protein2}]}{dt} = k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}]$,\n\n$\\frac{d[\\text{mRNA3}]}{dt} = \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}]$,\n\n$\\frac{d[\\text{Protein3}]}{dt} = k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]$.",
             "ground_truth_answer": "Define the six ODEs as listed in the solution with the given constants and simulate the system using appropriate initial conditions.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -317,12 +317,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define the ODE for \\( \\frac{d[\\text{mRNA1}]}{dt} \\): \\( \\frac{d[\\text{mRNA1}]}{dt} = \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}] \\).",
+                            "text": "Step 1: Define the ODE for $\\frac{d[\\text{mRNA1}]}{dt}$: $\\frac{d[\\text{mRNA1}]}{dt} = \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA1}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define the ODE for \\( \\frac{d[\\text{mRNA1}]}{dt} \\): \\( \\frac{d[\\text{mRNA1}]}{dt} = \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} - \\delta_\\text{mRNA}[\\text{mRNA1}] \\).",
+                            "text": "Step 1: Define the ODE for $\\frac{d[\\text{mRNA1}]}{dt}$: $\\frac{d[\\text{mRNA1}]}{dt} = \\frac{a_1}{1 + \\left(\\frac{[\\text{Protein3}]}{K_d}\\right)^{n_1}} - \\delta_\\text{mRNA}[\\text{mRNA1}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -333,12 +333,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{Protein1}]}{dt} \\): \\( \\frac{d[\\text{Protein1}]}{dt} = k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{Protein1}]}{dt}$: $\\frac{d[\\text{Protein1}]}{dt} = k_\\text{TL}[\\text{mRNA1}] - \\delta_\\text{Protein}[\\text{Protein1}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{Protein1}]}{dt} \\): \\( \\frac{d[\\text{Protein1}]}{dt} = \\delta_\\text{Protein}[\\text{Protein1}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{Protein1}]}{dt}$: $\\frac{d[\\text{Protein1}]}{dt} = \\delta_\\text{Protein}[\\text{Protein1}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -349,12 +349,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Define the ODE for \\( \\frac{d[\\text{mRNA2}]}{dt} \\): \\( \\frac{d[\\text{mRNA2}]}{dt} = \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}] \\).",
+                            "text": "Step 3: Define the ODE for $\\frac{d[\\text{mRNA2}]}{dt}$: $\\frac{d[\\text{mRNA2}]}{dt} = \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA2}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Define the ODE for \\( \\frac{d[\\text{mRNA2}]}{dt} \\): \\( \\frac{d[\\text{mRNA2}]}{dt} = \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}} \\).",
+                            "text": "Step 3: Define the ODE for $\\frac{d[\\text{mRNA2}]}{dt}$: $\\frac{d[\\text{mRNA2}]}{dt} = \\frac{a_2}{1 + \\left(\\frac{[\\text{Protein1}]}{K_d}\\right)^{n_2}}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -365,12 +365,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Define the ODE for \\( \\frac{d[\\text{Protein2}]}{dt} \\): \\( \\frac{d[\\text{Protein2}]}{dt} = k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}] \\).",
+                            "text": "Step 4: Define the ODE for $\\frac{d[\\text{Protein2}]}{dt}$: $\\frac{d[\\text{Protein2}]}{dt} = k_\\text{TL}[\\text{mRNA2}] - \\delta_\\text{Protein}[\\text{Protein2}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Define the ODE for \\( \\frac{d[\\text{Protein2}]}{dt} \\): \\( \\frac{d[\\text{Protein2}]}{dt} = \\delta_\\text{Protein}[\\text{Protein2}] \\).",
+                            "text": "Step 4: Define the ODE for $\\frac{d[\\text{Protein2}]}{dt}$: $\\frac{d[\\text{Protein2}]}{dt} = \\delta_\\text{Protein}[\\text{Protein2}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -381,12 +381,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 5: Define the ODE for \\( \\frac{d[\\text{mRNA3}]}{dt} \\): \\( \\frac{d[\\text{mRNA3}]}{dt} = \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}] \\).",
+                            "text": "Step 5: Define the ODE for $\\frac{d[\\text{mRNA3}]}{dt}$: $\\frac{d[\\text{mRNA3}]}{dt} = \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} + a_0 - \\delta_\\text{mRNA}[\\text{mRNA3}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 5: Define the ODE for \\( \\frac{d[\\text{mRNA3}]}{dt} \\): \\( \\frac{d[\\text{mRNA3}]}{dt} = \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}} \\).",
+                            "text": "Step 5: Define the ODE for $\\frac{d[\\text{mRNA3}]}{dt}$: $\\frac{d[\\text{mRNA3}]}{dt} = \\frac{a_3}{1 + \\left(\\frac{[\\text{Protein2}]}{K_d}\\right)^{n_3}}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -397,12 +397,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 6: Define the ODE for \\( \\frac{d[\\text{Protein3}]}{dt} \\): \\( \\frac{d[\\text{Protein3}]}{dt} = k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}] \\).",
+                            "text": "Step 6: Define the ODE for $\\frac{d[\\text{Protein3}]}{dt}$: $\\frac{d[\\text{Protein3}]}{dt} = k_\\text{TL}[\\text{mRNA3}] - \\delta_\\text{Protein}[\\text{Protein3}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 6: Define the ODE for \\( \\frac{d[\\text{Protein3}]}{dt} \\): \\( \\frac{d[\\text{Protein3}]}{dt} = \\delta_\\text{Protein}[\\text{Protein3}] \\).",
+                            "text": "Step 6: Define the ODE for $\\frac{d[\\text{Protein3}]}{dt}$: $\\frac{d[\\text{Protein3}]}{dt} = \\delta_\\text{Protein}[\\text{Protein3}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -422,8 +422,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\\\ Considering that cell processes take many minutes or hours, is the quasi-stationary assumption a valid assumption?",
-            "ground_truth_solution": "The Hill equation assumes that the binding reaction reaches equilibrium instantaneously compared to other processes. For this system, the binding reaction is fast (\\( k_a = 0.05 \\, \\text{s}^{-1}, k_d = 0.00001 \\, \\text{s}^{-1} \\)), making the assumption valid. However, for slower reactions, the assumption may not hold.",
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Considering that cell processes take many minutes or hours, is the quasi-stationary assumption a valid assumption?",
+            "ground_truth_solution": "The Hill equation assumes that the binding reaction reaches equilibrium instantaneously compared to other processes. For this system, the binding reaction is fast ($k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}), making the assumption valid. However, for slower reactions, the assumption may not hold.",
             "ground_truth_answer": "Yes, the quasi-stationary assumption is valid as the binding reaction is much faster than cellular processes.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -445,12 +445,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Evaluate the rate constants \\( k_a = 0.05 \\, \\text{s}^{-1}, k_d = 0.00001 \\, \\text{s}^{-1} \\), which indicate a fast binding reaction.",
+                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a fast binding reaction.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Evaluate the rate constants \\( k_a = 0.05 \\, \\text{s}^{-1}, k_d = 0.00001 \\, \\text{s}^{-1} \\), which indicate a slow binding reaction.",
+                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a slow binding reaction.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -502,9 +502,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\( K_d = 0.0002 \\, \\text{M} \\), \\( \\theta \\approx 0.99996 \\). \\textbf{Hill Equation} \\n Calculate the expected concentrations for the complex \\( C \\) and the unbound \\( A \\) molecules.",
-            "ground_truth_solution": "Calculate the expected concentrations for the complex \\( C \\) and the unbound \\( A \\) molecules: \\n Using the Hill equation, the concentration of the complex \\( [C] \\) is given by: \\[ [C] = [A_\\text{initial}] \\cdot \\theta \\] \\n Given: \\[ [A_\\text{initial}] = 1 \\, \\text{M}, \\quad \\theta \\approx 0.99996 \\] \\n Substituting the values: \\[ [C] = 1 \\cdot 0.99996 \\approx 0.99996 \\, \\text{M} \\] \\n The unbound \\( [A] \\) is given by: \\[ [A] = [A_\\text{initial}] - [C] \\] \\n Substituting the values: \\[ [A] = 1 - 0.99996 \\approx 0.00004 \\, \\text{M} \\] \\n \\textbf{Answers:} \\[ [C] \\approx 0.99996 \\, \\text{M}, \\quad [A] \\approx 0.00004 \\, \\text{M} \\]",
-            "ground_truth_answer": "The expected concentrations are \\( [C] \\approx 0.99996 \\, \\text{M} \\) and \\( [A] \\approx 0.00004 \\, \\text{M} \\).",
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. $K_d = 0.0002$ M, $\\theta \\approx 0.99996$. Hill Equation\nCalculate the expected concentrations for the complex $C$ and the unbound $A$ molecules.",
+            "ground_truth_solution": "Calculate the expected concentrations for the complex $C$ and the unbound $A$ molecules:\n\nUsing the Hill equation, the concentration of the complex $[C]$ is given by:\n\n$$[C] = [A_{initial}] \\cdot \\theta$$\n\nGiven:\n$$[A_{initial}] = 1\\, \\text{M}, \\quad \\theta \\approx 0.99996$$\n\nSubstituting the values:\n$$[C] = 1 \\cdot 0.99996 \\approx 0.99996\\, \\text{M}$$\n\nThe unbound $[A]$ is given by:\n\n$$[A] = [A_{initial}] - [C]$$\n\nSubstituting the values:\n$$[A] = 1 - 0.99996 \\approx 0.00004\\, \\text{M}$$\n\nAnswers:\n$$[C] \\approx 0.99996\\, \\text{M}, \\quad [A] \\approx 0.00004\\, \\text{M}$$",
+            "ground_truth_answer": "The expected concentrations are $[C] \\approx 0.99996\\, \\text{M}$ and $[A] \\approx 0.00004\\, \\text{M}$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -514,7 +514,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: The Hill equation allows calculation of the fraction of binding sites occupied, \\( \\theta \\), and subsequent concentrations of bound and unbound components.",
+                            "text": "Knowledge point: The Hill equation allows calculation of the fraction of binding sites occupied, $\\theta$, and subsequent concentrations of bound and unbound components.",
                             "rating": 1,
                             "flagged": null
                         }
@@ -525,12 +525,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Calculate the concentration of the complex \\( [C] \\) using \\( [C] = [A_\\text{initial}] \\cdot \\theta \\).",
+                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = [A_{initial}] \\cdot \\theta$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Calculate the concentration of the complex \\( [C] \\) using \\( [C] = \\theta \\cdot [C_\\text{initial}] \\).",
+                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = \\theta \\cdot [C_{initial}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -541,12 +541,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Substitute the values: \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta = 0.99996 \\). The calculation gives \\( [C] = 1 \\cdot 0.99996 = 0.99996 \\, \\text{M} \\).",
+                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 \\cdot 0.99996 = 0.99996\\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Substitute the values: \\( [A_\\text{initial}] = 1 \\, \\text{M}, \\theta = 0.99996 \\). The calculation gives \\( [C] = 1 + 0.99996 = 1.99996 \\, \\text{M} \\).",
+                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 + 0.99996 = 1.99996\\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -557,12 +557,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Calculate the unbound \\( [A] \\) using \\( [A] = [A_\\text{initial}] - [C] \\).",
+                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [A_{initial}] - [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Calculate the unbound \\( [A] \\) using \\( [A] = [C] - [A_\\text{initial}] \\).",
+                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [C] - [A_{initial}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -573,12 +573,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Substitute the values: \\( [A_\\text{initial}] = 1 \\, \\text{M}, [C] = 0.99996 \\, \\text{M} \\). The calculation gives \\( [A] = 1 - 0.99996 = 0.00004 \\, \\text{M} \\).",
+                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 1 - 0.99996 = 0.00004\\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Substitute the values: \\( [A_\\text{initial}] = 1 \\, \\text{M}, [C] = 0.99996 \\, \\text{M} \\). The calculation gives \\( [A] = 0.99996 - 1 = -0.00004 \\, \\text{M} \\).",
+                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 0.99996 - 1 = -0.00004\\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -598,8 +598,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\n Auto-Inhibition\\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 0.0001 \\, \\text{M} \\), respectively.\\n Solve and plot mRNA and protein concentration over a time period of 2 hours.",
-            "ground_truth_solution": "Initial Conditions:\\[[\\text{mRNA}] = 0 \\, \\text{M}, \\quad [\\text{Protein}] = 0.0001 \\, \\text{M}.\\] \\n Solution: \\n Use the same Python code structure as for auto-activation, but replace the transcription equation with the auto-inhibition equation.",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Inhibition**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $0.0001 \\, \\text{M}$, respectively.\n\nSolve and plot mRNA and protein concentration over a time period of 2 hours.",
+            "ground_truth_solution": "Initial Conditions:\n\n$[\\text{mRNA}] = 0 \\, \\text{M}, \\quad [\\text{Protein}] = 0.0001 \\, \\text{M}.$\n\nSolution:\n\nUse the same Python code structure as for auto-activation, but replace the transcription equation with the auto-inhibition equation.",
             "ground_truth_answer": "The mRNA and protein concentrations change over time following the auto-inhibition ODEs. After solving numerically, the plots show mRNA and protein stabilizing at steady-state levels due to feedback inhibition.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -621,12 +621,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define the ODEs for the system: \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}] \\) and \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\).",
+                            "text": "Step 1: Define the ODEs for the system: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$ and $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define the ODEs for the system: \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\) and \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Define the ODEs for the system: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}]$ and $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -637,12 +637,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Set initial conditions: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Set initial conditions: \\( [\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions: $[\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -694,8 +694,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\n \\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\n Auto-Activation\\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 10^{-7} \\, \\text{M} \\), respectively.\\n Define the constants and ODEs in your code.",
-            "ground_truth_solution": "The constants are:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}, \\quad K_d = 10^{-8} \\, \\text{M}, \\quad n = 1, \\quad \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\quad \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]The ODEs for the auto-activation model are:\\[\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}],\\]\\[\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].\\]",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Activation**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $10^{-7} \\, \\text{M}$, respectively.\n\nDefine the constants and ODEs in your code.",
+            "ground_truth_solution": "The constants are:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}, \\quad K_d = 10^{-8} \\, \\text{M}, \\quad n = 1, \\quad \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\quad \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\nThe ODEs for the auto-activation model are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}],$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].$",
             "ground_truth_answer": "The constants and ODEs have been defined, and the equations model the auto-activation process.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -717,12 +717,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define the constants: \\( k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Define the constants: $k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define the constants: \\( k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Define the constants: $k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -733,12 +733,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{mRNA}]}{dt} \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{mRNA}]}{dt}$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{mRNA}]}{dt} \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{mRNA}]}{dt}$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -749,12 +749,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Define the ODE for \\( \\frac{d[\\text{Protein}]}{dt} \\): \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\).",
+                            "text": "Step 3: Define the ODE for $\\frac{d[\\text{Protein}]}{dt}$: $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Define the ODE for \\( \\frac{d[\\text{Protein}]}{dt} \\): \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] \\).",
+                            "text": "Step 3: Define the ODE for $\\frac{d[\\text{Protein}]}{dt}$: $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -765,12 +765,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Set initial values: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 10^{-7} \\, \\text{M} \\).",
+                            "text": "Step 4: Set initial values: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 10^{-7} \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Set initial values: \\( [\\text{mRNA}] = 10^{-7} \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 4: Set initial values: $[\\text{mRNA}] = 10^{-7} \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -790,9 +790,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\n Auto-Inhibition\\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 0.0001 \\, \\text{M} \\), respectively.\\n Incorporate leakiness into the model (add \\( a_0 \\) with a value of \\( 10^{-5} \\, \\text{M/s} \\)). How does this affect the behaviour?",
-            "ground_truth_solution": "Add \\( a_0 = 10^{-5} \\, \\text{M/s} \\) to the transcription rate:\\[\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}].\\]\\n Simulate the ODEs and observe the effect. The addition of \\( a_0 \\) reduces the strength of inhibition and increases the baseline concentrations of mRNA and protein.",
-            "ground_truth_answer": "Including \\( a_0 \\) increases baseline levels of mRNA and protein while reducing inhibition sharpness by introducing a constant transcription rate.",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Inhibition**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $0.0001 \\, \\text{M}$, respectively.\n\nIncorporate leakiness into the model (add $a_0$ with a value of $10^{-5} \\, \\text{M/s}$). How does this affect the behaviour?",
+            "ground_truth_solution": "Add $a_0 = 10^{-5} \\, \\text{M/s}$ to the transcription rate:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}].$\n\nSimulate the ODEs and observe the effect. The addition of $a_0$ reduces the strength of inhibition and increases the baseline concentrations of mRNA and protein.",
+            "ground_truth_answer": "Including $a_0$ increases baseline levels of mRNA and protein while reducing inhibition sharpness by introducing a constant transcription rate.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -802,7 +802,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: Adding a basal transcription rate \\( a_0 \\) introduces a constant mRNA production, even under strong inhibition, increasing baseline concentrations.",
+                            "text": "Knowledge point: Adding a basal transcription rate $a_0$ introduces a constant mRNA production, even under strong inhibition, increasing baseline concentrations.",
                             "rating": 1,
                             "flagged": null
                         }
@@ -813,12 +813,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Update the transcription rate equation to include \\( a_0 \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}] \\), where \\( a_0 = 10^{-5} \\, \\text{M/s} \\).",
+                            "text": "Step 1: Update the transcription rate equation to include $a_0$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) + a_0 - \\delta_\\text{mRNA}[\\text{mRNA}]$, where $a_0 = 10^{-5} \\, \\text{M/s}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Update the transcription rate equation without adding \\( a_0 \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Update the transcription rate equation without adding $a_0$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -829,12 +829,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Set initial conditions for the simulation: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions for the simulation: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Set initial conditions for the simulation: \\( [\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial conditions for the simulation: $[\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -845,12 +845,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Simulate the ODEs numerically over time and observe the effect of \\( a_0 \\) on the steady-state concentrations.",
+                            "text": "Step 3: Simulate the ODEs numerically over time and observe the effect of $a_0$ on the steady-state concentrations.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Simulate the ODEs without including \\( a_0 \\) and observe the baseline concentrations remain unaffected.",
+                            "text": "Step 3: Simulate the ODEs without including $a_0$ and observe the baseline concentrations remain unaffected.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -861,12 +861,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Conclude that \\( a_0 \\) increases the baseline levels of mRNA and protein and reduces the sharpness of inhibition by providing a constant production rate.",
+                            "text": "Step 4: Conclude that $a_0$ increases the baseline levels of mRNA and protein and reduces the sharpness of inhibition by providing a constant production rate.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Conclude that \\( a_0 \\) does not significantly affect the inhibition dynamics or baseline concentrations.",
+                            "text": "Step 4: Conclude that $a_0$ does not significantly affect the inhibition dynamics or baseline concentrations.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -886,8 +886,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients: \\[ k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\] Set initial values to be \\( 0 \\, \\text{M} \\) for both mRNA and Protein concentration. First, consider the dynamics of the system. No protein can be produced until there is some mRNA, but once transcribed, protein translates at a faster rate. How do you expect the graphs of concentration against time to appear?",
-            "ground_truth_solution": "\\textbf{Dynamics of the System:}\\n - No protein can be produced until mRNA is transcribed.\\n - Once mRNA is transcribed, protein production (translation) begins at a faster rate.\\n - mRNA will stabilize first as transcription and degradation balance out.\\n - Protein will stabilize later as it depends on mRNA availability.\\n \\textbf{Expected Graphs:}\\n - The mRNA concentration will rise rapidly and stabilize.\\n - The protein concentration will show a delayed rise and stabilize after mRNA.",
+            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients:\n\n$$k_{TX} = 0.001\\, \\text{M/s}; \\, \\delta_{mRNA} = 0.001\\, \\text{s}^{-1}; \\, k_{TL} = 0.002\\, \\text{s}^{-1}; \\, \\delta_{Protein} = 0.001\\, \\text{s}^{-1}.$$\n\nSet initial values to be $0$ M for both mRNA and Protein concentration. First, consider the dynamics of the system. No protein can be produced until there is some mRNA, but once transcribed, protein translates at a faster rate. How do you expect the graphs of concentration against time to appear?",
+            "ground_truth_solution": "**Dynamics of the System:**\n- No protein can be produced until mRNA is transcribed.\n- Once mRNA is transcribed, protein production (translation) begins at a faster rate.\n- mRNA will stabilize first as transcription and degradation balance out.\n- Protein will stabilize later as it depends on mRNA availability.\n\n**Expected Graphs:**\n- The mRNA concentration will rise rapidly and stabilize.\n- The protein concentration will show a delayed rise and stabilize after mRNA.",
             "ground_truth_answer": "The mRNA concentration rises rapidly and stabilizes, while the protein concentration shows a delayed rise and stabilizes later due to its dependency on mRNA availability.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -909,12 +909,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Analyze the transcription dynamics. mRNA production begins immediately and stabilizes as \\( k_\\text{TX} \\) balances with \\( \\delta_\\text{mRNA} \\).",
+                            "text": "Step 1: Analyze the transcription dynamics. mRNA production begins immediately and stabilizes as $k_{TX}$ balances with $\\delta_{mRNA}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Analyze the transcription dynamics. mRNA production starts slowly and stabilizes as \\( k_\\text{TX} \\) balances with \\( \\delta_\\text{Protein} \\).",
+                            "text": "Step 1: Analyze the transcription dynamics. mRNA production starts slowly and stabilizes as $k_{TX}$ balances with $\\delta_{Protein}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -925,7 +925,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Analyze the translation dynamics. Protein production starts after mRNA transcription and occurs at a faster rate, governed by \\( k_\\text{TL} \\) and \\( \\delta_\\text{Protein} \\).",
+                            "text": "Step 2: Analyze the translation dynamics. Protein production starts after mRNA transcription and occurs at a faster rate, governed by $k_{TL}$ and $\\delta_{Protein}$.",
                             "rating": 1,
                             "flagged": null
                         },
@@ -982,9 +982,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\textbf{ODEs} (This will be a lot trickier, since knowledge of ODE solvers is necessary) \\item[(a)] Using mass action kinetics, define the three ODEs necessary to describe the full dynamics of this system.",
-            "ground_truth_solution": "For the reaction \\( A + B \\rightleftharpoons C \\), the rate equations are: \\n 1. Rate of change of \\( A \\): \\[ \\frac{d[A]}{dt} = -k_a [A][B] + k_d [C] \\] \\n 2. Rate of change of \\( B \\): \\[ \\frac{d[B]}{dt} = -k_a [A][B] + k_d [C] \\] \\n 3. Rate of change of \\( C \\): \\[ \\frac{d[C]}{dt} = k_a [A][B] - k_d [C] \\] These equations describe the dynamics of the concentrations of \\( A \\), \\( B \\), and \\( C \\) over time, incorporating both the forward and backward reaction rates.",
-            "ground_truth_answer": "The ODEs are \\( \\frac{d[A]}{dt} = -k_a [A][B] + k_d [C] \\), \\( \\frac{d[B]}{dt} = -k_a [A][B] + k_d [C] \\), and \\( \\frac{d[C]}{dt} = k_a [A][B] - k_d [C] \\).",
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. ODEs (This will be a lot trickier, since knowledge of ODE solvers is necessary)\n(a) Using mass action kinetics, define the three ODEs necessary to describe the full dynamics of this system.",
+            "ground_truth_solution": "For the reaction $A + B \\rightleftharpoons C$, the rate equations are:\n\n1. Rate of change of $A$:\n\n$$\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$$\n\n2. Rate of change of $B$:\n\n$$\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$$\n\n3. Rate of change of $C$:\n\n$$\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$$\n\nThese equations describe the dynamics of the concentrations of $A$, $B$, and $C$ over time, incorporating both the forward and backward reaction rates.",
+            "ground_truth_answer": "The ODEs are $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1005,12 +1005,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Write the ODE for \\( \\frac{d[A]}{dt} \\): \\( \\frac{d[A]}{dt} = -k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Write the ODE for \\( \\frac{d[A]}{dt} \\): \\( \\frac{d[A]}{dt} = k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1021,12 +1021,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Write the ODE for \\( \\frac{d[B]}{dt} \\): \\( \\frac{d[B]}{dt} = -k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Write the ODE for \\( \\frac{d[B]}{dt} \\): \\( \\frac{d[B]}{dt} = k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1037,12 +1037,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Write the ODE for \\( \\frac{d[C]}{dt} \\): \\( \\frac{d[C]}{dt} = k_a [A][B] - k_d [C] \\).",
+                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Write the ODE for \\( \\frac{d[C]}{dt} \\): \\( \\frac{d[C]}{dt} = -k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1053,12 +1053,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Conclude the ODE system, which consists of \\( \\frac{d[A]}{dt} = -k_a [A][B] + k_d [C] \\), \\( \\frac{d[B]}{dt} = -k_a [A][B] + k_d [C] \\), and \\( \\frac{d[C]}{dt} = k_a [A][B] - k_d [C] \\).",
+                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Conclude the ODE system, which consists of \\( \\frac{d[A]}{dt} = k_a [A][B] + k_d [C] \\), \\( \\frac{d[B]}{dt} = k_a [A][B] + k_d [C] \\), and \\( \\frac{d[C]}{dt} = -k_a [A][B] + k_d [C] \\).",
+                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1078,9 +1078,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients: \\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\] Set initial values to be \\( 0 \\, \\text{M} \\) for both mRNA and Protein concentration. How do the graphs compare to your expectations? Try justifying the key areas of the graph.",
-            "ground_truth_solution": "- The mRNA stabilizes when transcription and degradation are balanced: \\n  \\[ [\\text{mRNA}]_\\text{steady} = \\frac{k_\\text{TX}}{\\delta_\\text{mRNA}} = \\frac{0.001}{0.001} = 1 \\, \\text{M} \\]  \\n  - The protein stabilizes when translation and degradation are balanced:    \\[    [\\text{Protein}]_\\text{steady} = \\frac{k_\\text{TL} [\\text{mRNA}]_\\text{steady}}{\\delta_\\text{Protein}} = \\frac{0.002 \\cdot 1}{0.001} = 2 \\, \\text{M} \\] \\n - The graphs should match these steady-state values.",
-            "ground_truth_answer": "The mRNA stabilizes at 1 \\( \\text{M} \\) and the protein stabilizes at 2 \\( \\text{M} \\). The graphs should reflect these steady-state values, with mRNA reaching stability faster than the protein.",
+            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients:\n\n$k_{TX} = 0.001M/s$; $\\delta_{mRNA} = 0.001s^{-1}$; $k_{TL} = 0.002s^{-1}$; $\\delta_{Protein} = 0.001s^{-1}$.\n\nSet initial values to be $0$ M for both mRNA and Protein concentration. How do the graphs compare to your expectations? Try justifying the key areas of the graph.",
+            "ground_truth_solution": "- The mRNA stabilizes when transcription and degradation are balanced:\n\n  $[mRNA]_{steady} = \\frac{k_{TX}}{\\delta_{mRNA}} = \\frac{0.001}{0.001} = 1$ M\n\n- The protein stabilizes when translation and degradation are balanced:\n\n  $[Protein]_{steady} = \\frac{k_{TL} [mRNA]_{steady}}{\\delta_{Protein}} = \\frac{0.002 \\cdot 1}{0.001} = 2$ M\n\n- The graphs should match these steady-state values.",
+            "ground_truth_answer": "The mRNA stabilizes at 1 M and the protein stabilizes at 2 M. The graphs should reflect these steady-state values, with mRNA reaching stability faster than the protein.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1101,12 +1101,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Calculate the steady-state concentration of mRNA using \\( [\\text{mRNA}]_\\text{steady} = \\frac{k_\\text{TX}}{\\delta_\\text{mRNA}} \\). Substituting values: \\( \\frac{0.001}{0.001} = 1 \\, \\text{M} \\).",
+                            "text": "Step 1: Calculate the steady-state concentration of mRNA using $[mRNA]_{steady} = \\frac{k_{TX}}{\\delta_{mRNA}}$. Substituting values: $\\frac{0.001}{0.001} = 1$ M.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Calculate the steady-state concentration of mRNA using \\( [\\text{mRNA}]_\\text{steady} = \\frac{\\delta_\\text{mRNA}}{k_\\text{TX}} \\). Substituting values: \\( \\frac{0.001}{0.001} = 1 \\, \\text{M} \\).",
+                            "text": "Step 1: Calculate the steady-state concentration of mRNA using $[mRNA]_{steady} = \\frac{\\delta_{mRNA}}{k_{TX}}$. Substituting values: $\\frac{0.001}{0.001} = 1$ M.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1117,12 +1117,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Calculate the steady-state concentration of protein using \\( [\\text{Protein}]_\\text{steady} = \\frac{k_\\text{TL} [\\text{mRNA}]_\\text{steady}}{\\delta_\\text{Protein}} \\). Substituting values: \\( \\frac{0.002 \\cdot 1}{0.001} = 2 \\, \\text{M} \\).",
+                            "text": "Step 2: Calculate the steady-state concentration of protein using $[Protein]_{steady} = \\frac{k_{TL} [mRNA]_{steady}}{\\delta_{Protein}}$. Substituting values: $\\frac{0.002 \\cdot 1}{0.001} = 2$ M.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Calculate the steady-state concentration of protein using \\( [\\text{Protein}]_\\text{steady} = \\frac{\\delta_\\text{Protein}}{k_\\text{TL} [\\text{mRNA}]_\\text{steady}} \\). Substituting values: \\( \\frac{0.001}{0.002 \\cdot 1} = 0.5 \\, \\text{M} \\).",
+                            "text": "Step 2: Calculate the steady-state concentration of protein using $[Protein]_{steady} = \\frac{\\delta_{Protein}}{k_{TL} [mRNA]_{steady}}$. Substituting values: $\\frac{0.001}{0.002 \\cdot 1} = 0.5$ M.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1133,12 +1133,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Conclude that the graphs should match these steady-state values, with mRNA stabilizing at 1 \\( \\text{M} \\) and protein stabilizing at 2 \\( \\text{M} \\).",
+                            "text": "Step 3: Conclude that the graphs should match these steady-state values, with mRNA stabilizing at 1 M and protein stabilizing at 2 M.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Conclude that the graphs should match these steady-state values, with mRNA stabilizing at 0.5 \\( \\text{M} \\) and protein stabilizing at 1 \\( \\text{M} \\).",
+                            "text": "Step 3: Conclude that the graphs should match these steady-state values, with mRNA stabilizing at 0.5 M and protein stabilizing at 1 M.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1158,9 +1158,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\]\\n Auto-Inhibition\\n Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 0.0001 \\, \\text{M} \\), respectively.",
-            "ground_truth_solution": "The ODEs for the auto-inhibition model are:\\[\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}],\\]\\[\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].\\]",
-            "ground_truth_answer": "The equations are:\\n\\(\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]\\)\\n\\(\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]\\).",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Inhibition**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $0.0001 \\, \\text{M}$, respectively.",
+            "ground_truth_solution": "The ODEs for the auto-inhibition model are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}],$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].$",
+            "ground_truth_answer": "The equations are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1181,12 +1181,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define the ODE for \\( \\frac{d[\\text{mRNA}]}{dt} \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Define the ODE for $\\frac{d[\\text{mRNA}]}{dt}$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define the ODE for \\( \\frac{d[\\text{mRNA}]}{dt} \\): \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}] \\).",
+                            "text": "Step 1: Define the ODE for $\\frac{d[\\text{mRNA}]}{dt}$: $\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1197,12 +1197,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{Protein}]}{dt} \\): \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{Protein}]}{dt}$: $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Define the ODE for \\( \\frac{d[\\text{Protein}]}{dt} \\): \\( \\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} - \\delta_\\text{Protein}[\\text{Protein}] \\).",
+                            "text": "Step 2: Define the ODE for $\\frac{d[\\text{Protein}]}{dt}$: $\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL} - \\delta_\\text{Protein}[\\text{Protein}]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1213,12 +1213,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Set initial values: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M} \\).",
+                            "text": "Step 3: Set initial values: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 0.0001 \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Set initial values: \\( [\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 3: Set initial values: $[\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1238,9 +1238,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Given the chemical equation for the production of hydrogen chloride from hydrogen and chloride, find the correct rate equation for hydrogen chloride (given that the forward reaction rate is equal to \\(K_F\\) and the backward reaction rate is equal to \\(K_B\\)):\\n \\(H_2 + Cl_2 \\rightleftharpoons 2HCl\\).\\n \\begin{enumerate} \\item[A.] \\(\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2\\) \\item[B.] \\(\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]\\) \\item[C.] \\(\\frac{d[HCl]}{dt} = +K_F[H]^2[Cl_2] - K_B[HCl]^2\\) \\end{enumerate}",
-            "ground_truth_solution": "1. \\textbf{Forward reaction:}\\n   The forward reaction is \\(H_2 + Cl_2 \\rightarrow 2HCl\\). According to the law of mass action, the rate of the forward reaction is proportional to the concentrations of \\(H_2\\) and \\(Cl_2\\). Therefore:\\n\\[\\text{Rate}_{\\text{forward}} = K_F [H_2][Cl_2]\\]\\n2. \\textbf{Backward reaction:}\\n   The backward reaction is \\(2HCl \\rightarrow H_2 + Cl_2\\). According to the law of mass action, the rate of the backward reaction is proportional to the square of the concentration of \\(HCl\\), since 2 molecules of \\(HCl\\) are involved. Therefore:\\n\\[\\text{Rate}_{\\text{backward}} = K_B [HCl]^2\\]\\n3. \\textbf{Net rate of change:}\\n   The net rate of change of \\([HCl]\\) is the forward rate minus the backward rate:\\n\\[\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2\\]\\n4. \\textbf{Checking the options:}\\n - \\textbf{Option A} matches the correct formulation.\\n - \\textbf{Option B} is incorrect because the backward reaction term is linear in \\([HCl]\\), which contradicts the stoichiometry of the reaction.\\n - \\textbf{Option C} is incorrect because it implies the forward reaction depends on \\([H]^2[Cl_2]\\), which doesn't align with the reaction \\(H_2 + Cl_2 \\rightarrow 2HCl\\).\\n\\nThus, the correct answer is:\\n\\[\\boxed{A. \\quad \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2}\\]",
-            "ground_truth_answer": "The correct answer is \\(\\textbf{A:} \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2\\).",
+            "problem": "Given the chemical equation for the production of hydrogen chloride from hydrogen and chloride, find the correct rate equation for hydrogen chloride (given that the forward reaction rate is equal to $K_F$ and the backward reaction rate is equal to $K_B$):\n $H_2 + Cl_2 \\rightleftharpoons 2HCl$.\n \n A. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$\n B. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$\n C. $\\frac{d[HCl]}{dt} = +K_F[H]^2[Cl_2] - K_B[HCl]^2$",
+            "ground_truth_solution": "1. Forward reaction:\n   The forward reaction is $H_2 + Cl_2 \\rightarrow 2HCl$. According to the law of mass action, the rate of the forward reaction is proportional to the concentrations of $H_2$ and $Cl_2$. Therefore:\n\n   $$\\text{Rate}_{\\text{forward}} = K_F [H_2][Cl_2]$$\n\n2. Backward reaction:\n   The backward reaction is $2HCl \\rightarrow H_2 + Cl_2$. According to the law of mass action, the rate of the backward reaction is proportional to the square of the concentration of $HCl$, since 2 molecules of $HCl$ are involved. Therefore:\n\n   $$\\text{Rate}_{\\text{backward}} = K_B [HCl]^2$$\n\n3. Net rate of change:\n   The net rate of change of $[HCl]$ is the forward rate minus the backward rate:\n\n   $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$\n\n4. Checking the options:\n   - Option A matches the correct formulation.\n   - Option B is incorrect because the backward reaction term is linear in $[HCl]$, which contradicts the stoichiometry of the reaction.\n   - Option C is incorrect because it implies the forward reaction depends on $[H]^2[Cl_2]$, which doesn't align with the reaction $H_2 + Cl_2 \\rightarrow 2HCl$.\n\nThus, the correct answer is:\n\n$$\\boxed{A. \\quad \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2}$$",
+            "ground_truth_answer": "The correct answer is A: $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1261,12 +1261,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Determine the rate of the forward reaction based on the law of mass action. For \\( H_2 + Cl_2 \\rightarrow 2HCl \\), the rate is given by \\( \\text{Rate}_{\\text{forward}} = K_F[H_2][Cl_2] \\).",
+                            "text": "Step 1: Determine the rate of the forward reaction based on the law of mass action. For $H_2 + Cl_2 \\rightarrow 2HCl$, the rate is given by $\\text{Rate}_{\\text{forward}} = K_F[H_2][Cl_2]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Determine the rate of the forward reaction. Assume \\( \\text{Rate}_{\\text{forward}} = K_F[H]^2[Cl_2] \\).",
+                            "text": "Step 1: Determine the rate of the forward reaction. Assume $\\text{Rate}_{\\text{forward}} = K_F[H]^2[Cl_2]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1277,12 +1277,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Determine the rate of the backward reaction based on the law of mass action. For \\( 2HCl \\rightarrow H_2 + Cl_2 \\), the rate is given by \\( \\text{Rate}_{\\text{backward}} = K_B[HCl]^2 \\).",
+                            "text": "Step 2: Determine the rate of the backward reaction based on the law of mass action. For $2HCl \\rightarrow H_2 + Cl_2$, the rate is given by $\\text{Rate}_{\\text{backward}} = K_B[HCl]^2$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Determine the rate of the backward reaction. Assume \\( \\text{Rate}_{\\text{backward}} = K_B[HCl] \\).",
+                            "text": "Step 2: Determine the rate of the backward reaction. Assume $\\text{Rate}_{\\text{backward}} = K_B[HCl]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1293,12 +1293,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: \\( \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2 \\).",
+                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: \\( \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl] \\).",
+                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1334,9 +1334,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients: \\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\] Set initial values to be \\( 0 \\, \\text{M} \\) for both mRNA and Protein concentration. \\n Instead of assuming the promoter is strong, try incorporating the Hill equation into the transcription rate ODE by referencing 2.3.4. Set \\( [TF] = 0.01 \\, \\text{M}, \\, n = 1 \\) and \\( K_d = 10^{-6} \\, \\text{M} \\).",
-            "ground_truth_solution": "Use the Hill equation to describe the transcription rate: \\[ \\frac{d[\\text{mRNA}]}{dt} = \\frac{k_\\text{TX} [\\text{TF}]^n}{K_d + [\\text{TF}]^n} - \\delta_\\text{mRNA} [\\text{mRNA}] \\] \\n Set \\( [\\text{TF}] = 0.01 \\, \\text{M}, n = 1, K_d = 10^{-6} \\, \\text{M} \\). Substitute into the Hill equation: \\[ \\frac{k_\\text{TX} [\\text{TF}]}{K_d + [\\text{TF}]} = \\frac{0.001 \\cdot 0.01}{10^{-6} + 0.01} \\approx 0.000999 \\, \\text{M/s} \\] \\n Simulate the system with this transcription rate.",
-            "ground_truth_answer": "Incorporating the Hill equation modifies the transcription rate to depend on \\([TF]\\). The transcription rate becomes approximately 0.000999 M/s with the given parameters. This change reflects the cooperative nature of transcription.",
+            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients:\n\n$$k_{TX} = 0.001\\, \\text{M/s}; \\, \\delta_{mRNA} = 0.001\\, \\text{s}^{-1}; \\, k_{TL} = 0.002\\, \\text{s}^{-1}; \\, \\delta_{Protein} = 0.001\\, \\text{s}^{-1}.$$\n\nSet initial values to be $0$ M for both mRNA and Protein concentration.\n\nInstead of assuming the promoter is strong, try incorporating the Hill equation into the transcription rate ODE. Set $[TF] = 0.01$ M, $n = 1$ and $K_d = 10^{-6}$ M.",
+            "ground_truth_solution": "Use the Hill equation to describe the transcription rate:\n\n$$\\frac{d[\\text{mRNA}]}{dt} = \\frac{k_{TX} [\\text{TF}]^n}{K_d + [\\text{TF}]^n} - \\delta_{mRNA} [\\text{mRNA}]$$\n\nSet $[\\text{TF}] = 0.01$ M, $n = 1$, $K_d = 10^{-6}$ M. Substitute into the Hill equation:\n\n$$\\frac{k_{TX} [\\text{TF}]}{K_d + [\\text{TF}]} = \\frac{0.001 \\cdot 0.01}{10^{-6} + 0.01} \\approx 0.000999\\, \\text{M/s}$$\n\nSimulate the system with this transcription rate.",
+            "ground_truth_answer": "Incorporating the Hill equation modifies the transcription rate to depend on $[TF]$. The transcription rate becomes approximately $0.000999$ M/s with the given parameters. This change reflects the cooperative nature of transcription.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1357,12 +1357,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Write the transcription rate ODE using the Hill equation: \\( \\frac{d[\\text{mRNA}]}{dt} = \\frac{k_\\text{TX} [\\text{TF}]^n}{K_d + [\\text{TF}]^n} - \\delta_\\text{mRNA} [\\text{mRNA}] \\).",
+                            "text": "Step 1: Write the transcription rate ODE using the Hill equation: $$\\frac{d[\\text{mRNA}]}{dt} = \\frac{k_{TX} [\\text{TF}]^n}{K_d + [\\text{TF}]^n} - \\delta_{mRNA} [\\text{mRNA}]$$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Write the transcription rate ODE without the Hill equation: \\( \\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} - \\delta_\\text{mRNA} [\\text{mRNA}] \\).",
+                            "text": "Step 1: Write the transcription rate ODE without the Hill equation: $$\\frac{d[\\text{mRNA}]}{dt} = k_{TX} - \\delta_{mRNA} [\\text{mRNA}]$$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1373,7 +1373,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Substitute the given values into the Hill equation: \\( [\\text{TF}] = 0.01 \\, \\text{M}, n = 1, K_d = 10^{-6} \\, \\text{M} \\).",
+                            "text": "Step 2: Substitute the given values into the Hill equation: $[\\text{TF}] = 0.01$ M, $n = 1$, $K_d = 10^{-6}$ M.",
                             "rating": 1,
                             "flagged": null
                         },
@@ -1389,12 +1389,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Compute the transcription rate: \\( \\frac{k_\\text{TX} [\\text{TF}]}{K_d + [\\text{TF}]} = \\frac{0.001 \\cdot 0.01}{10^{-6} + 0.01} \\approx 0.000999 \\, \\text{M/s} \\).",
+                            "text": "Step 3: Compute the transcription rate: $$\\frac{k_{TX} [\\text{TF}]}{K_d + [\\text{TF}]} = \\frac{0.001 \\cdot 0.01}{10^{-6} + 0.01} \\approx 0.000999\\, \\text{M/s}$$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Compute the transcription rate without considering \\( K_d \\): \\( \\frac{k_\\text{TX} [\\text{TF}]}{[\\text{TF}]} = 0.001 \\).",
+                            "text": "Step 3: Compute the transcription rate without considering $K_d$: $$\\frac{k_{TX} [\\text{TF}]}{[\\text{TF}]} = 0.001$$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1405,12 +1405,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Conclude that the transcription rate with the Hill equation approximately equals \\( 0.000999 \\, \\text{M/s} \\), and simulate the system accordingly.",
+                            "text": "Step 4: Conclude that the transcription rate with the Hill equation approximately equals $0.000999$ M/s, and simulate the system accordingly.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Conclude that the transcription rate equals \\( 0.001 \\, \\text{M/s} \\) without incorporating the Hill equation.",
+                            "text": "Step 4: Conclude that the transcription rate equals $0.001$ M/s without incorporating the Hill equation.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1430,8 +1430,8 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "For this coding challenge, we use the equations we derived using SI units, as oppose to the equations in the original paper. We first set the constants as follows:\\[a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};\\] \\[K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;\\]\\[\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};\\]\\[\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.\\]\\n\\n Set initial values to be \\( 0.1 \\, \\text{M} \\) for \\( \\text{mRNA1} \\) and \\( \\text{Protein1} \\), and \\( 0 \\, \\text{M} \\) for \\( \\text{mRNA2}, \\text{Protein2}, \\text{mRNA3} \\) and \\( \\text{Protein3} \\).\\n Define the above constants in your code.",
-            "ground_truth_solution": "The constants are defined as follows:\\n\\[ a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s},\\]\\n \\[ K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2,\\]\\n \\[\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1}, \\]\\n \\[ \\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}. \\]\\n **Initial Values:**\\n  - \\( \\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M} \\),\\n  - \\( \\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M} \\),\\n     - \\( \\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M} \\).",
+            "problem": "For this coding challenge, we use the equations we derived using SI units, as oppose to the equations in the original paper. We first set the constants as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial values to be $0.1 \\, \\text{M}$ for $\\text{mRNA1}$ and $\\text{Protein1}$, and $0 \\, \\text{M}$ for $\\text{mRNA2}, \\text{Protein2}, \\text{mRNA3}$ and $\\text{Protein3}$. Define the above constants in your code.",
+            "ground_truth_solution": "The constants are defined as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s},$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2,$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1},$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nInitial Values:\n\n- $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M},$\n\n- $\\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M},$\n\n- $\\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M}.$",
             "ground_truth_answer": "Define the constants in code using the provided equations and parameters. The initial values should align with the described setup: mRNA1 = 0.1 M, Protein1 = 0.1 M, and all other components set to 0 M.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
@@ -1453,12 +1453,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define the transcription rates: \\( a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s} \\), \\( a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s} \\).",
+                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define the transcription rates: \\( a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s} \\), \\( a_0 = a_{0_2} = a_{0_3} = 10^{-3} \\, \\text{M/s} \\).",
+                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-3} \\, \\text{M/s}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1469,12 +1469,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Define the dissociation constants and Hill coefficients: \\( K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, n_1 = n_2 = n_3 = 2 \\).",
+                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Define the dissociation constants and Hill coefficients: \\( K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-3} \\, \\text{M}, n_1 = n_2 = n_3 = 2 \\).",
+                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-3} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1485,12 +1485,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Define the degradation and translation rates: \\( \\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Define the degradation and translation rates: \\( \\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.001 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.001 \\, \\text{s}^{-1}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1501,12 +1501,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Set initial values for concentrations: \\( \\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M} \\), \\( \\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0 \\, \\text{M} \\).",
+                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0 \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Set initial values for concentrations: \\( \\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M} \\), \\( \\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0.1 \\, \\text{M} \\).",
+                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0.1 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1526,9 +1526,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Calculate \\( \\theta \\), the proportion of bound \\( A \\) to total \\( A \\) molecules, in the binding reaction: \\( A + B \\rightleftharpoons C \\).\\begin{enumerate} \\item[A.] \\( \\theta = \\frac{[C]}{[A] + [C]} \\) \\item[B.] \\( \\theta = \\frac{[B]}{[A] + [C]} \\) \\item[C.] \\( \\theta = \\frac{[A]}{[A] + [C]} \\) \\end{enumerate}",
-            "ground_truth_solution": "1. \\textbf{Definition of \\( \\theta \\):} \\\\ \\( \\theta \\) is defined as the proportion of bound \\( A \\) (in the form of the complex \\( C \\)) to the total \\( A \\) molecules (both bound and unbound).\\n 2. \\textbf{Total \\( A \\) molecules:} \\\\   The total \\( A \\) molecules include: \\begin{itemize} \\item \\( [A] \\): The free (unbound) \\( A \\) molecules. \\item \\( [C] \\): The \\( A \\) molecules that are bound (forming the complex \\( C \\)). \\end{itemize} Hence, the total \\( A \\) molecules = \\( [A] + [C] \\).\\n 3. \\textbf{Proportion of bound \\( A \\):} \\\\   The proportion of bound \\( A \\) is given by: \\[ \\theta = \\frac{\\text{Bound A molecules}}{\\text{Total A molecules}} = \\frac{[C]}{[A] + [C]}\\]\\n Thus, the correct option is:\\[\\boxed{\\textbf{A.} \\quad \\theta = \\frac{[C]}{[A] + [C]}}\\]",
-            "ground_truth_answer": "The correct answer is \\( \\textbf{A:} \\theta = \\frac{[C]}{[A] + [C]} \\).",
+            "problem": "Calculate $\\theta$, the proportion of bound $A$ to total $A$ molecules, in the binding reaction: $A + B \\rightleftharpoons C$.\n\nA. $\\theta = \\frac{[C]}{[A] + [C]}$\nB. $\\theta = \\frac{[B]}{[A] + [C]}$\nC. $\\theta = \\frac{[A]}{[A] + [C]}$",
+            "ground_truth_solution": "1. Definition of $\\theta$:\n   $\\theta$ is defined as the proportion of bound $A$ (in the form of the complex $C$) to the total $A$ molecules (both bound and unbound).\n\n2. Total $A$ molecules:\n   The total $A$ molecules include:\n   - $[A]$: The free (unbound) $A$ molecules.\n   - $[C]$: The $A$ molecules that are bound (forming the complex $C$).\n   Hence, the total $A$ molecules = $[A] + [C]$.\n\n3. Proportion of bound $A$:\n   The proportion of bound $A$ is given by:\n   $$\\theta = \\frac{\\text{Bound A molecules}}{\\text{Total A molecules}} = \\frac{[C]}{[A] + [C]}$$\n\nThus, the correct option is:\n$$\\boxed{A. \\quad \\theta = \\frac{[C]}{[A] + [C]}}$$",
+            "ground_truth_answer": "The correct answer is A: $$\\theta = \\frac{[C]}{[A] + [C]}$$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1538,7 +1538,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: \\( \\theta \\) represents the fraction of total \\( A \\) molecules that are in the bound state (forming complex \\( C \\)). It is calculated as the ratio of bound \\( A \\) to total \\( A \\) (both bound and unbound).",
+                            "text": "Knowledge point: $\\theta$ represents the fraction of total $A$ molecules that are in the bound state (forming complex $C$). It is calculated as the ratio of bound $A$ to total $A$ (both bound and unbound).",
                             "rating": 1,
                             "flagged": null
                         }
@@ -1549,12 +1549,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Identify the components of total \\( A \\) molecules. These include: (1) free (unbound) \\( A \\), represented by \\( [A] \\), and (2) bound \\( A \\) in the form of the complex \\( C \\), represented by \\( [C] \\).",
+                            "text": "Step 1: Identify the components of total $A$ molecules. These include: (1) free (unbound) $A$, represented by $[A]$, and (2) bound $A$ in the form of the complex $C$, represented by $[C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Assume the total \\( A \\) molecules are equal to just the free \\( A \\) concentration, \\( [A] \\).",
+                            "text": "Step 1: Assume the total $A$ molecules are equal to just the free $A$ concentration, $[A]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1565,12 +1565,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Calculate the total \\( A \\) molecules by summing the free \\( A \\) molecules \\( [A] \\) and the bound \\( A \\) molecules \\( [C] \\). Total \\( A \\) = \\( [A] + [C] \\).",
+                            "text": "Step 2: Calculate the total $A$ molecules by summing the free $A$ molecules $[A]$ and the bound $A$ molecules $[C]$. Total $A$ = $[A] + [C]$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Assume the total \\( A \\) is equal to \\( [A] + [B] \\).",
+                            "text": "Step 2: Assume the total $A$ is equal to $[A] + [B]$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1581,12 +1581,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Define \\( \\theta \\) as the fraction of bound \\( A \\) (in the form of \\( C \\)) to total \\( A \\): \\( \\theta = \\frac{[C]}{[A] + [C]} \\).",
+                            "text": "Step 3: Define $\\theta$ as the fraction of bound $A$ (in the form of $C$) to total $A$: $\\theta = \\frac{[C]}{[A] + [C]}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Define \\( \\theta \\) as the fraction of bound \\( A \\) (in the form of \\( C \\)) to total molecules, assuming \\( \\theta = \\frac{[C]}{[A] + [B]} \\).",
+                            "text": "Step 3: Define $\\theta$ as the fraction of bound $A$ (in the form of $C$) to total molecules, assuming $\\theta = \\frac{[C]}{[A] + [B]}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1597,12 +1597,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Verify that the correct option is \\( \\textbf{A.} \\quad \\theta = \\frac{[C]}{[A] + [C]} \\). Options \\( \\textbf{B} \\) and \\( \\textbf{C} \\) are incorrect due to misrepresentations of the formula.",
+                            "text": "Step 4: Verify that the correct option is A: $\\theta = \\frac{[C]}{[A] + [C]}$. Options B and C are incorrect due to misrepresentations of the formula.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Verify that the correct option is \\( \\textbf{B.} \\quad \\theta = \\frac{[B]}{[A] + [C]} \\).",
+                            "text": "Step 4: Verify that the correct option is B: $\\theta = \\frac{[B]}{[A] + [C]}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1622,9 +1622,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation \\( A + B \\rightleftharpoons C \\), where the association rate constant \\( k_a = 0.05\\,\\text{s}^{-1}\\text{M}^{-1} \\) and the dissociation rate constant \\( k_d = 0.00001\\,\\text{s}^{-1} \\). Initial concentrations for \\( A, B \\) and \\( C \\) are \\( 1, 5 \\) and \\( 0\\,\\text{M} \\) respectively. We assume the Hill coefficient \\( n = 1 \\). \\textbf{Hill Equation} \n Calculate the value of the apparent dissociation rate constant, \\( K_d \\).",
-            "ground_truth_solution": "\\[K_d = \\frac{k_d}{k_a}\\] \\n Given:\\[k_a = 0.05 \\, \\text{s}^{-1} \\, \\text{M}^{-1}, \\quad k_d = 0.00001 \\, \\text{s}^{-1}\\] \\n Substituting the values: \\n \\[K_d = \\frac{0.00001}{0.05} = 0.0002 \\, \\text{M}\\] \\n \\textbf{Answer:}\\[ K_d = 0.0002 \\, \\text{M} \\]",
-            "ground_truth_answer": "The apparent dissociation constant is \\( K_d = 0.0002 \\, \\text{M} \\).",
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$ and the dissociation rate constant $k_d = 0.00001\\, \\text{s}^{-1}$. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Hill Equation\nCalculate the value of the apparent dissociation rate constant, $K_d$.",
+            "ground_truth_solution": "$$K_d = \\frac{k_d}{k_a}$$\nGiven:\n$$k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}, \\quad k_d = 0.00001\\, \\text{s}^{-1}$$\nSubstituting the values:\n$$K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$$\nAnswer:\n$$K_d = 0.0002\\, \\text{M}$$",
+            "ground_truth_answer": "The apparent dissociation constant is $K_d = 0.0002\\, \\text{M}$.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1634,7 +1634,7 @@
                 {
                     "completions": [
                         {
-                            "text": "Knowledge point: The dissociation constant \\( K_d \\) is defined as the ratio of the dissociation rate constant \\( k_d \\) to the association rate constant \\( k_a \\). This represents the equilibrium constant for the reverse reaction.",
+                            "text": "Knowledge point: The dissociation constant $K_d$ is defined as the ratio of the dissociation rate constant $k_d$ to the association rate constant $k_a$. This represents the equilibrium constant for the reverse reaction.",
                             "rating": 1,
                             "flagged": null
                         }
@@ -1645,12 +1645,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Write the formula for the dissociation constant: \\( K_d = \\frac{k_d}{k_a} \\).",
+                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = \\frac{k_d}{k_a}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Write the formula for the dissociation constant: \\( K_d = k_d \\cdot k_a \\).",
+                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = k_d \\cdot k_a$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1661,12 +1661,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Substitute the given values into the formula: \\( k_d = 0.00001 \\, \\text{s}^{-1} \\), \\( k_a = 0.05 \\, \\text{s}^{-1} \\, \\text{M}^{-1} \\).",
+                            "text": "Step 2: Substitute the given values into the formula: $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Substitute the given values into the formula \\( K_d = k_d \\cdot k_a \\), with \\( k_d = 0.00001 \\, \\text{s}^{-1} \\), \\( k_a = 0.05 \\, \\text{s}^{-1} \\, \\text{M}^{-1} \\).",
+                            "text": "Step 2: Substitute the given values into the formula $K_d = k_d \\cdot k_a$, with $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1677,12 +1677,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Perform the calculation: \\( K_d = \\frac{0.00001}{0.05} = 0.0002 \\, \\text{M} \\).",
+                            "text": "Step 3: Perform the calculation: $K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Perform the calculation: \\( K_d = 0.00001 \\cdot 0.05 = 0.0000005 \\, \\text{M} \\).",
+                            "text": "Step 3: Perform the calculation: $K_d = 0.00001 \\cdot 0.05 = 0.0000005\\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1693,12 +1693,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Conclude that \\( K_d = 0.0002 \\, \\text{M} \\), matching the correct formula and calculations.",
+                            "text": "Step 4: Conclude that $K_d = 0.0002\\, \\text{M}$, matching the correct formula and calculations.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Conclude that \\( K_d = 0.0000005 \\, \\text{M} \\).",
+                            "text": "Step 4: Conclude that $K_d = 0.0000005\\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1718,9 +1718,9 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the above models with the following constants:\\[k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.\\] Set initial mRNA and protein concentration to be \\( 0 \\, \\text{M} \\) and \\( 10^{-7} \\, \\text{M} \\), respectively. Vary initial protein concentration to observe how steady state is always eventually reached, no matter how small protein concentration is (noting that this is because our model is continuous, not discrete).",
-            "ground_truth_solution": "Modify the initial protein concentration (\\( [\\text{Protein}]_0 \\)) to smaller and larger values (e.g., \\( 10^{-9} \\, \\text{M}, 10^{-6} \\, \\text{M} \\)) and observe the steady-state behavior. The steady state should be the same regardless of the initial protein concentration.",
-            "ground_truth_answer": "The steady state of the system is independent of the initial protein concentration due to the continuous nature of the model. This is observed by varying \\( [\\text{Protein}]_0 \\) and simulating the system dynamics.",
+            "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $10^{-7} \\, \\text{M}$, respectively. Vary initial protein concentration to observe how steady state is always eventually reached, no matter how small protein concentration is (noting that this is because our model is continuous, not discrete).",
+            "ground_truth_solution": "Modify the initial protein concentration ($[\\text{Protein}]_0$) to smaller and larger values (e.g., $10^{-9} \\, \\text{M}, 10^{-6} \\, \\text{M}$) and observe the steady-state behavior. The steady state should be the same regardless of the initial protein concentration.",
+            "ground_truth_answer": "The steady state of the system is independent of the initial protein concentration due to the continuous nature of the model. This is observed by varying $[\\text{Protein}]_0$ and simulating the system dynamics.",
             "pre_generated_steps": [],
             "pre_generated_answer": "",
             "pre_generated_verifier_score": 1.0
@@ -1741,12 +1741,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 1: Define constants: \\( k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Define constants: $k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-8} \\, \\text{M}, n = 1, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 1: Define constants: \\( k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1} \\).",
+                            "text": "Step 1: Define constants: $k_\\text{TX} = 0.001 \\, \\text{M/s}, K_d = 10^{-6} \\, \\text{M}, n = 2, \\delta_\\text{mRNA} = 0.002 \\, \\text{s}^{-1}, k_\\text{TL} = 0.001 \\, \\text{s}^{-1}, \\delta_\\text{Protein} = 0.002 \\, \\text{s}^{-1}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1757,12 +1757,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 2: Set initial mRNA and protein concentrations: \\( [\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 10^{-7} \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial mRNA and protein concentrations: $[\\text{mRNA}] = 0 \\, \\text{M}, [\\text{Protein}] = 10^{-7} \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 2: Set initial mRNA and protein concentrations: \\( [\\text{mRNA}] = 10^{-7} \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M} \\).",
+                            "text": "Step 2: Set initial mRNA and protein concentrations: $[\\text{mRNA}] = 10^{-7} \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1773,12 +1773,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 3: Vary the initial protein concentration, e.g., \\( [\\text{Protein}]_0 = 10^{-9} \\, \\text{M} \\) and \\( [\\text{Protein}]_0 = 10^{-6} \\, \\text{M} \\).",
+                            "text": "Step 3: Vary the initial protein concentration, e.g., $[\\text{Protein}]_0 = 10^{-9} \\, \\text{M}$ and $[\\text{Protein}]_0 = 10^{-6} \\, \\text{M}$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 3: Vary the initial protein concentration, e.g., \\( [\\text{Protein}]_0 = 10^{-7} \\, \\text{M} \\) only.",
+                            "text": "Step 3: Vary the initial protein concentration, e.g., $[\\text{Protein}]_0 = 10^{-7} \\, \\text{M}$ only.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -1789,12 +1789,12 @@
                 {
                     "completions": [
                         {
-                            "text": "Step 4: Simulate the system and observe that the steady state is independent of \\( [\\text{Protein}]_0 \\).",
+                            "text": "Step 4: Simulate the system and observe that the steady state is independent of $[\\text{Protein}]_0$.",
                             "rating": 1,
                             "flagged": null
                         },
                         {
-                            "text": "Step 4: Simulate the system and conclude that the steady state varies significantly with \\( [\\text{Protein}]_0 \\).",
+                            "text": "Step 4: Simulate the system and conclude that the steady state varies significantly with $[\\text{Protein}]_0$.",
                             "rating": -1,
                             "flagged": null
                         }
