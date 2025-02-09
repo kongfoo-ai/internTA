@@ -6,6 +6,102 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
+            "problem": "Given the chemical equation for the production of hydrogen chloride from hydrogen and chloride, find the correct rate equation for hydrogen chloride (given that the forward reaction rate is equal to $K_F$ and the backward reaction rate is equal to $K_B$):\n $H_2 + Cl_2 \\rightleftharpoons 2HCl$.\n \n A. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$\n B. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$\n C. $\\frac{d[HCl]}{dt} = +K_F[H]^2[Cl_2] - K_B[HCl]^2$",
+            "ground_truth_solution": "1. Forward reaction:\n   The forward reaction is $H_2 + Cl_2 \\rightarrow 2HCl$. According to the law of mass action, the rate of the forward reaction is proportional to the concentrations of $H_2$ and $Cl_2$. Therefore:\n\n   $$\\text{Rate}_{\\text{forward}} = K_F [H_2][Cl_2]$$\n\n2. Backward reaction:\n   The backward reaction is $2HCl \\rightarrow H_2 + Cl_2$. According to the law of mass action, the rate of the backward reaction is proportional to the square of the concentration of $HCl$, since 2 molecules of $HCl$ are involved. Therefore:\n\n   $$\\text{Rate}_{\\text{backward}} = K_B [HCl]^2$$\n\n3. Net rate of change:\n   The net rate of change of $[HCl]$ is the forward rate minus the backward rate:\n\n   $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$\n\n4. Checking the options:\n   - Option A matches the correct formulation.\n   - Option B is incorrect because the backward reaction term is linear in $[HCl]$, which contradicts the stoichiometry of the reaction.\n   - Option C is incorrect because it implies the forward reaction depends on $[H]^2[Cl_2]$, which doesn't align with the reaction $H_2 + Cl_2 \\rightarrow 2HCl$.\n\nThus, the correct answer is:\n\n$$\\boxed{A. \\quad \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2}$$",
+            "ground_truth_answer": "The correct answer is A: $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: The law of mass action is used to determine the rate equations for the forward and backward reactions, proportional to the respective concentrations of reactants or products raised to the power of their stoichiometric coefficients.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Determine the rate of the forward reaction based on the law of mass action. For $H_2 + Cl_2 \\rightarrow 2HCl$, the rate is given by $\\text{Rate}_{\\text{forward}} = K_F[H_2][Cl_2]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Determine the rate of the forward reaction. Assume $\\text{Rate}_{\\text{forward}} = K_F[H]^2[Cl_2]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Determine the rate of the backward reaction based on the law of mass action. For $2HCl \\rightarrow H_2 + Cl_2$, the rate is given by $\\text{Rate}_{\\text{backward}} = K_B[HCl]^2$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Determine the rate of the backward reaction. Assume $\\text{Rate}_{\\text{backward}} = K_B[HCl]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Verify the options and select the correct one. Option A matches the derived equation, while options B and C are incorrect due to misrepresentation of reaction orders.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Verify the options and select the correct one. Option C matches the derived equation.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
             "problem": "Calculate $\\theta$, the proportion of bound $A$ to total $A$ molecules, in the binding reaction: $A + B \\rightleftharpoons C$.\n\nA. $\\theta = \\frac{[C]}{[A] + [C]}$\nB. $\\theta = \\frac{[B]}{[A] + [C]}$\nC. $\\theta = \\frac{[A]}{[A] + [C]}$",
             "ground_truth_solution": "1. Definition of $\\theta$:\n   $\\theta$ is defined as the proportion of bound $A$ (in the form of the complex $C$) to the total $A$ molecules (both bound and unbound).\n\n2. Total $A$ molecules:\n   The total $A$ molecules include:\n   - $[A]$: The free (unbound) $A$ molecules.\n   - $[C]$: The $A$ molecules that are bound (forming the complex $C$).\n   Hence, the total $A$ molecules = $[A] + [C]$.\n\n3. Proportion of bound $A$:\n   The proportion of bound $A$ is given by:\n   $$\\theta = \\frac{\\text{Bound A molecules}}{\\text{Total A molecules}} = \\frac{[C]}{[A] + [C]}$$\n\nThus, the correct option is:\n$$\\boxed{A. \\quad \\theta = \\frac{[C]}{[A] + [C]}}$$",
             "ground_truth_answer": "The correct answer is A: $$\\theta = \\frac{[C]}{[A] + [C]}$$.",
@@ -102,6 +198,102 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$ and the dissociation rate constant $k_d = 0.00001\\, \\text{s}^{-1}$. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Hill Equation\nCalculate the value of the apparent dissociation rate constant, $K_d$.",
+            "ground_truth_solution": "$$K_d = \\frac{k_d}{k_a}$$\nGiven:\n$$k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}, \\quad k_d = 0.00001\\, \\text{s}^{-1}$$\nSubstituting the values:\n$$K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$$\nAnswer:\n$$K_d = 0.0002\\, \\text{M}$$",
+            "ground_truth_answer": "The apparent dissociation constant is $K_d = 0.0002\\, \\text{M}$.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: The dissociation constant $K_d$ is defined as the ratio of the dissociation rate constant $k_d$ to the association rate constant $k_a$. This represents the equilibrium constant for the reverse reaction.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = \\frac{k_d}{k_a}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = k_d \\cdot k_a$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Substitute the given values into the formula: $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Substitute the given values into the formula $K_d = k_d \\cdot k_a$, with $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Perform the calculation: $K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Perform the calculation: $K_d = 0.00001 \\cdot 0.05 = 0.0000005\\, \\text{M}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Conclude that $K_d = 0.0002\\, \\text{M}$, matching the correct formula and calculations.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Conclude that $K_d = 0.0000005\\, \\text{M}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
             "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. $K_d = 0.0002$ M\nCalculate the Hill equation, $\\theta$.",
             "ground_truth_solution": "Calculate the Hill equation, $\\theta$:\n\n$$\\theta = \\frac{[B]^n}{K_d + [B]^n}$$\n\nGiven:\n$$[B] = 5\\, \\text{M}, \\quad K_d = 0.0002\\, \\text{M}, \\quad n = 1$$\n\nSubstituting the values:\n$$\\theta = \\frac{5^1}{0.0002 + 5^1} = \\frac{5}{5.0002}$$\n\nSimplify:\n$$\\theta \\approx 0.99996$$\n\nAnswer:\n$$\\theta \\approx 0.99996$$",
             "ground_truth_answer": "$\\theta \\approx 0.99996$",
@@ -179,6 +371,470 @@
                         },
                         {
                             "text": "Step 4: Approximate the value: $\\theta \\approx 0.00004$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. $K_d = 0.0002$ M, $\\theta \\approx 0.99996$. Hill Equation\nCalculate the expected concentrations for the complex $C$ and the unbound $A$ molecules.",
+            "ground_truth_solution": "Calculate the expected concentrations for the complex $C$ and the unbound $A$ molecules:\n\nUsing the Hill equation, the concentration of the complex $[C]$ is given by:\n\n$$[C] = [A_{initial}] \\cdot \\theta$$\n\nGiven:\n$$[A_{initial}] = 1\\, \\text{M}, \\quad \\theta \\approx 0.99996$$\n\nSubstituting the values:\n$$[C] = 1 \\cdot 0.99996 \\approx 0.99996\\, \\text{M}$$\n\nThe unbound $[A]$ is given by:\n\n$$[A] = [A_{initial}] - [C]$$\n\nSubstituting the values:\n$$[A] = 1 - 0.99996 \\approx 0.00004\\, \\text{M}$$\n\nAnswers:\n$$[C] \\approx 0.99996\\, \\text{M}, \\quad [A] \\approx 0.00004\\, \\text{M}$$",
+            "ground_truth_answer": "The expected concentrations are $[C] \\approx 0.99996\\, \\text{M}$ and $[A] \\approx 0.00004\\, \\text{M}$.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: The Hill equation allows calculation of the fraction of binding sites occupied, $\\theta$, and subsequent concentrations of bound and unbound components.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = [A_{initial}] \\cdot \\theta$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = \\theta \\cdot [C_{initial}]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 \\cdot 0.99996 = 0.99996\\, \\text{M}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 + 0.99996 = 1.99996\\, \\text{M}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [A_{initial}] - [C]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [C] - [A_{initial}]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 1 - 0.99996 = 0.00004\\, \\text{M}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 0.99996 - 1 = -0.00004\\, \\text{M}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. ODEs (This will be a lot trickier, since knowledge of ODE solvers is necessary)\n(a) Using mass action kinetics, define the three ODEs necessary to describe the full dynamics of this system.",
+            "ground_truth_solution": "For the reaction $A + B \\rightleftharpoons C$, the rate equations are:\n\n1. Rate of change of $A$:\n\n$$\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$$\n\n2. Rate of change of $B$:\n\n$$\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$$\n\n3. Rate of change of $C$:\n\n$$\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$$\n\nThese equations describe the dynamics of the concentrations of $A$, $B$, and $C$ over time, incorporating both the forward and backward reaction rates.",
+            "ground_truth_answer": "The ODEs are $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: Mass action kinetics describes how reaction rates are proportional to the product of the concentrations of reactants, raised to their stoichiometric coefficients.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Considering that cell processes take many minutes or hours, is the quasi-stationary assumption a valid assumption?",
+            "ground_truth_solution": "The Hill equation assumes that the binding reaction reaches equilibrium instantaneously compared to other processes. For this system, the binding reaction is fast ($k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}), making the assumption valid. However, for slower reactions, the assumption may not hold.",
+            "ground_truth_answer": "Yes, the quasi-stationary assumption is valid as the binding reaction is much faster than cellular processes.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: The quasi-stationary assumption assumes that the binding reaction reaches equilibrium rapidly compared to the timescale of other processes.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a fast binding reaction.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a slow binding reaction.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Compare the reaction timescale with the timescale of cell processes, noting that cell processes typically occur over minutes or hours.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Compare the reaction timescale with the timescale of cell processes, assuming that cell processes occur over seconds.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Conclude that the binding reaction is much faster than cellular processes, making the quasi-stationary assumption valid.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Conclude that the binding reaction is comparable to the timescale of cellular processes, making the quasi-stationary assumption invalid.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients:\n\n$$k_{TX} = 0.001\\, \\text{M/s}; \\, \\delta_{mRNA} = 0.001\\, \\text{s}^{-1}; \\, k_{TL} = 0.002\\, \\text{s}^{-1}; \\, \\delta_{Protein} = 0.001\\, \\text{s}^{-1}.$$\n\nSet initial values to be $0$ M for both mRNA and Protein concentration. First, consider the dynamics of the system. No protein can be produced until there is some mRNA, but once transcribed, protein translates at a faster rate. How do you expect the graphs of concentration against time to appear?",
+            "ground_truth_solution": "**Dynamics of the System:**\n- No protein can be produced until mRNA is transcribed.\n- Once mRNA is transcribed, protein production (translation) begins at a faster rate.\n- mRNA will stabilize first as transcription and degradation balance out.\n- Protein will stabilize later as it depends on mRNA availability.\n\n**Expected Graphs:**\n- The mRNA concentration will rise rapidly and stabilize.\n- The protein concentration will show a delayed rise and stabilize after mRNA.",
+            "ground_truth_answer": "The mRNA concentration rises rapidly and stabilizes, while the protein concentration shows a delayed rise and stabilizes later due to its dependency on mRNA availability.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: In systems governed by transcription and translation kinetics, mRNA production precedes protein production, and their rates of stabilization differ due to the dependency of protein production on mRNA.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Analyze the transcription dynamics. mRNA production begins immediately and stabilizes as $k_{TX}$ balances with $\\delta_{mRNA}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Analyze the transcription dynamics. mRNA production starts slowly and stabilizes as $k_{TX}$ balances with $\\delta_{Protein}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Analyze the translation dynamics. Protein production starts after mRNA transcription and occurs at a faster rate, governed by $k_{TL}$ and $\\delta_{Protein}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Analyze the translation dynamics. Protein production begins simultaneously with mRNA transcription and occurs at a slower rate.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Conclude that mRNA concentration rises rapidly and stabilizes due to the balance between transcription and degradation rates.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Conclude that mRNA concentration rises slowly and stabilizes due to the dependency on protein production.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Conclude that protein concentration shows a delayed rise and stabilizes after mRNA concentration stabilizes, due to the dependency on mRNA.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Conclude that protein concentration rises simultaneously with mRNA and stabilizes at the same time.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                }
+            ],
+            "total_time": 30000,
+            "finish_reason": "complete"
+        }
+    },
+    {
+        "labeler": "unique-id-placeholder",
+        "timestamp": "2025-01-14T12:00:00.000000",
+        "generation": 1,
+        "is_quality_control_question": false,
+        "is_initial_screening_question": false,
+        "question": {
+            "problem": "For this coding challenge, we use the equations we derived using SI units, as oppose to the equations in the original paper. We first set the constants as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial values to be $0.1 \\, \\text{M}$ for $\\text{mRNA1}$ and $\\text{Protein1}$, and $0 \\, \\text{M}$ for $\\text{mRNA2}, \\text{Protein2}, \\text{mRNA3}$ and $\\text{Protein3}$. Define the above constants in your code.",
+            "ground_truth_solution": "The constants are defined as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s},$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2,$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1},$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nInitial Values:\n\n- $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M},$\n\n- $\\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M},$\n\n- $\\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M}.$",
+            "ground_truth_answer": "Define the constants in code using the provided equations and parameters. The initial values should align with the described setup: mRNA1 = 0.1 M, Protein1 = 0.1 M, and all other components set to 0 M.",
+            "pre_generated_steps": [],
+            "pre_generated_answer": "",
+            "pre_generated_verifier_score": 1.0
+        },
+        "label": {
+            "steps": [
+                {
+                    "completions": [
+                        {
+                            "text": "Knowledge point: Constants define the rates and steady states for biochemical processes, ensuring correct simulation of transcription and translation dynamics.",
+                            "rating": 1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-3} \\, \\text{M/s}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-3} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.001 \\, \\text{s}^{-1}$.",
+                            "rating": -1,
+                            "flagged": null
+                        }
+                    ],
+                    "human_completion": null,
+                    "chosen_completion": 0
+                },
+                {
+                    "completions": [
+                        {
+                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0 \\, \\text{M}$.",
+                            "rating": 1,
+                            "flagged": null
+                        },
+                        {
+                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0.1 \\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
@@ -326,182 +982,6 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Considering that cell processes take many minutes or hours, is the quasi-stationary assumption a valid assumption?",
-            "ground_truth_solution": "The Hill equation assumes that the binding reaction reaches equilibrium instantaneously compared to other processes. For this system, the binding reaction is fast ($k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}), making the assumption valid. However, for slower reactions, the assumption may not hold.",
-            "ground_truth_answer": "Yes, the quasi-stationary assumption is valid as the binding reaction is much faster than cellular processes.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: The quasi-stationary assumption assumes that the binding reaction reaches equilibrium rapidly compared to the timescale of other processes.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a fast binding reaction.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Evaluate the rate constants $k_a = 0.05$ s^{-1}, $k_d = 0.00001$ s^{-1}, which indicate a slow binding reaction.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Compare the reaction timescale with the timescale of cell processes, noting that cell processes typically occur over minutes or hours.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Compare the reaction timescale with the timescale of cell processes, assuming that cell processes occur over seconds.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Conclude that the binding reaction is much faster than cellular processes, making the quasi-stationary assumption valid.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Conclude that the binding reaction is comparable to the timescale of cellular processes, making the quasi-stationary assumption invalid.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
-            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. $K_d = 0.0002$ M, $\\theta \\approx 0.99996$. Hill Equation\nCalculate the expected concentrations for the complex $C$ and the unbound $A$ molecules.",
-            "ground_truth_solution": "Calculate the expected concentrations for the complex $C$ and the unbound $A$ molecules:\n\nUsing the Hill equation, the concentration of the complex $[C]$ is given by:\n\n$$[C] = [A_{initial}] \\cdot \\theta$$\n\nGiven:\n$$[A_{initial}] = 1\\, \\text{M}, \\quad \\theta \\approx 0.99996$$\n\nSubstituting the values:\n$$[C] = 1 \\cdot 0.99996 \\approx 0.99996\\, \\text{M}$$\n\nThe unbound $[A]$ is given by:\n\n$$[A] = [A_{initial}] - [C]$$\n\nSubstituting the values:\n$$[A] = 1 - 0.99996 \\approx 0.00004\\, \\text{M}$$\n\nAnswers:\n$$[C] \\approx 0.99996\\, \\text{M}, \\quad [A] \\approx 0.00004\\, \\text{M}$$",
-            "ground_truth_answer": "The expected concentrations are $[C] \\approx 0.99996\\, \\text{M}$ and $[A] \\approx 0.00004\\, \\text{M}$.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: The Hill equation allows calculation of the fraction of binding sites occupied, $\\theta$, and subsequent concentrations of bound and unbound components.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = [A_{initial}] \\cdot \\theta$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Calculate the concentration of the complex $[C]$ using $[C] = \\theta \\cdot [C_{initial}]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 \\cdot 0.99996 = 0.99996\\, \\text{M}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $\\theta = 0.99996$. The calculation gives $[C] = 1 + 0.99996 = 1.99996\\, \\text{M}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [A_{initial}] - [C]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Calculate the unbound $[A]$ using $[A] = [C] - [A_{initial}]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 1 - 0.99996 = 0.00004\\, \\text{M}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Substitute the values: $[A_{initial}] = 1\\, \\text{M}$, $[C] = 0.99996\\, \\text{M}$. The calculation gives $[A] = 0.99996 - 1 = -0.00004\\, \\text{M}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
             "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Activation**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $10^{-7} \\, \\text{M}$, respectively.\n\nDefine the constants and ODEs in your code.",
             "ground_truth_solution": "The constants are:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}, \\quad K_d = 10^{-8} \\, \\text{M}, \\quad n = 1, \\quad \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = 0.002 \\, \\text{s}^{-1}, \\quad \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\nThe ODEs for the auto-activation model are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} - \\delta_\\text{mRNA}[\\text{mRNA}],$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].$",
             "ground_truth_answer": "The constants and ODEs have been defined, and the equations model the auto-activation process.",
@@ -598,198 +1078,6 @@
         "is_quality_control_question": false,
         "is_initial_screening_question": false,
         "question": {
-            "problem": "Consider the Total ODEs as above, with the following values for the rate coefficients:\n\n$$k_{TX} = 0.001\\, \\text{M/s}; \\, \\delta_{mRNA} = 0.001\\, \\text{s}^{-1}; \\, k_{TL} = 0.002\\, \\text{s}^{-1}; \\, \\delta_{Protein} = 0.001\\, \\text{s}^{-1}.$$\n\nSet initial values to be $0$ M for both mRNA and Protein concentration. First, consider the dynamics of the system. No protein can be produced until there is some mRNA, but once transcribed, protein translates at a faster rate. How do you expect the graphs of concentration against time to appear?",
-            "ground_truth_solution": "**Dynamics of the System:**\n- No protein can be produced until mRNA is transcribed.\n- Once mRNA is transcribed, protein production (translation) begins at a faster rate.\n- mRNA will stabilize first as transcription and degradation balance out.\n- Protein will stabilize later as it depends on mRNA availability.\n\n**Expected Graphs:**\n- The mRNA concentration will rise rapidly and stabilize.\n- The protein concentration will show a delayed rise and stabilize after mRNA.",
-            "ground_truth_answer": "The mRNA concentration rises rapidly and stabilizes, while the protein concentration shows a delayed rise and stabilizes later due to its dependency on mRNA availability.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: In systems governed by transcription and translation kinetics, mRNA production precedes protein production, and their rates of stabilization differ due to the dependency of protein production on mRNA.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Analyze the transcription dynamics. mRNA production begins immediately and stabilizes as $k_{TX}$ balances with $\\delta_{mRNA}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Analyze the transcription dynamics. mRNA production starts slowly and stabilizes as $k_{TX}$ balances with $\\delta_{Protein}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Analyze the translation dynamics. Protein production starts after mRNA transcription and occurs at a faster rate, governed by $k_{TL}$ and $\\delta_{Protein}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Analyze the translation dynamics. Protein production begins simultaneously with mRNA transcription and occurs at a slower rate.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Conclude that mRNA concentration rises rapidly and stabilizes due to the balance between transcription and degradation rates.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Conclude that mRNA concentration rises slowly and stabilizes due to the dependency on protein production.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Conclude that protein concentration shows a delayed rise and stabilizes after mRNA concentration stabilizes, due to the dependency on mRNA.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Conclude that protein concentration rises simultaneously with mRNA and stabilizes at the same time.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
-            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05$ s^{-1}M^{-1} and the dissociation rate constant $k_d = 0.00001$ s^{-1}. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. ODEs (This will be a lot trickier, since knowledge of ODE solvers is necessary)\n(a) Using mass action kinetics, define the three ODEs necessary to describe the full dynamics of this system.",
-            "ground_truth_solution": "For the reaction $A + B \\rightleftharpoons C$, the rate equations are:\n\n1. Rate of change of $A$:\n\n$$\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$$\n\n2. Rate of change of $B$:\n\n$$\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$$\n\n3. Rate of change of $C$:\n\n$$\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$$\n\nThese equations describe the dynamics of the concentrations of $A$, $B$, and $C$ over time, incorporating both the forward and backward reaction rates.",
-            "ground_truth_answer": "The ODEs are $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: Mass action kinetics describes how reaction rates are proportional to the product of the concentrations of reactants, raised to their stoichiometric coefficients.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Write the ODE for $\\frac{d[A]}{dt}$: $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Write the ODE for $\\frac{d[B]}{dt}$: $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Write the ODE for $\\frac{d[C]}{dt}$: $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = -k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = -k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = k_a [A][B] - k_d [C]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Conclude the ODE system, which consists of $\\frac{d[A]}{dt} = k_a [A][B] + k_d [C]$, $\\frac{d[B]}{dt} = k_a [A][B] + k_d [C]$, and $\\frac{d[C]}{dt} = -k_a [A][B] + k_d [C]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
             "problem": "Consider the above models with the following constants:\n\n$k_\\text{TX} = 0.001 \\, \\text{M/s}; \\, K_d = 10^{-8} \\, \\text{M}; \\, n = 1; \\, \\delta_\\text{mRNA} = 0.001 \\, \\text{s}^{-1}; \\, k_\\text{TL} = 0.002 \\, \\text{s}^{-1}; \\, \\delta_\\text{Protein} = 0.001 \\, \\text{s}^{-1}.$\n\n**Auto-Inhibition**\n\nSet initial mRNA and protein concentration to be $0 \\, \\text{M}$ and $0.0001 \\, \\text{M}$, respectively.",
             "ground_truth_solution": "The ODEs for the auto-inhibition model are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}],$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}].$",
             "ground_truth_answer": "The equations are:\n\n$\\frac{d[\\text{mRNA}]}{dt} = k_\\text{TX} \\left( 1 - \\frac{[\\text{Protein}]^n}{K_d + [\\text{Protein}]^n} \\right) - \\delta_\\text{mRNA}[\\text{mRNA}]$\n\n$\\frac{d[\\text{Protein}]}{dt} = k_\\text{TL}[\\text{mRNA}] - \\delta_\\text{Protein}[\\text{Protein}]$.",
@@ -851,294 +1139,6 @@
                         },
                         {
                             "text": "Step 3: Set initial values: $[\\text{mRNA}] = 0.0001 \\, \\text{M}, [\\text{Protein}] = 0 \\, \\text{M}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
-            "problem": "For this coding challenge, we use the equations we derived using SI units, as oppose to the equations in the original paper. We first set the constants as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}; \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s};$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}; \\quad n_1 = n_2 = n_3 = 2;$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}; \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1};$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nSet initial values to be $0.1 \\, \\text{M}$ for $\\text{mRNA1}$ and $\\text{Protein1}$, and $0 \\, \\text{M}$ for $\\text{mRNA2}, \\text{Protein2}, \\text{mRNA3}$ and $\\text{Protein3}$. Define the above constants in your code.",
-            "ground_truth_solution": "The constants are defined as follows:\n\n$a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}, \\quad a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s},$\n\n$K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, \\quad n_1 = n_2 = n_3 = 2,$\n\n$\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, \\quad k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1},$\n\n$\\delta_\\text{Protein} = \\delta_\\text{Protein1} = 0.001 \\, \\text{s}^{-1}.$\n\nInitial Values:\n\n- $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M},$\n\n- $\\text{mRNA2} = 0 \\, \\text{M}, \\text{Protein2} = 0 \\, \\text{M},$\n\n- $\\text{mRNA3} = 0 \\, \\text{M}, \\text{Protein3} = 0 \\, \\text{M}.$",
-            "ground_truth_answer": "Define the constants in code using the provided equations and parameters. The initial values should align with the described setup: mRNA1 = 0.1 M, Protein1 = 0.1 M, and all other components set to 0 M.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: Constants define the rates and steady states for biochemical processes, ensuring correct simulation of transcription and translation dynamics.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-6} \\, \\text{M/s}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Define the transcription rates: $a_1 = a_2 = a_3 = 0.001 \\, \\text{M/s}$, $a_0 = a_{0_2} = a_{0_3} = 10^{-3} \\, \\text{M/s}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-6} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Define the dissociation constants and Hill coefficients: $K_d = K_{d_1} = K_{d_2} = K_{d_3} = 10^{-3} \\, \\text{M}, n_1 = n_2 = n_3 = 2$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.002 \\, \\text{s}^{-1}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Define the degradation and translation rates: $\\delta_\\text{mRNA} = \\delta_\\text{mRNA1} = 0.001 \\, \\text{s}^{-1}, k_\\text{TL} = k_\\text{TL1} = 0.001 \\, \\text{s}^{-1}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0 \\, \\text{M}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Set initial values for concentrations: $\\text{mRNA1} = 0.1 \\, \\text{M}, \\text{Protein1} = 0.1 \\, \\text{M}$, $\\text{mRNA2} = \\text{Protein2} = \\text{mRNA3} = \\text{Protein3} = 0.1 \\, \\text{M}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
-            "problem": "Given the chemical equation for the production of hydrogen chloride from hydrogen and chloride, find the correct rate equation for hydrogen chloride (given that the forward reaction rate is equal to $K_F$ and the backward reaction rate is equal to $K_B$):\n $H_2 + Cl_2 \\rightleftharpoons 2HCl$.\n \n A. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$\n B. $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$\n C. $\\frac{d[HCl]}{dt} = +K_F[H]^2[Cl_2] - K_B[HCl]^2$",
-            "ground_truth_solution": "1. Forward reaction:\n   The forward reaction is $H_2 + Cl_2 \\rightarrow 2HCl$. According to the law of mass action, the rate of the forward reaction is proportional to the concentrations of $H_2$ and $Cl_2$. Therefore:\n\n   $$\\text{Rate}_{\\text{forward}} = K_F [H_2][Cl_2]$$\n\n2. Backward reaction:\n   The backward reaction is $2HCl \\rightarrow H_2 + Cl_2$. According to the law of mass action, the rate of the backward reaction is proportional to the square of the concentration of $HCl$, since 2 molecules of $HCl$ are involved. Therefore:\n\n   $$\\text{Rate}_{\\text{backward}} = K_B [HCl]^2$$\n\n3. Net rate of change:\n   The net rate of change of $[HCl]$ is the forward rate minus the backward rate:\n\n   $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$\n\n4. Checking the options:\n   - Option A matches the correct formulation.\n   - Option B is incorrect because the backward reaction term is linear in $[HCl]$, which contradicts the stoichiometry of the reaction.\n   - Option C is incorrect because it implies the forward reaction depends on $[H]^2[Cl_2]$, which doesn't align with the reaction $H_2 + Cl_2 \\rightarrow 2HCl$.\n\nThus, the correct answer is:\n\n$$\\boxed{A. \\quad \\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2}$$",
-            "ground_truth_answer": "The correct answer is A: $$\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$$.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: The law of mass action is used to determine the rate equations for the forward and backward reactions, proportional to the respective concentrations of reactants or products raised to the power of their stoichiometric coefficients.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Determine the rate of the forward reaction based on the law of mass action. For $H_2 + Cl_2 \\rightarrow 2HCl$, the rate is given by $\\text{Rate}_{\\text{forward}} = K_F[H_2][Cl_2]$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Determine the rate of the forward reaction. Assume $\\text{Rate}_{\\text{forward}} = K_F[H]^2[Cl_2]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Determine the rate of the backward reaction based on the law of mass action. For $2HCl \\rightarrow H_2 + Cl_2$, the rate is given by $\\text{Rate}_{\\text{backward}} = K_B[HCl]^2$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Determine the rate of the backward reaction. Assume $\\text{Rate}_{\\text{backward}} = K_B[HCl]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]^2$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Combine the forward and backward reaction rates to find the net rate of change: $\\frac{d[HCl]}{dt} = +K_F[H_2][Cl_2] - K_B[HCl]$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Verify the options and select the correct one. Option A matches the derived equation, while options B and C are incorrect due to misrepresentation of reaction orders.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Verify the options and select the correct one. Option C matches the derived equation.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                }
-            ],
-            "total_time": 30000,
-            "finish_reason": "complete"
-        }
-    },
-    {
-        "labeler": "unique-id-placeholder",
-        "timestamp": "2025-01-14T12:00:00.000000",
-        "generation": 1,
-        "is_quality_control_question": false,
-        "is_initial_screening_question": false,
-        "question": {
-            "problem": "Consider the equation $A + B \\rightleftharpoons C$, where the association rate constant $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$ and the dissociation rate constant $k_d = 0.00001\\, \\text{s}^{-1}$. Initial concentrations for $A$, $B$, and $C$ are $1$, $5$, and $0$ M respectively. We assume the Hill coefficient $n = 1$. Hill Equation\nCalculate the value of the apparent dissociation rate constant, $K_d$.",
-            "ground_truth_solution": "$$K_d = \\frac{k_d}{k_a}$$\nGiven:\n$$k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}, \\quad k_d = 0.00001\\, \\text{s}^{-1}$$\nSubstituting the values:\n$$K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$$\nAnswer:\n$$K_d = 0.0002\\, \\text{M}$$",
-            "ground_truth_answer": "The apparent dissociation constant is $K_d = 0.0002\\, \\text{M}$.",
-            "pre_generated_steps": [],
-            "pre_generated_answer": "",
-            "pre_generated_verifier_score": 1.0
-        },
-        "label": {
-            "steps": [
-                {
-                    "completions": [
-                        {
-                            "text": "Knowledge point: The dissociation constant $K_d$ is defined as the ratio of the dissociation rate constant $k_d$ to the association rate constant $k_a$. This represents the equilibrium constant for the reverse reaction.",
-                            "rating": 1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = \\frac{k_d}{k_a}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 1: Write the formula for the dissociation constant: $K_d = k_d \\cdot k_a$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 2: Substitute the given values into the formula: $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 2: Substitute the given values into the formula $K_d = k_d \\cdot k_a$, with $k_d = 0.00001\\, \\text{s}^{-1}$, $k_a = 0.05\\, \\text{s}^{-1}\\text{M}^{-1}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 3: Perform the calculation: $K_d = \\frac{0.00001}{0.05} = 0.0002\\, \\text{M}$.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 3: Perform the calculation: $K_d = 0.00001 \\cdot 0.05 = 0.0000005\\, \\text{M}$.",
-                            "rating": -1,
-                            "flagged": null
-                        }
-                    ],
-                    "human_completion": null,
-                    "chosen_completion": 0
-                },
-                {
-                    "completions": [
-                        {
-                            "text": "Step 4: Conclude that $K_d = 0.0002\\, \\text{M}$, matching the correct formula and calculations.",
-                            "rating": 1,
-                            "flagged": null
-                        },
-                        {
-                            "text": "Step 4: Conclude that $K_d = 0.0000005\\, \\text{M}$.",
                             "rating": -1,
                             "flagged": null
                         }
