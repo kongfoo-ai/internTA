@@ -3,7 +3,7 @@ import os
 import sys
 
 # Define the expected structure of the JSON
-expected_structure = {
+expected_structure = [{
     "labeler": str,
     "timestamp": str,
     "generation": int,
@@ -22,7 +22,7 @@ expected_structure = {
         "total_time": int,
         "finish_reason": str
     }
-}
+}]
 
 def validate_json_format(file_path):
     with open(file_path, 'r') as file:
@@ -32,6 +32,7 @@ def validate_json_format(file_path):
 def check_structure(data, expected):
     if isinstance(expected, dict):
         if not isinstance(data, dict):
+            print(f"Data {data} does not have the right format of dictionary")
             return False
         for key, value_type in expected.items():
             if key not in data or not check_structure(data[key], value_type):
@@ -39,6 +40,7 @@ def check_structure(data, expected):
                 return False
     elif isinstance(expected, list):
         if not isinstance(data, list):
+            print(f"Data {data} does not have the right format of list")
             return False
         for item in data:
             if not check_structure(item, expected[0]):  # Assuming all items in the list are of the same structure
