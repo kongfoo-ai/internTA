@@ -1,6 +1,6 @@
 # internTA: "Synthetic Biology" Teaching Assistant Based on InternLM2 Large Language Model
 
-<div align="center"><img src="./demo.gif" width="500"></div>
+<div align="center"><img src="./statics/demo.gif" width="500"></div>
 
 ## Abstract
 
@@ -25,12 +25,12 @@ InternTA draws material from the "Synthetic Biology" textbook. It uses a semi-au
 
 The implementation principle of InternTA is shown in the diagram below:
 
-<div align="center"><img src="./internTA-EN.png" width="500"></div>
+<div align="center"><img src="./statics/internTA-EN.png" width="500"></div>
 
 
 One of the most critical steps is the preparation of fine-tuning data. We have prepared two types of fine-tuning training data: direct Q&A data and guided Q&A data. The steps for preparing the fine-tuning data are shown in the diagram below:
 
-<div align="center"><img src="./data-EN.png" width="350"></div>
+<div align="center"><img src="./statics/data-EN.png" width="350"></div>
 
 > - First, we compile a question bank, which mainly includes three categories: post-class thought questions, key terms in the appendix, and fundamental concept knowledge. We then search for corresponding answers in the "Synthetic Biology" textbook based on these questions.
 > - Next, we organize the retrieved answers to form a response database that the teaching assistant can use. For key terms and fundamental concept knowledge, we provide direct answers to engage with the users.

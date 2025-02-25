@@ -22,6 +22,10 @@ from transformers.utils import logging
 from transformers import AutoTokenizer, AutoModelForCausalLM  # isort: skip
 
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
+from fastapi import FastAPI, HTTPException, Depends, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel
+import uvicorn
 
 
 logger = logging.get_logger(__name__)
@@ -215,60 +219,135 @@ def combine_history(prompt):
     return total_prompt
 
 
-def main():
-    # torch.cuda.empty_cache()
-    print("load model begin.")
-    model, tokenizer = load_model()
-    print("load model end.")
+# Add these new model classes after the existing imports
+class Message(BaseModel):
+    role: str
+    content: str
 
-    user_avator = "momo.png"
-    robot_avator = "robot.png"
+class ChatCompletionRequest(BaseModel):
+    model: str
+    messages: List[Message]
 
-    st.title("我是E.CoPI老师，你的《合成生物学》助教~")
+class ChatCompletionResponse(BaseModel):
+    choices: List[dict]
 
-    generation_config = prepare_generation_config()
+# Create FastAPI app
+app_api = FastAPI(title="InternTA Chat Completions API")
+security = HTTPBearer()
 
-    # Initialize chat history
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+# Add this function after the load_model() function
+@st.cache_resource
+def get_model_and_tokenizer():
+    return load_model()
 
-    # Display chat messages from history on app rerun
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"], avatar=message.get("avatar")):
-            st.markdown(message["content"])
+# Add these new API endpoints before the main() function
+@app_api.post("/v1/chat/completions")
+async def create_chat_completion(
+    request: ChatCompletionRequest,
+    credentials: HTTPAuthorizationCredentials = Security(security)
+):
+    try:
+        # Get model and tokenizer
+        model, tokenizer = get_model_and_tokenizer()
+        
+        # Format messages into prompt
+        total_prompt = "<s>"
+        for msg in request.messages:
+            if msg.role == "system":
+                total_prompt += f"<|im_start|>system\n{msg.content}<|im_end|>\n"
+            elif msg.role == "user":
+                total_prompt += f"<|im_start|>user\n{msg.content}<|im_end|>\n"
+            elif msg.role == "assistant":
+                total_prompt += f"<|im_start|>assistant\n{msg.content}<|im_end|>\n"
+        
+        total_prompt += "<|im_start|>assistant\n"
 
-    # Accept user input
-    if prompt := st.chat_input("What is up?"):
-        # Display user message in chat message container
-        with st.chat_message("user", avatar=user_avator):
-            st.markdown(prompt)
-        real_prompt = combine_history(prompt)
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": prompt, "avatar": user_avator})
+        # Generate response
+        generation_config = GenerationConfig()
+        response = None
+        
+        for cur_response in generate_interactive(
+            model=model,
+            tokenizer=tokenizer,
+            prompt=total_prompt,
+            additional_eos_token_id=92542,
+            **asdict(generation_config),
+        ):
+            response = cur_response
 
-        with st.chat_message("robot", avatar=robot_avator):
-            message_placeholder = st.empty()
-            for cur_response in generate_interactive(
-                model=model,
-                tokenizer=tokenizer,
-                prompt=real_prompt,
-                additional_eos_token_id=92542,
-                **asdict(generation_config),
-            ):
-                # Display robot response in chat message container
-                message_placeholder.markdown(cur_response + "▌")
-            message_placeholder.markdown(cur_response)  # pylint: disable=undefined-loop-variable
-        # Add robot response to chat history
-        st.session_state.messages.append(
-            {
-                "role": "robot",
-                "content": cur_response,  # pylint: disable=undefined-loop-variable
-                "avatar": robot_avator,
-            }
+        return ChatCompletionResponse(
+            choices=[{
+                "message": {
+                    "role": "assistant",
+                    "content": response
+                }
+            }]
         )
-        torch.cuda.empty_cache()
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Modify the main() function to run both Streamlit and FastAPI
+def main():
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--api":
+        # Run FastAPI server
+        uvicorn.run(app_api, host="0.0.0.0", port=8000)
+    else:
+        # Run Streamlit interface
+        print("load model begin.")
+        model, tokenizer = load_model()
+        print("load model end.")
+
+        user_avator = "statics/momo.png"
+        robot_avator = "statics/robot.png"
+
+        st.title("我是E.CoPI老师，你的《合成生物学》助教~")
+
+        generation_config = prepare_generation_config()
+
+        # Initialize chat history
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+
+        # Display chat messages from history on app rerun
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"], avatar=message.get("avatar")):
+                st.markdown(message["content"])
+
+        # Accept user input
+        if prompt := st.chat_input("What is up?"):
+            # Display user message in chat message container
+            with st.chat_message("user", avatar=user_avator):
+                st.markdown(prompt)
+            real_prompt = combine_history(prompt)
+            # Add user message to chat history
+            st.session_state.messages.append({"role": "user", "content": prompt, "avatar": user_avator})
+
+            with st.chat_message("robot", avatar=robot_avator):
+                message_placeholder = st.empty()
+                for cur_response in generate_interactive(
+                    model=model,
+                    tokenizer=tokenizer,
+                    prompt=real_prompt,
+                    additional_eos_token_id=92542,
+                    **asdict(generation_config),
+                ):
+                    # Display robot response in chat message container
+                    message_placeholder.markdown(cur_response + "▌")
+                message_placeholder.markdown(cur_response)  # pylint: disable=undefined-loop-variable
+            # Add robot response to chat history
+            st.session_state.messages.append(
+                {
+                    "role": "robot",
+                    "content": cur_response,  # pylint: disable=undefined-loop-variable
+                    "avatar": robot_avator,
+                }
+            )
+            torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
     init()
     main()
+    
