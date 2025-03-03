@@ -1,0 +1,163 @@
+---
+title: 'Quickstart'
+description: 'Get started with InternTA in under 5 minutes'
+---
+
+## Local Setup
+
+Learn how to set up and run InternTA locally.
+
+### Prerequisites
+
+<AccordionGroup>
+  <Accordion icon="microchip" title="Hardware Requirements">
+    - NVIDIA GPU with 8GB or more VRAM
+    - Sufficient disk space for model storage
+  </Accordion>
+  <Accordion icon="box" title="Software Requirements">
+    ```bash
+    # Install the required dependencies
+    pip install -r requirements.txt
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Quick Installation
+
+<CodeGroup>
+  ```bash Clone Repository
+  # Clone the repository
+  git clone https://github.com/kongfoo-ai/internTA
+  
+  # Go to the project directory
+  cd InternTA
+  
+  # Install the dependencies
+  pip install -r requirements.txt
+  ```
+
+  ```bash Start Demo
+  # Start the demo (Default port: 8080)
+  sh run.sh
+  
+  # View run logs 
+  tail -f nohup.out
+  ```
+</CodeGroup>
+
+## API Integration
+
+### Authentication
+
+To use the InternTA API, you'll need to include a bearer token in your requests:
+
+```bash
+curl -X POST "https://api.ecopi.chat/v1/chat/completions" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "internta-v02",
+    "messages": [
+      {"role": "user", "content": "What is synthetic biology?"}
+    ]
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "Synthetic biology is an interdisciplinary field that combines..."
+      }
+    }
+  ]
+}
+```
+
+## Advanced Usage
+
+### Training Your Own Model
+
+<AccordionGroup>
+  <Accordion icon="database" title="1. Generate Training Data">
+    ```bash
+    # Go to the data directory
+    cd data
+    
+    # Generate training data
+    python generate_data.py
+    ```
+  </Accordion>
+  
+  <Accordion icon="gear" title="2. Fine-tune the Model">
+    ```bash
+    # From project root
+    cd $ROOT_PATH
+    
+    # Start fine-tuning
+    sh train.sh
+    ```
+  </Accordion>
+  
+  <Accordion icon="code-merge" title="3. Merge Model Weights">
+    ```bash
+    # Merge the fine-tuned Adapter
+    sh merge.sh $NUM_EPOCH
+    ```
+  </Accordion>
+  
+  <Accordion icon="vial" title="4. Test the Model">
+    ```bash
+    # Test the merged model
+    sh chat.sh
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Model Evaluation
+
+To evaluate the model's performance:
+
+```bash
+# Run evaluation tests
+pytest ./test/test_model_evaluation.py
+```
+
+This will generate a `test_results.csv` file containing ROUGE similarity scores for model responses.
+
+## Resources
+
+<CardGroup>
+  <Card
+    title="Model Repository"
+    icon="box-archive"
+    href="https://openxlab.org.cn/models/detail/Kongfoo_EC/internTA"
+  >
+    Access the model on OpenXLab
+  </Card>
+  <Card
+    title="Live Demo"
+    icon="play"
+    href="https://ecopi.chat"
+  >
+    Try the online demo
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    View the complete API documentation
+  </Card>
+  <Card
+    title="GitHub"
+    icon="github"
+    href="https://github.com/kongfoo-ai/internTA"
+  >
+    Access the source code
+  </Card>
+</CardGroup>

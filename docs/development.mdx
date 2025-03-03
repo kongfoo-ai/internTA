@@ -1,0 +1,172 @@
+---
+title: 'Development'
+description: 'Learn how to develop and customize InternTA'
+---
+
+<Info>
+  **Prerequisites**: 
+  - NVIDIA GPU with 8GB or more VRAM
+  - Python environment
+  - Git
+</Info>
+
+## Development Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/kongfoo-ai/internTA
+cd internTA
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Model Development
+
+### Data Generation
+
+The first step in customizing InternTA is preparing the training data. We support two types of fine-tuning data:
+- Direct Q&A data
+- Guided Q&A data
+
+<AccordionGroup>
+  <Accordion icon="database" title="Data Preparation Process">
+    1. Compile a question bank including:
+      - Post-class thought questions
+      - Key terms from the appendix
+      - Fundamental concept knowledge
+    
+    2. Search for corresponding answers in the textbook
+    
+    3. Organize answers into a response database:
+      - Direct answers for key terms
+      - Guided responses for thought questions
+  </Accordion>
+
+  <Accordion icon="code" title="Generate Training Data">
+    ```bash
+    # Navigate to data directory
+    cd data
+    
+    # Run data generation script
+    python generate_data.py
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Model Fine-tuning
+
+<Steps>
+  <Step title="Verify Training Data">
+    Check for the presence of training data:
+    ```bash
+    ls -lh data/personal_assistant.json
+    ```
+  </Step>
+  
+  <Step title="Start Fine-tuning">
+    Run the training script:
+    ```bash
+    sh train.sh
+    ```
+    This will use Xtuner to fine-tune the base InternLM2 model.
+  </Step>
+  
+  <Step title="Check Training Progress">
+    Monitor the training directory:
+    ```bash
+    ls -lh train
+    ```
+    Look for weight directories named `pth_$NUM_EPOCH`
+  </Step>
+  
+  <Step title="Merge Model Weights">
+    ```bash
+    # Replace $NUM_EPOCH with your target epoch number
+    sh merge.sh $NUM_EPOCH
+    ```
+  </Step>
+</Steps>
+
+## Testing and Evaluation
+
+### Interactive Testing
+
+Test your model changes using the chat interface:
+
+```bash
+sh chat.sh
+```
+
+### Automated Evaluation
+
+Run the evaluation suite to measure model performance:
+
+```bash
+pytest ./test/test_model_evaluation.py
+```
+
+This will:
+1. Generate responses for test cases
+2. Calculate ROUGE similarity scores
+3. Output results to `test_results.csv`
+
+## Development Tools
+
+<CardGroup>
+  <Card
+    title="Xtuner"
+    icon="gear"
+    href="https://github.com/InternLM/xtuner"
+  >
+    Tool for fine-tuning InternLM2 models
+  </Card>
+  <Card
+    title="Streamlit"
+    icon="window"
+    href="https://streamlit.io/"
+  >
+    Framework for building the web interface
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion icon="memory" title="GPU Memory Issues">
+    If you encounter GPU memory errors:
+    1. Reduce batch size in training configuration
+    2. Use gradient checkpointing
+    3. Ensure no other processes are using GPU memory
+  </Accordion>
+  
+  <Accordion icon="database" title="Data Generation Issues">
+    If data generation fails:
+    1. Check input file formats
+    2. Verify textbook content is properly formatted
+    3. Ensure sufficient disk space
+  </Accordion>
+</AccordionGroup>
+
+## Contributing
+
+We welcome contributions to InternTA! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+For major changes, please open an issue first to discuss what you would like to change.
+
+## Support
+
+If you need help during development:
+
+1. Check the [GitHub Issues](https://github.com/kongfoo-ai/internTA/issues)
+2. Review the [API Documentation](/api-reference/introduction)
+3. Contact the development team at dev@kongfoo.cn

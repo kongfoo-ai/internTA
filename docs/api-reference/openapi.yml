@@ -1,4 +1,4 @@
-ecopiapi: 1.0.0
+openapi: 3.0.0
 info:
   title: InternTA Chat Completions API
   description: API for creating chat completions using the InternTA service

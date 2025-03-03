@@ -1,0 +1,160 @@
+---
+title: 'API Reference'
+description: 'Reference documentation for the InternTA Chat Completions API'
+---
+
+## Overview
+
+InternTA provides a chat completions API that allows you to integrate our synthetic biology teaching assistant capabilities into your applications. The API follows a similar style to other popular chat completion APIs, making it familiar for developers.
+
+<Note>
+  InternTA is specifically trained on synthetic biology content and is optimized for educational interactions in this domain.
+</Note>
+
+## Base URL
+
+```bash
+https://api.ecopi.chat/v1
+```
+
+## Authentication
+
+All API requests require authentication using Bearer tokens.
+
+```bash
+Authorization: Bearer YOUR_API_TOKEN
+```
+
+<Warning>
+  Keep your API tokens secure and never expose them in client-side code.
+</Warning>
+
+## Response Format
+
+All responses follow a standard format:
+
+```json
+{
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "Response content..."
+      }
+    }
+  ]
+}
+```
+
+## Features
+
+<CardGroup cols={2}>
+  <Card
+    title="Synthetic Biology Expertise"
+    icon="dna"
+  >
+    Specialized knowledge from textbooks and academic materials
+  </Card>
+  <Card
+    title="Educational Guidance"
+    icon="graduation-cap"
+  >
+    Provides hints and explanations rather than direct answers
+  </Card>
+  <Card
+    title="Cross-disciplinary Context"
+    icon="microscope"
+  >
+    Integrates biology, chemistry, and engineering concepts
+  </Card>
+  <Card
+    title="Interactive Learning"
+    icon="comments"
+  >
+    Supports multi-turn educational dialogues
+  </Card>
+</CardGroup>
+
+## Model Details
+
+The API is powered by a fine-tuned version of InternLM2, specifically trained on:
+- Post-class thought questions
+- Key terms and definitions
+- Fundamental concept knowledge
+- Guided learning interactions
+
+<Accordion title="Training Data Sources">
+  Our model is trained on carefully curated content from:
+  - Synthetic Biology textbooks
+  - Academic materials
+  - Expert-reviewed Q&A pairs
+  - Guided learning scenarios
+</Accordion>
+
+## Rate Limits
+
+<Info>
+  Please contact us for custom rate limits and enterprise usage.
+</Info>
+
+| Plan | Requests per minute | Tokens per request |
+|------|-------------------|-------------------|
+| Basic | 60 | 4096 |
+| Pro | 120 | 8192 |
+| Enterprise | Custom | Custom |
+
+## Example Usage
+
+### Basic Request
+
+```bash
+curl -X POST "https://api.ecopi.chat/v1/chat/completions" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "internta-v02",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is synthetic biology?"
+      }
+    ]
+  }'
+```
+
+### With System Message
+
+```bash
+curl -X POST "https://api.ecopi.chat/v1/chat/completions" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "internta-v02",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are E.CoPI, a teaching assistant for synthetic biology."
+      },
+      {
+        "role": "user",
+        "content": "Can you explain CRISPR-Cas9?"
+      }
+    ]
+  }'
+```
+
+## Support
+
+If you need assistance with the API:
+
+1. Review the [API Documentation](/api-reference/endpoints)
+2. Check our [GitHub repository](https://github.com/kongfoo-ai/internTA)
+3. Contact our support team at dev@kongfoo.cn
+
+<Card
+  title="Ready to get started?"
+  icon="rocket"
+  href="/quickstart"
+>
+  Check out our quickstart guide to begin integrating InternTA
+</Card>

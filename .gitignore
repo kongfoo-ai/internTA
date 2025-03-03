@@ -3,6 +3,7 @@
 
 # 忽略缓存文件
 /test/__pycache__/
+.pytest_cache/
 
 #模型
 ./kongfoo
