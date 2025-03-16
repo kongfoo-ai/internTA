@@ -17,3 +17,6 @@ pandas
 openai
 python-docx
 python-dotenv
+tensorrt>=8.6.1
+polygraphy>=0.47.1
+onnx>=1.14.0

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternTA - 合成生物学助教</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <img src="images/logo.png" alt="InternTA Logo">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">功能</a></li>
+                    <li><a href="#about">关于</a></li>
+                    <li><a href="#demo">演示</a></li>
+                    <li><a href="#testimonials">用户评价</a></li>
+                </ul>
+                <div class="cta-buttons">
+                    <a href="#demo" class="btn btn-primary">立即体验</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>InternTA: 基于InternLM2大模型的《合成生物学》助教</h1>
+                <p>通过人工智能技术，为学生提供个性化的学习指导和答疑解惑，让学习合成生物学变得更加简单高效。</p>
+                <div class="hero-buttons">
+                    <a href="#demo" class="btn btn-primary">立即体验</a>
+                    <a href="https://github.com/kongfoo-ai/internTA" class="btn btn-secondary">GitHub <i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-image.png" alt="InternTA Demo">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>主要功能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>教材知识解析</h3>
+                    <p>基于《合成生物学》教材内容，提供准确的知识解析和答疑。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>引导式学习</h3>
+                    <p>不直接提供答案，而是引导学生思考，培养独立解决问题的能力。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>智能对话</h3>
+                    <p>通过自然语言交互，提供个性化的学习体验。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>跨学科知识整合</h3>
+                    <p>整合生物学、化学、工程学、计算机科学等多学科知识。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>关于 InternTA</h2>
+                <p>InternTA从《合成生物学》教材中取材，通过半自动化方式产生教学对话作为微调数据集，使用Xtuner工具对InternLM2-Chat-1.8B-SFT基础模型进行微调，使用streamlit作为框架开发网页端DEMO应用。</p>
+                <p>我们的目标是帮助学生更好地学习《合成生物学》这门课程。通过提供关键词和思路，并指出教材中相关的章节，引导学生自行思考，从而完成对合成生物学知识的高质量学习，达到"授人以渔"的目的。</p>
+            </div>
+            <div class="about-image">
+                <img src="images/about-image.png" alt="InternTA Architecture">
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>在线体验</h2>
+            <div class="demo-container">
+                <div class="demo-cta">
+                    <div class="cta-flex">
+                        <p>直接与InternTA对话，体验智能助教的强大功能</p>
+                        <a href="https://ai-hedge-fund-plus.streamlit.app/" class="btn btn-primary" target="_blank">
+                            立即体验 <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2>用户评价</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"InternTA帮助我更好地理解了合成生物学的复杂概念，它不仅仅是提供答案，更是引导我思考问题的本质。"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/student1.jpg" alt="Student 1">
+                        <div>
+                            <h4>张同学</h4>
+                            <p>生物工程专业学生</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"作为一名教师，InternTA为我提供了很好的教学辅助工具，让我能够更好地关注学生的个性化需求。"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/teacher1.jpg" alt="Teacher 1">
+                        <div>
+                            <h4>李教授</h4>
+                            <p>合成生物学教师</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="compact-cta">
+                <h2>准备好开始学习了吗？</h2>
+                <div class="cta-flex">
+                    <p>立即体验InternTA，让学习合成生物学变得更加简单高效。</p>
+                    <a href="#demo" class="btn btn-primary">立即体验</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="InternTA Logo">
+                    <p>InternTA - 基于InternLM2大模型的《合成生物学》助教</p>
+                </div>
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#features">功能</a></li>
+                        <li><a href="#about">关于</a></li>
+                        <li><a href="#demo">演示</a></li>
+                        <li><a href="#testimonials">用户评价</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系我们</h3>
+                    <p>Email: dev@kongfoo.cn</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Kongfoo AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 

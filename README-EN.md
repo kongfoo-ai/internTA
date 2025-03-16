@@ -131,6 +131,60 @@ This command will process the data file and output the results to the `test_resu
 
 The unit tests in the script are used to verify that the answers obtained from the model API are valid and that the ROUGE similarity score calculations are correct.
 
+## Test Cases
+
+There is a postman collection in /test which includes the following test cases:
+
+1. **Basic Chat Completion** - Tests a simple user query
+2. **Chat Completion with System Message** - Tests using a system message to set context
+3. **Multi-turn Conversation** - Tests a conversation with multiple turns
+4. **Missing Authorization** - Tests the API's response when no authorization token is provided
+5. **Invalid Request Format** - Tests the API's response to malformed requests
+
+## Setup Instructions
+
+### Prerequisites
+
+- [Postman](https://www.postman.com/downloads/) installed on your machine
+
+### Import the Collection and Environment
+
+1. Open Postman
+2. Click on "Import" in the top left corner
+3. Drag and drop both JSON files or use the file selector to import them
+4. Both the collection and environment should now appear in your Postman workspace
+
+### Configure the Environment
+
+1. Click on the "Environments" tab in Postman
+2. Select the "InternTA API Environment"
+3. Update the `api_token` variable with your actual API token
+4. Click "Save"
+
+### Running the Tests
+
+#### Run Individual Tests
+
+1. Select the "Collections" tab
+2. Open the "InternTA Chat Completions API Tests" collection
+3. Make sure the "InternTA API Environment" is selected in the environment dropdown (top right)
+4. Click on any test request to open it
+5. Click the "Send" button to run the test
+6. View the test results in the "Test Results" tab of the response section
+
+#### Run All Tests
+
+1. Right-click on the "InternTA Chat Completions API Tests" collection
+2. Select "Run collection"
+3. In the Collection Runner, make sure all requests are selected
+4. Select the "InternTA API Environment" from the environment dropdown
+5. Click "Run InternTA Chat Completions API Tests"
+6. View the test results in the Collection Runner
+
+### API Documentation
+
+For more information about the InternTA Chat Completions API, refer to the official documentation at:
+https://docs.ecopi.chat
 
 ## Special Thanks
 
