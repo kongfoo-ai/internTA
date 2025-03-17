@@ -1,0 +1,37 @@
+--find-links https://download.pytorch.org/whl/cu118
+torch
+torchvision
+torchaudio
+transformers
+bitsandbytes
+accelerate
+peft
+trl
+triton==3.1.0
+datasets
+uvicorn
+Requests
+
+langchain
+langchain-community
+sentence-transformers
+faiss-gpu-cu11
+modelscope
+sentencepiece
+pypdf
+python-docx
+# unstructured
+markdown
+jieba
+rouge_chinese
+streamlit
+streamlit
+# gradio==4.4.0
+fastapi
+# chromadb==0.4.15
+pandas
+openai
+python-dotenv
+# tensorrt>=8.6.1
+# polygraphy>=0.47.1
+# onnx>=1.14.0
