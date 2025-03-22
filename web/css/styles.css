@@ -448,4 +448,39 @@ footer {
     .testimonial {
         flex: 0 0 100%;
     }
+}
+
+/* Language Switcher */
+.language-switcher {
+    margin-right: 15px;
+}
+
+.lang-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    background-color: var(--background-alt);
+    border-color: var(--primary-color);
+}
+
+/* Responsive adjustments for language switcher */
+@media (max-width: 768px) {
+    .language-switcher {
+        position: absolute;
+        top: 15px;
+        right: 70px;
+    }
+    
+    .lang-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
 } 
