@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 # Function to process content for display
-def process_content_for_display(content):
+def process_content_for_display(content, is_user_message=False):
     """
     Process content for display with special formatting for </think> tags,
     strip <|im_end|> tokens and backslashes, and ensure LaTeX equations display correctly
@@ -18,7 +18,8 @@ def process_content_for_display(content):
     content = content.replace("<|im_end|>", "")
     
     # Replace double backslashes with single backslashes
-    content = content.replace("\\\\", "\\")
+    if is_user_message:
+        content = content.replace("\\\\", "\\")
     
     # Store all LaTeX expressions temporarily to preserve them
     latex_expressions = []
@@ -151,7 +152,7 @@ if prompt := st.chat_input("请输入您的问题... | Enter your question..."):
     
     # Display user message
     with st.chat_message("user"):
-        processed_prompt = process_content_for_display(prompt)
+        processed_prompt = process_content_for_display(prompt, is_user_message=True)
         st.markdown(processed_prompt, unsafe_allow_html=True)
         #st.markdown(prompt)
     
