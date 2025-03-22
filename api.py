@@ -34,8 +34,9 @@ API 服务器提供了与 OpenAI 兼容的聊天完成端点 (/v1/chat/completio
 import os
 import copy
 import warnings
+import json
 from dataclasses import asdict, dataclass
-from typing import List, Optional
+from typing import List, Optional, Union, Dict, Any, Iterator
 from dotenv import load_dotenv
 
 import streamlit as st
@@ -44,8 +45,9 @@ from transformers.utils import logging
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
-from fastapi import FastAPI, HTTPException, Depends, Header
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Depends, Header, Query, Request
+from fastapi.responses import StreamingResponse, JSONResponse
+from pydantic import BaseModel, Field
 import uvicorn
 from peft import PeftModel
 
@@ -86,30 +88,191 @@ def generate_response(
     tokenizer,
     prompt,
     generation_config: Optional[GenerationConfig] = None,
+    stream: bool = False,
     **kwargs,
 ):
-    # 将 prompt 编码为输入张量，同时生成 attention_mask
-    inputs = tokenizer([prompt], return_tensors="pt", padding=True)
-    input_ids = inputs["input_ids"].cuda()
-    attention_mask = inputs["attention_mask"].cuda()
+    try:
+        # 将 prompt 编码为输入张量，同时生成 attention_mask
+        inputs = tokenizer([prompt], return_tensors="pt", padding=True)
+        input_ids = inputs["input_ids"].cuda()
+        attention_mask = inputs["attention_mask"].cuda()
 
-    if generation_config is None:
-        # 若模型本身有 generation_config，则使用
-        generation_config = model.generation_config
-    # 合并生成配置与额外参数
-    gen_kwargs = generation_config.update(**kwargs)
-    # 如果没有设置 pad_token_id，则设置为 tokenizer.pad_token_id，否则为 tokenizer.eos_token_id
-    if "pad_token_id" not in gen_kwargs or gen_kwargs["pad_token_id"] is None:
-        gen_kwargs["pad_token_id"] = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+        if generation_config is None:
+            # 若模型本身有 generation_config，则使用
+            generation_config = model.generation_config
+        # 合并生成配置与额外参数
+        gen_kwargs = generation_config.update(**kwargs)
+        # 如果没有设置 pad_token_id，则设置为 tokenizer.pad_token_id，否则为 tokenizer.eos_token_id
+        if "pad_token_id" not in gen_kwargs or gen_kwargs["pad_token_id"] is None:
+            gen_kwargs["pad_token_id"] = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
-    # 调用 generate 方法，直接生成完整回答，注意将 max_new_tokens 参数传入
-    outputs = model.generate(input_ids, attention_mask=attention_mask, **gen_kwargs)
-    # 解码生成的 token，去除特殊符号
-    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    # 如果生成结果包含输入 prompt，可根据需要进行切分
-    if generated_text.startswith(prompt):
-        generated_text = generated_text[len(prompt):]
-    return generated_text
+        if not stream:
+            # 非流式模式：一次性生成完整回答
+            outputs = model.generate(input_ids, attention_mask=attention_mask, **gen_kwargs)
+            # 解码生成的 token，去除特殊符号
+            generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+            # 如果生成结果包含输入 prompt，可根据需要进行切分
+            if generated_text.startswith(prompt):
+                generated_text = generated_text[len(prompt):]
+            return generated_text
+        else:
+            # 流式模式：使用 streaming generator
+            streamer = TokenStreamer(tokenizer, prompt)
+            
+            # 设置 streamer 参数
+            generation_kwargs = {
+                "input_ids": input_ids,
+                "attention_mask": attention_mask,
+                "streamer": streamer,
+                **gen_kwargs
+            }
+            
+            try:
+                # 启动生成过程（非阻塞，将在后台运行）
+                model.generate(**generation_kwargs)
+            except Exception as e:
+                # 如果生成过程出错，记录错误，并在streamer中标记结束
+                print(f"Error in model.generate: {str(e)}")
+                streamer.end()
+            
+            # 返回 streamer 的迭代器，用于流式传输 tokens
+            return streamer
+    except Exception as e:
+        # 捕获并记录所有错误
+        print(f"Error in generate_response: {str(e)}")
+        raise e
+
+
+class TokenStreamer:
+    """用于流式传输tokens的类"""
+    def __init__(self, tokenizer, prompt):
+        self.tokenizer = tokenizer
+        self.prompt = prompt
+        self.generated_tokens = []
+        self.text_buffer = ""
+        self.finished = False
+        self.current_length = 0
+        self.all_tokens = []
+        
+    def put(self, token_ids):
+        """接收生成的token IDs"""
+        try:
+            # Handle both single token_id (int) or list of token_ids
+            if isinstance(token_ids, torch.Tensor):
+                if token_ids.dim() == 0:
+                    # Single tensor scalar
+                    token_ids = [token_ids.item()]
+                else:
+                    # Convert tensor to list
+                    token_ids = token_ids.tolist()
+            elif isinstance(token_ids, int):
+                token_ids = [token_ids]
+            
+            # Make sure token_ids is flat (not nested)
+            flat_token_ids = []
+            def flatten(ids):
+                if isinstance(ids, list):
+                    for item in ids:
+                        if isinstance(item, list):
+                            flatten(item)
+                        else:
+                            # Only append if it's a number that can be converted to int
+                            if isinstance(item, (int, float)) or (isinstance(item, str) and item.isdigit()):
+                                flat_token_ids.append(int(item))
+                else:
+                    # Handle single item
+                    if isinstance(ids, (int, float)) or (isinstance(ids, str) and ids.isdigit()):
+                        flat_token_ids.append(int(ids))
+            
+            flatten(token_ids)
+            
+            # If no valid tokens were found, return early
+            if not flat_token_ids:
+                print(f"Warning: No valid token IDs found in {token_ids}")
+                return
+            
+            # Now token_ids should be a flat list of integers
+            for token_id in flat_token_ids:
+                self.generated_tokens.append(token_id)
+                self.all_tokens.append(token_id)
+            
+            # Decode all tokens at once
+            current_text = self.tokenizer.decode(
+                self.all_tokens, 
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            )
+            
+            # 如果当前文本以prompt开头，则移除prompt部分
+            if current_text.startswith(self.prompt):
+                current_text = current_text[len(self.prompt):]
+            
+            # 计算新添加的文本
+            if len(self.text_buffer) < len(current_text):
+                new_text = current_text[len(self.text_buffer):]
+                self.text_buffer = current_text
+            else:
+                self.text_buffer = ""
+                
+            self.current_length += len(flat_token_ids)
+            
+        except Exception as e:
+            # Add error handling to provide better diagnostics
+            print(f"Error in TokenStreamer.put: {str(e)}")
+            print(f"token_ids type: {type(token_ids)}")
+            print(f"token_ids value: {str(token_ids)[:100]}...")  # Print first 100 chars to avoid huge logs
+            # Do not raise the exception - continue processing
+    
+    def end(self):
+        """标记生成结束"""
+        self.finished = True
+    
+    def __iter__(self):
+        """迭代器，用于流式传输解码后的文本"""
+        try:
+            while not self.finished or self.text_buffer:
+                # 如果有缓冲的文本，逐步输出
+                if self.text_buffer:
+                    chunk = self.text_buffer
+                    self.text_buffer = ""
+                    # 创建 SSE 格式的数据
+                    data = {
+                        "choices": [{
+                            "delta": {"content": chunk},
+                            "index": 0,
+                            "finish_reason": None
+                        }]
+                    }
+                    yield f"data: {json.dumps(data)}\n\n"
+                else:
+                    # 如果没有新文本但生成未结束，等待一下
+                    if not self.finished:
+                        import time
+                        time.sleep(0.01)
+            
+            # 发送结束信号
+            data = {
+                "choices": [{
+                    "delta": {},
+                    "index": 0,
+                    "finish_reason": "stop"
+                }]
+            }
+            yield f"data: {json.dumps(data)}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            # Log the error
+            print(f"Error in TokenStreamer.__iter__: {str(e)}")
+            # Send an error message to the client
+            error_data = {
+                "choices": [{
+                    "delta": {"content": f"\n\n[Error during generation: {str(e)}]"},
+                    "index": 0,
+                    "finish_reason": "error"
+                }]
+            }
+            yield f"data: {json.dumps(error_data)}\n\n"
+            yield "data: [DONE]\n\n"
 
 
 @st.cache_resource
@@ -121,7 +284,7 @@ def load_model():
         bnb_4bit_compute_dtype=torch.float16,
     )
     # ========== 加载基础模型 ==========
-    base_model_path = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+    base_model_path = "DeepSeek-R1-Distill-Qwen-7B"
     base_model = AutoModelForCausalLM.from_pretrained(
         base_model_path,
         quantization_config=bnb_config,  # 4-bit 量化
@@ -129,7 +292,7 @@ def load_model():
         trust_remote_code=True
     )
     # ========== 加载 QLoRA 适配器 ==========
-    lora_adapter_path = "Kongfoo-ai/internTAv2.0_test"
+    lora_adapter_path = "internTAv2.0_test"
     lora_model = PeftModel.from_pretrained(base_model, lora_adapter_path)
     # ========== 加载 Tokenizer ==========
     tokenizer = AutoTokenizer.from_pretrained(lora_adapter_path)
@@ -149,6 +312,10 @@ class Message(BaseModel):
 class ChatCompletionRequest(BaseModel):
     model: str
     messages: List[Message]
+    stream: bool = False
+    temperature: Optional[float] = 0.8
+    max_tokens: Optional[int] = 8000
+    top_p: Optional[float] = 0.8
 
 class ChatCompletionResponse(BaseModel):
     choices: List[dict]
@@ -215,29 +382,54 @@ async def create_chat_completion(request: ChatCompletionRequest):
                 total_prompt += f"<|im_start|>assistant\n{msg.content}<|im_end|>\n"
         total_prompt += "<|im_start|>assistant\n"
 
-        generation_config = GenerationConfig()
-        response = generate_response(
-            model=model,
-            tokenizer=tokenizer,
-            prompt=total_prompt,
-            use_cache=False,  # 关闭缓存
-            **asdict(generation_config)
+        generation_config = GenerationConfig(
+            temperature=request.temperature or 0.8,
+            max_new_tokens=request.max_tokens or 8000,
+            top_p=request.top_p or 0.8
         )
-        return ChatCompletionResponse(
-            choices=[{
-                "message": {
-                    "role": "assistant",
-                    "content": response
-                }
-            }]
-        )
+        
+        # Check if streaming is requested
+        if request.stream:
+            # Use streaming response
+            response = generate_response(
+                model=model,
+                tokenizer=tokenizer,
+                prompt=total_prompt,
+                generation_config=generation_config,
+                stream=True,
+                use_cache=False  # 关闭缓存
+            )
+            return StreamingResponse(
+                response,
+                media_type="text/event-stream"
+            )
+        else:
+            # Use standard response
+            response = generate_response(
+                model=model,
+                tokenizer=tokenizer,
+                prompt=total_prompt,
+                generation_config=generation_config,
+                stream=False,
+                use_cache=False  # 关闭缓存
+            )
+            return ChatCompletionResponse(
+                choices=[{
+                    "message": {
+                        "role": "assistant",
+                        "content": response
+                    },
+                    "index": 0,
+                    "finish_reason": "stop"
+                }]
+            )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 def main():
     import sys
-    uvicorn.run(app_api, host="0.0.0.0", port=8000)
+    uvicorn.run(app_api, host="0.0.0.0", port=8080)
 
 if __name__ == "__main__":
     init()
