@@ -52,12 +52,36 @@ cd InternTA
 # Install the dependencies
 pip install -r requirements.txt
 
+# Set API access token (optional)
+# Create or edit the .env file in the project root directory, add API_TOKEN=your-secret-token
+
 # Start demo (The default port is 8080. You can change it if necessary)
 sh run.sh
 
 # View run logs 
 tail -f nohup.out
 ```
+
+## API Authentication
+
+The InternTA API server supports authentication using Bearer tokens. To enable this feature:
+
+1. Set the `API_TOKEN` environment variable in the `.env` file in the project root directory:
+   ```
+   API_TOKEN=your-secret-token
+   ```
+
+2. Include the Authorization header in your requests to the API:
+   ```
+   Authorization: Bearer your-secret-token
+   ```
+
+3. If `API_TOKEN` is not set in the `.env` file, authentication will be skipped, and the API will allow all requests.
+
+4. You can test the authentication feature using the provided `test_auth.py` script:
+   ```sh
+   python test_auth.py
+   ```
 
 ## User Guide
 

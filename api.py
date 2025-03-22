@@ -36,6 +36,7 @@ import copy
 import warnings
 from dataclasses import asdict, dataclass
 from typing import List, Optional
+from dotenv import load_dotenv
 
 import streamlit as st
 import torch
@@ -43,7 +44,7 @@ from transformers.utils import logging
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, Header
 from pydantic import BaseModel
 import uvicorn
 from peft import PeftModel
@@ -51,11 +52,15 @@ from peft import PeftModel
 
 logger = logging.get_logger(__name__)
 
+# Load environment variables from .env file
+load_dotenv()
+API_TOKEN = os.getenv("API_TOKEN", "")  # Default to empty string if not found
+
 def init():
     # 设置 HF 镜像环境变量（如果需要）
     model_dir = snapshot_download('Kongfoo-ai/internTAv2.0_test', cache_dir='./')
     os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-    os.system('huggingface-cli download --resume-download deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local-dir DeepSeek-R1-Distill-Qwen-7B')
+    os.system('huggingface-cli download --resume-download deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local-dir DeepSeek-R1-Distill-Qwen-7B --cache-dir DeepSeek-R1-Distill-Qwen-7B')
 
 @dataclass
 class GenerationConfig:
@@ -158,7 +163,44 @@ def get_model_and_tokenizer():
     return load_model()
 
 
-@app_api.post("/v1/chat/completions")
+# Authentication dependency
+async def verify_token(authorization: str = Header(None)):
+    if not API_TOKEN:
+        # If no token is set in .env, skip authentication
+        return True
+    
+    if not authorization:
+        raise HTTPException(
+            status_code=401,
+            detail="Authorization header missing",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    
+    try:
+        scheme, token = authorization.split()
+        if scheme.lower() != "bearer":
+            raise HTTPException(
+                status_code=401, 
+                detail="Invalid authentication scheme",
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+        if token != API_TOKEN:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid token",
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+    except ValueError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authorization header format",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    
+    return True
+
+
+@app_api.post("/v1/chat/completions", dependencies=[Depends(verify_token)])
 async def create_chat_completion(request: ChatCompletionRequest):
     try:
         model, tokenizer = get_model_and_tokenizer()

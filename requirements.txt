@@ -1,22 +1,36 @@
-modelscope==1.9.5
-transformers==4.35.2
-streamlit==1.24.0
-sentencepiece==0.1.99
-accelerate==0.24.1
-langchain==0.0.292
-transformers==4.35.2
-gradio==4.4.0
-chromadb==0.4.15
-sentence-transformers==2.2.2
-unstructured==0.10.30
-markdown==3.3.7
+--find-links https://download.pytorch.org/whl/cu118
+torch
+torchvision
+torchaudio
+transformers
+bitsandbytes
+accelerate
+peft
+trl
+triton==3.1.0
+datasets
+uvicorn
+Requests
+
+langchain
+langchain-community
+sentence-transformers
+faiss-gpu-cu11
+modelscope
+sentencepiece
 pypdf
-jieba 
-rouge_chinese 
+python-docx
+# unstructured
+markdown
+jieba
+rouge_chinese
+streamlit==1.31.0
+# gradio==4.4.0
+fastapi
+# chromadb==0.4.15
 pandas
 openai
-python-docx
-python-dotenv
-tensorrt>=8.6.1
-polygraphy>=0.47.1
-onnx>=1.14.0
+python-dotenv==1.0.0
+# tensorrt>=8.6.1
+# polygraphy>=0.47.1
+# onnx>=1.14.0

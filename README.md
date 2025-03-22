@@ -57,12 +57,36 @@ cd InternTA
 # 安装依赖
 pip install -r requirements.txt
 
+# 设置 API 访问令牌（可选）
+# 在项目根目录创建或编辑 .env 文件，添加 API_TOKEN=your-secret-token
+
 # 启动demo, 默认端口为8080如有需要可以修改
 sh run.sh
 
 # 查看运行日志 
 tail -f nohup.out
 ```
+
+## API 认证
+
+InternTA API 服务器支持基于 Bearer 令牌的身份验证。要启用此功能：
+
+1. 在项目根目录的 `.env` 文件中设置 `API_TOKEN` 环境变量：
+   ```
+   API_TOKEN=your-secret-token
+   ```
+
+2. 向 API 发送请求时，在请求头中包含 Authorization 字段：
+   ```
+   Authorization: Bearer your-secret-token
+   ```
+
+3. 如果未在 `.env` 文件中设置 `API_TOKEN`，则认证将被跳过，API 将允许所有请求。
+
+4. 您可以使用提供的 `test_auth.py` 脚本测试身份验证功能：
+   ```sh
+   python test_auth.py
+   ```
 
 ## 使用教程
 
