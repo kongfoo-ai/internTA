@@ -1,1 +1,1 @@
-CUDA_VISIBLE_DEVICES=0 nohup streamlit run app.py --show-local-option --local --server.address=0.0.0.0 --server.port 8080 --server.fileWatcherType none &
+CUDA_VISIBLE_DEVICES=0 streamlit run app.py --server.address=0.0.0.0 --server.port 8080 --server.fileWatcherType none -- --show-local-option --local
