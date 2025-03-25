@@ -1,4 +1,6 @@
-# internTA: "Synthetic Biology" Teaching Assistant Based on InternLM2 Large Language Model
+# InternTA: An Multi-agent AI Teaching Assistant Learns from Limited Data
+
+[中文版](README.md) | [English Version](README-EN.md)
 
 <div align="center"><img src="./statics/demo.gif" width="500"></div>
 
@@ -10,37 +12,70 @@ Demo video：[[Google Drive]](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_
 
 Online experience Demo：[[Powered by Coze]](https://ecopi.chat/)
 
+Large language models (LLMs) have shown great potential to enhance student learning by serving as AI-powered teaching assistants (TA). However, existing LLM-based TA systems often face critical challenges, including data privacy risks associated with third-party API-based solutions and limited effectiveness in courses with limited teaching materials.
+
+This project proposes an automated TA training system based on LLM agents, designed to train customized, lightweight, and privacy-preserving AI models. Unlike traditional cloud-based AI TAs, our system allows local deployment, reducing data security concerns, and includes three components:
+
+1. **Dataset Agent**: Constructing high-quality datasets with explicit reasoning paths
+2. **Training Agent**: Fine-tuning models via Knowledge Distillation, effectively adapting to limited-data courses
+3. **RAG Agent**: Enhancing responses by retrieving external knowledge
+
+We validate our system in Synthetic Biology, an interdisciplinary field characterized by scarce structured training data. Experimental results and user evaluations demonstrate that our AI TA achieves strong performance, high user satisfaction, and improved student engagement, highlighting its practical applicability in real-world educational settings.
 
 ## Background
-From lab-grown meat, synthetic proteins to the gene-editing technology CRISPR-Cas9, synthetic biology has been flourishing across various fields in recent years, leading what is being termed the "Third Biotechnology Revolution." However, the dissemination of synthetic biology knowledge faces several challenges:
 
-On one hand, synthetic biology is an interdisciplinary field that combines knowledge from biology, chemistry, engineering, and computer science. Many cutting-edge technologies play an indispensable role in advancing synthetic biology.
+Synthetic biology is a cutting-edge field that integrates knowledge from biology, chemistry, engineering, and computer science. In recent years, applications ranging from lab-grown meat to CRISPR-Cas9 gene editing technology have been leading the "Third Biotechnology Revolution." However, the dissemination of synthetic biology knowledge faces two major challenges:
 
-On the other hand, there is still a gap between China and advanced developed countries in the field of biotechnology, and China is in a state of catching up. There is a significant shortage of teachers and professionals with cross-disciplinary knowledge and rich practical experience.
+1. Interdisciplinary complexity: Requires integration of knowledge from multiple domains, creating a steep learning curve
+2. Educational resource limitations: Shortage of teaching talent with cross-disciplinary knowledge and practical experience
 
-To address these shortcomings, we have developed the "Synthetic Biology" teaching assistant, InternTA, based on the InternLM2 large language model. The aim is to help students to learn the "Synthetic Biology" course. By providing keywords and ideas, and pointing out relevant chapters in textbooks, we hope that InternTA could guide students to think independently, thereby achieving high-quality learning of synthetic biology knowledge and fulfilling the goal of "teaching a man to fish rather than giving him a fish.”
+Traditional AI teaching assistant solutions typically rely on cloud service APIs, which introduce data privacy risks and perform poorly when specialized teaching materials are limited. The InternTA project is designed to address these challenges.
 
-## Introduction
-InternTA draws material from the "Synthetic Biology" textbook. It uses a semi-automated approach to generate instructional dialogues as a fine-tuning dataset. The [Xtuner](https://github.com/InternLM/xtuner) is employed to fine-tune the base model [InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary), and Streamlit is used as the framework to develop a web-based DEMO application.
+## Technical Architecture
 
-The implementation principle of InternTA is shown in the diagram below:
+InternTA adopts a three-layer agent architecture to achieve automated training, local deployment, and privacy protection:
 
 <div align="center"><img src="./statics/internTA-EN.png" width="500"></div>
 
+### 1. Dataset Agent
 
-One of the most critical steps is the preparation of fine-tuning data. We have prepared two types of fine-tuning training data: direct Q&A data and guided Q&A data. The steps for preparing the fine-tuning data are shown in the diagram below:
+The Dataset Agent is responsible for constructing high-quality training data with explicit reasoning paths:
 
 <div align="center"><img src="./statics/data-EN.png" width="350"></div>
 
-> - First, we compile a question bank, which mainly includes three categories: post-class thought questions, key terms in the appendix, and fundamental concept knowledge. We then search for corresponding answers in the "Synthetic Biology" textbook based on these questions.
-> - Next, we organize the retrieved answers to form a response database that the teaching assistant can use. For key terms and fundamental concept knowledge, we provide direct answers to engage with the users.
-> - For the post-class thought questions in the "Synthetic Biology" textbook, we use a larger parameter-scale language model (such as GPT-4) to rewrite the correct answers into a guided response format, avoiding directly providing users with the standard answers.
+- **Data Sources**: Extracts post-class questions, key terms, and fundamental concepts from the "Synthetic Biology" textbook
+- **Reasoning Path Construction**: Generates explicit reasoning paths for each question
+- **Guided Teaching Design**: For complex thought questions, designs guided responses rather than providing direct answers
+
+### 2. Training Agent
+
+The Training Agent fine-tunes lightweight models using knowledge distillation techniques:
+
+- **Base Model**: Uses [InternLM2-Chat-1.8B-SFT](https://modelscope.cn/models/Shanghai_AI_Laboratory/internlm2-chat-1_8b-sft/summary) as the foundation model
+- **Fine-Tuning Tools**: Employs [Xtuner](https://github.com/InternLM/xtuner) for efficient fine-tuning
+- **Knowledge Distillation**: Transfers knowledge from larger parameter-scale models to lightweight models
+
+### 3. RAG Agent
+
+The RAG (Retrieval-Augmented Generation) Agent enhances answer quality by retrieving external knowledge:
+
+- **Knowledge Base Construction**: Structured processing of "Synthetic Biology" textbook content
+- **Semantic Retrieval**: Retrieves relevant knowledge points based on user questions
+- **Enhanced Generation**: Combines retrieved knowledge to generate more accurate and in-depth answers
+
+## Privacy Protection and Local Deployment
+
+InternTA system design emphasizes data privacy protection and deployment flexibility:
+
+- **Local Model Deployment**: All models can run on local machines, avoiding data exposure
+- **API Token Authentication**: Provides API access control mechanisms to secure the system
+- **Lightweight Design**: Optimizes model size to run efficiently on ordinary hardware
 
 ## Quick Experience
 
 **Online Experience Address**: [[Powered by Coze]](https://www.kongfoo.cloud/)
 
-**Local Experience Method (NVIDIA GPU with 8GB or more VRAM)**:
+**Local Deployment Method** (NVIDIA GPU with 8GB or more VRAM):
 
 ```sh
 # Clone the repository
@@ -85,7 +120,7 @@ The InternTA API server supports authentication using Bearer tokens. To enable t
 
 ## User Guide
 
-### 1.Generating Training Data
+### 1. Dataset Agent Training
 
 Install dependencies.
 
@@ -93,14 +128,14 @@ Install dependencies.
 pip install -r requirements.txt
 ```
 
-Generate training data using the open-source example.
+Generate high-quality training dataset.
 
 ```sh
 cd data
 python generate_data.py
 ```
 
-### 2.Model Fine-Tuning
+### 2. Training Agent Fine-Tuning
 
 Go to the project root directory
 
@@ -108,19 +143,19 @@ Go to the project root directory
 cd $ROOT_PATH 
 ```
 
-Check if there is a file named personal_assistant.json in the data directory.
+Check if there is a file named `personal_assistant.json` in the data directory.
 
 ```sh
 ls -lh data
 ```
 
-Fine-tune the model using the data generated in the previous steps and the Xtuner tool.
+Fine-tune the model using data generated by the Dataset Agent and the Xtuner tool.
 
 ```sh
 sh train.sh
 ```
 
-Observe the model weights in the train directory. The naming convention for the directory is pth_$NUM_EPOCH.
+Observe the model weights in the train directory. The naming convention for the directory is `pth_$NUM_EPOCH`.
 ```sh
 ls -lh train
 ```
@@ -132,7 +167,7 @@ Merge the fine-tuned Adapter into the base model.
 sh merge.sh $NUM_EPOCH
 ```
 
-### 3.Model Testing
+### 3. Local Model Evaluation
 
 Test the final merged model in the final directory.
 
@@ -140,11 +175,10 @@ Test the final merged model in the final directory.
 # Note: Modify the model path as needed
 sh chat.sh
 ```
-### 4. Model Response Evaluation
 
+### 4. RAG Agent Evaluation
+ 
 This section is used to calculate the ROUGE similarity scores for responses generated by the InternTA model and generate evaluation results.
-
-Run the evaluation script:
 
 ```sh
 # Ensure your SynBio-Bench.json file is in the correct directory
@@ -152,63 +186,6 @@ pytest ./test/test_model_evaluation.py
 ```
 
 This command will process the data file and output the results to the `test_results.csv` file.
-
-The unit tests in the script are used to verify that the answers obtained from the model API are valid and that the ROUGE similarity score calculations are correct.
-
-## Test Cases
-
-There is a postman collection in /test which includes the following test cases:
-
-1. **Basic Chat Completion** - Tests a simple user query
-2. **Chat Completion with System Message** - Tests using a system message to set context
-3. **Multi-turn Conversation** - Tests a conversation with multiple turns
-4. **Missing Authorization** - Tests the API's response when no authorization token is provided
-5. **Invalid Request Format** - Tests the API's response to malformed requests
-
-## Setup Instructions
-
-### Prerequisites
-
-- [Postman](https://www.postman.com/downloads/) installed on your machine
-
-### Import the Collection and Environment
-
-1. Open Postman
-2. Click on "Import" in the top left corner
-3. Drag and drop both JSON files or use the file selector to import them
-4. Both the collection and environment should now appear in your Postman workspace
-
-### Configure the Environment
-
-1. Click on the "Environments" tab in Postman
-2. Select the "InternTA API Environment"
-3. Update the `api_token` variable with your actual API token
-4. Click "Save"
-
-### Running the Tests
-
-#### Run Individual Tests
-
-1. Select the "Collections" tab
-2. Open the "InternTA Chat Completions API Tests" collection
-3. Make sure the "InternTA API Environment" is selected in the environment dropdown (top right)
-4. Click on any test request to open it
-5. Click the "Send" button to run the test
-6. View the test results in the "Test Results" tab of the response section
-
-#### Run All Tests
-
-1. Right-click on the "InternTA Chat Completions API Tests" collection
-2. Select "Run collection"
-3. In the Collection Runner, make sure all requests are selected
-4. Select the "InternTA API Environment" from the environment dropdown
-5. Click "Run InternTA Chat Completions API Tests"
-6. View the test results in the Collection Runner
-
-### API Documentation
-
-For more information about the InternTA Chat Completions API, refer to the official documentation at:
-https://docs.ecopi.chat
 
 ## Special Thanks
 
