@@ -1,3 +1,31 @@
+"""
+Model Merger Utility for InternTA
+=================================
+
+This script merges a base language model with a LoRA (Low-Rank Adaptation) adapter
+to create a standalone model with the fine-tuned weights incorporated directly.
+
+Purpose:
+- Combines a quantized base model with a LoRA adapter fine-tuned for synthetic biology
+- Creates a single merged model that can be deployed without requiring separate adapter loading
+- Useful for deployment scenarios where loading adapters separately is inconvenient
+
+Usage:
+    python merge.py --base-model <BASE_MODEL_PATH> --lora-adapter <LORA_PATH> --output-path <OUTPUT_PATH>
+
+Arguments:
+    --base-model: Path to the base language model (default: DeepSeek-R1-Distill-Qwen-7B)
+    --lora-adapter: Path to the LoRA adapter (default: internTAv2.0_test)
+    --output-path: Path to save the merged model (default: merged_model)
+
+Technical details:
+- Uses 4-bit quantization (NF4) to load the base model efficiently
+- Preserves the tokenizer configuration from the LoRA adapter
+- Compatible with the InternTA application's model loading requirements
+
+This is a companion utility to the main InternTA application (app.py).
+"""
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import PeftModel
@@ -57,3 +85,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

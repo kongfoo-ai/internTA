@@ -1,3 +1,33 @@
+"""
+InternTA: Synthetic Biology Teaching Assistant
+==============================================
+
+This application provides a conversational AI assistant specialized in synthetic biology education.
+It supports two operation modes:
+1. Remote API mode - Connects to a remote API endpoint (api.ecopi.chat) using an API key
+2. Local model mode - Loads and runs a fine-tuned language model locally (if available)
+
+Features:
+- Interactive chat interface with Streamlit
+- Support for streaming responses (local model only)
+- LaTeX equation rendering in markdown
+- Special handling for thinking/reasoning sections with </think> tags
+- Configurable generation parameters (temperature, top_p, etc.)
+- GPU memory management for local model operation
+
+Usage:
+- Run with `--local` flag to default to local model mode
+- Run with `--show-local-option` to allow users to switch between local and remote modes
+
+Dependencies:
+- streamlit for the web interface
+- transformers, torch, and peft for local model loading and inference
+- requests for API communication
+
+Author: [Your Name]
+Date: [Creation/Last Update Date]
+"""
+
 import streamlit as st
 import requests
 import json
@@ -6,45 +36,12 @@ import re
 from datetime import datetime
 import sys
 import asyncio
-
-# Handle asyncio event loop issues that can occur with Streamlit hot reloading
-try:
-    asyncio.get_running_loop()
-except RuntimeError:
-    # Create a new event loop if one is not running
-    try:
-        asyncio.set_event_loop(asyncio.new_event_loop())
-    except Exception as e:
-        print(f"Warning: Could not set asyncio event loop: {e}")
-
-# Add this patch to prevent Streamlit from trying to examine torch.classes paths
-# This needs to be done before importing torch
-def patch_torch_classes():
-    class TorchClassPathPatch:
-        def __init__(self):
-            self._path = []
-        def __getattr__(self, name):
-            if name == "_path":
-                return []
-            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
-
-    class TorchClassesPatch:
-        def __init__(self):
-            self.__path__ = TorchClassPathPatch()
-        def __getattr__(self, name):
-            if name == "__path__":
-                return self.__path__
-            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
-
-    sys.modules['torch.classes'] = TorchClassesPatch()
-
-patch_torch_classes()
-
-# Now import torch after the patch
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import PeftModel  # Import PeftModel for loading LoRA adapters
 import time
+import argparse  # Add argparse for command line arguments
+
 
 # Function to process content for display
 def process_content_for_display(content, is_user_message=False):
@@ -330,7 +327,7 @@ def stream_generate(model, tokenizer, input_ids, attention_mask=None, **gen_kwar
         #clear_cuda_cache()
 
 # Function to generate response using local model
-def generate_local_response(model, tokenizer, messages, temperature=0.2, top_p=0.5, 
+def generate_local_response(model, tokenizer, messages, temperature=0.2, top_p=0.15, 
                            repetition_penalty=1.05, max_tokens=4096, do_sample=True, stream=True):
     """Generate a response using the local model with optional streaming"""
     try:
@@ -387,321 +384,358 @@ def generate_local_response(model, tokenizer, messages, temperature=0.2, top_p=0
         # Final CUDA cleanup
         #clear_cuda_cache()
 
-# Page configuration
-st.set_page_config(
-    page_title="InternTA: 合成生物学助教 | Synthetic Biology Teaching Assistant",
-    page_icon="🧬",
-    layout="wide"
-)
+# Setup command line arguments and default model source
+def parse_args():
+    parser = argparse.ArgumentParser(description="InternTA: Synthetic Biology Teaching Assistant")
+    parser.add_argument("--local", action="store_true", help="Use local model instead of remote API")
+    parser.add_argument("--show-local-option", action="store_true", help="Show local model as an option in the UI")
+    return parser.parse_args()
 
-# Initialize messages if not in session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+# Main function to start the app
+def main():
+    # Parse command line arguments
+    args = parse_args()
+    
+    # Set default model source based on command line arguments
+    if "model_source" not in st.session_state:
+        if args.local:
+            st.session_state.model_source = "本地模型 | Local Model"
+        else:
+            st.session_state.model_source = "远程 API | Remote API"
+    
+    # Store show_local_option flag in session state
+    if "show_local_option" not in st.session_state:
+        st.session_state.show_local_option = args.show_local_option
 
-# Fixed API URL - no need for user input
-API_BASE_URL = "https://api.ecopi.chat/v1/chat/completions"
-
-if "api_key" not in st.session_state:
-    st.session_state.api_key = ""
-
-# Fixed model name - no need for user input
-MODEL_NAME = "internta"
-
-# Sidebar for configuration
-with st.sidebar:
-    st.title("InternTA: 合成生物学助教 | Synthetic Biology TA")
-
-    # Model source selection
-    model_source = st.radio(
-        "模型来源 | Model Source",
-        ["本地模型 | Local Model", "远程 API | Remote API"],
-        index=0  # Default to local model
+    # Start the Streamlit app (the existing code continues from here)
+    # Page configuration
+    st.set_page_config(
+        page_title="InternTA: 合成生物学助教 | Synthetic Biology Teaching Assistant",
+        page_icon="🧬",
+        layout="wide"
     )
-    
-    if model_source == "远程 API | Remote API":
-        # Display the fixed API URL (read-only)
-        st.info(f"获取 API 密钥地址 | Obtain API Key from here: https://docs.ecopi.chat")
-        
-        # API Key input
-        api_key = st.text_input("Please enter an API Key | 请输入 API 密钥", 
-                               value=st.session_state.api_key,
-                               placeholder="sk-...",
-                               type="password")
-        
-        if api_key != st.session_state.api_key:
-            st.session_state.api_key = api_key
-        
-        # 远程API模式下的参数设置
-        st.write("参数设置 | Parameters:")
-        temperature = st.slider("温度 | Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.05)
-        top_p = st.slider("Top P (核采样阈值 | Nucleus sampling threshold)", min_value=0.0, max_value=1.0, value=0.5, step=0.05)
-        max_tokens = st.number_input("最大生成长度 | Max Tokens", min_value=1, max_value=100000, value=4096, step=100)
-        
-        # 显示流式响应不可用的提示
-        st.warning("远程API不支持流式响应，将使用非流式模式 | Remote API does not support streaming, will use non-streaming mode")
-        use_streaming = False  # 远程API强制非流式
-    else:
-        # Path to base model and LoRA adapter
-        with st.expander("模型设置 | Model Settings", expanded=True):
-            base_model_path = st.text_input(
-                "基础模型路径 | Base Model Path",
-                value="DeepSeek-R1-Distill-Qwen-7B",
-                help="基础大语言模型的路径 | Path to base language model"
-            )
-            
-            lora_adapter_path = st.text_input(
-                "LoRA适配器路径 | LoRA Adapter Path",
-                value="internTAv2.0_test",
-                help="LoRA微调适配器的路径 | Path to LoRA fine-tuned adapter"
-            )
-        
-        # Check if we need to load or reload the model
-        model_changed = (
-            "base_model_path" not in st.session_state or 
-            "lora_adapter_path" not in st.session_state or
-            st.session_state.get("base_model_path", "") != base_model_path or
-            st.session_state.get("lora_adapter_path", "") != lora_adapter_path
-        )
-        
-        if model_changed or "local_model" not in st.session_state:
-            # Only load the model if it's not loaded or the paths have changed
-            with st.spinner("加载模型中... | Loading model..."):
-                try:
-                    st.session_state.local_model, st.session_state.local_tokenizer = load_local_model(
-                        lora_adapter_path=lora_adapter_path,
-                        base_model_path=base_model_path
-                    )
-                    # Store current paths in session state
-                    st.session_state.base_model_path = base_model_path
-                    st.session_state.lora_adapter_path = lora_adapter_path
-                    st.success("模型加载成功！| Model loaded successfully!")
-                except Exception as e:
-                    st.error(f"加载模型失败 | Failed to load model: {str(e)}")
-                    if "cuda" in str(e).lower() and "out of memory" in str(e).lower():
-                        st.warning("GPU内存不足，请考虑使用更小的模型或清理GPU内存 | GPU out of memory, consider using a smaller model or freeing GPU memory")
-    
-        # 本地模型的参数设置 - Enhanced with parameters from run.py
-        st.write("生成参数设置 | Generation Parameters:")
-        temperature = st.slider("温度 | Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.05, 
-                              help="控制生成文本的随机性。较高的值 (如 0.8) 会使输出更加多样化，较低的值 (如 0.2) 使输出更加确定和集中 | Controls randomness in generation. Higher (0.8) is more diverse, lower (0.2) more focused")
-        
-        top_p = st.slider("Top P", min_value=0.0, max_value=1.0, value=0.5, step=0.05,
-                         help="核采样阈值 - 模型只考虑概率总和达到此值的候选词 | Nucleus sampling threshold - model only considers tokens that make up this probability mass")
-        
-        repetition_penalty = st.slider("重复惩罚 | Repetition Penalty", min_value=1.0, max_value=2.0, value=1.05, step=0.05,
-                                     help="控制重复内容的惩罚力度，较高的值会减少重复 | Controls penalty for repetition, higher reduces repetition")
-        
-        max_tokens = st.number_input("最大生成长度 | Max Tokens", min_value=100, max_value=100000, value=4096, step=100,
-                                   help="响应中生成的最大标记数 | Maximum number of tokens to generate in response")
-        
-        # 高级选项 (可折叠) | Advanced options (collapsible)
-        with st.expander("高级选项 | Advanced Options"):
-            do_sample = st.checkbox("使用采样 | Use Sampling", value=True, 
-                                  help="启用从概率分布采样，关闭则使用贪婪搜索 | Enable sampling from probability distribution, disable for greedy search")
-            
-        # 本地模型支持流式响应选项
-        use_streaming = st.checkbox("流式响应 | Streaming Response", value=True, 
-                                  help="逐步显示生成的文本 | Display generated text incrementally")
-    
-    # Memory management
-    with st.expander("内存管理 | Memory Management"):
-        if st.button("清理GPU缓存 | Clear GPU Cache"):
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                st.success("GPU缓存已清理 | GPU cache cleared")
-            else:
-                st.info("未检测到GPU | No GPU detected")
-    
-    # Clear chat button
-    if st.button("清空对话 | Clear Chat", help="清除所有对话历史 | Clear all chat history"):
+
+    # Initialize messages if not in session state
+    if "messages" not in st.session_state:
         st.session_state.messages = []
-        st.rerun()
 
-# Main chat interface
-#st.title("InternTA: 合成生物学助教 | Synthetic Biology Teaching Assistant")
-#st.caption("基于 InternLM2 大模型，帮助学生更好地学习《合成生物学》 | Based on InternLM2 model, helping students better learn Synthetic Biology")
+    # Fixed API URL - no need for user input
+    API_BASE_URL = "https://api.ecopi.chat/v1/chat/completions"
 
-# Display chat messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        # Process the content for display with all necessary transformations
-        processed_content = process_content_for_display(message["content"])
-        st.markdown(processed_content, unsafe_allow_html=True)
+    if "api_key" not in st.session_state:
+        st.session_state.api_key = ""
 
-# Get user input
-if prompt := st.chat_input("请输入您的问题... | Enter your question..."):
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-    # Display user message
-    with st.chat_message("user"):
-        processed_prompt = process_content_for_display(prompt, is_user_message=True)
-        st.markdown(processed_prompt, unsafe_allow_html=True)
-    
-    # Prepare model call
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        message_placeholder.markdown("思考中... | Thinking...")
+    # Fixed model name - no need for user input
+    MODEL_NAME = "internta"
+
+    # Sidebar for configuration
+    with st.sidebar:
+        st.title("InternTA: 合成生物学助教 | Synthetic Biology TA")
+
+        # Model source selection - depends on whether to show local option
+        if st.session_state.show_local_option:
+            # Show both options
+            model_source = st.radio(
+                "模型来源 | Model Source",
+                ["本地模型 | Local Model", "远程 API | Remote API"],
+                index=0 if st.session_state.model_source == "本地模型 | Local Model" else 1
+            )
+        else:
+            # Only show remote API option
+            model_source = "远程 API | Remote API"
+            
+        # Update session state if user changes selection
+        if model_source != st.session_state.model_source:
+            st.session_state.model_source = model_source
         
-        try:
-            # Determine which model to use
-            if model_source == "本地模型 | Local Model":
-                # Check if model is loaded
-                if "local_model" not in st.session_state:
-                    message_placeholder.error("本地模型未加载，请检查模型路径 | Local model not loaded, please check model path")
-                    st.stop()
-                
-                # Use local model
-                if use_streaming:
-                    # Process streaming response
-                    full_response = ""
-                    
-                    # Stream the response with all parameters from UI
-                    for response_chunk in generate_local_response(
-                        st.session_state.local_model,
-                        st.session_state.local_tokenizer,
-                        st.session_state.messages,
-                        temperature=temperature,
-                        top_p=top_p,
-                        repetition_penalty=repetition_penalty,
-                        max_tokens=max_tokens,
-                        do_sample=do_sample if 'do_sample' in locals() else True,
-                        stream=True
-                    ):
-                        # Update the full response
-                        full_response = response_chunk
-                        # Update the placeholder with the processed content
-                        processed_content = process_content_for_display(full_response)
-                        message_placeholder.markdown(processed_content + "▌", unsafe_allow_html=True)
-                        # Short sleep to reduce CPU usage and improve UI responsiveness
-                        time.sleep(0.01)
-                    
-                    # Final update without the cursor
-                    if full_response:
-                        processed_content = process_content_for_display(full_response)
-                        message_placeholder.markdown(processed_content, unsafe_allow_html=True)
-                        # Add assistant response to chat history
-                        st.session_state.messages.append({"role": "assistant", "content": full_response})
-                    else:
-                        message_placeholder.error("无响应内容 | No response content")
-                else:
-                    # Non-streaming generation with all parameters from UI
-                    full_response = ""
-                    for response in generate_local_response(
-                        st.session_state.local_model,
-                        st.session_state.local_tokenizer,
-                        st.session_state.messages,
-                        temperature=temperature,
-                        top_p=top_p,
-                        repetition_penalty=repetition_penalty,
-                        max_tokens=max_tokens,
-                        do_sample=do_sample if 'do_sample' in locals() else True,
-                        stream=False
-                    ):
-                        full_response = response
-                        break  # Only need the first (and only) result
-                    
-                    if full_response:
-                        processed_content = process_content_for_display(full_response)
-                        message_placeholder.markdown(processed_content, unsafe_allow_html=True)
-                        # Add assistant response to chat history
-                        st.session_state.messages.append({"role": "assistant", "content": full_response})
-                    else:
-                        message_placeholder.error("无响应内容 | No response content")
-            else:
-                # Use remote API
-                if not st.session_state.api_key:
-                    message_placeholder.error("请在侧边栏输入 API 密钥 | Please enter an API key in the sidebar")
-                    st.stop()
-                
-                # 远程API模式下强制使用非流式响应，不管用户在界面上选择什么
-                # For remote API, always force non-streaming mode regardless of UI selection
-                actual_streaming = False  # 强制设置为False | Force to False
-                
-                if use_streaming:
-                    message_placeholder.warning("远程API不支持流式响应，已自动切换为非流式模式 | Remote API doesn't support streaming, automatically switched to non-streaming mode")
-                
-                # Prepare the payload for the API call
-                payload = {
-                    "model": MODEL_NAME,
-                    "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
-                    "temperature": float(temperature),
-                    "max_tokens": int(max_tokens),
-                    "top_p": float(top_p),
-                    "stream": actual_streaming  # 使用强制的非流式模式 | Use forced non-streaming mode
-                }
-                
-                # Add optional parameters if provided from UI
-                if "repetition_penalty" in locals() and repetition_penalty > 1.0:
-                    payload["repetition_penalty"] = float(repetition_penalty)
-                
-                # If there's an n parameter (number of completions), ensure it's an integer
-                payload["n"] = 1  # Set to 1 as we just want a single response
-                
-                headers = {
-                    "Content-Type": "application/json"
-                }
-                
-                # Add Authorization header if API key is provided
-                headers["Authorization"] = f"Bearer {st.session_state.api_key}"
-                
-                # Make the API call
-                response = requests.post(
-                    API_BASE_URL,
-                    headers=headers,
-                    json=payload,
-                    stream=actual_streaming,  # 使用强制的非流式模式 | Use forced non-streaming mode
-                    timeout=600  # 10-minute timeout
+        if model_source == "远程 API | Remote API":
+            # Display the fixed API URL (read-only)
+            st.info(f"获取 API 密钥地址 | Obtain API Key from here: https://docs.ecopi.chat")
+            
+            # API Key input
+            api_key = st.text_input("Please enter an API Key | 请输入 API 密钥", 
+                                   value=st.session_state.api_key,
+                                   placeholder="sk-...",
+                                   type="password")
+            
+            if api_key != st.session_state.api_key:
+                st.session_state.api_key = api_key
+            
+            # 远程API模式下的参数设置
+            st.write("参数设置 | Parameters:")
+            temperature = st.slider("温度 | Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.05)
+            top_p = st.slider("Top P (核采样阈值 | Nucleus sampling threshold)", min_value=0.0, max_value=1.0, value=0.15, step=0.05)
+            max_tokens = st.number_input("最大生成长度 | Max Tokens", min_value=1, max_value=100000, value=4096, step=100)
+            
+            # 显示流式响应不可用的提示
+            st.warning("远程API不支持流式响应，将使用非流式模式 | Remote API does not support streaming, will use non-streaming mode")
+            use_streaming = False  # 远程API强制非流式
+        else:
+            # Path to base model and LoRA adapter
+            with st.expander("模型设置 | Model Settings", expanded=True):
+                base_model_path = st.text_input(
+                    "基础模型路径 | Base Model Path",
+                    value="DeepSeek-R1-Distill-Qwen-7B",
+                    help="基础大语言模型的路径 | Path to base language model"
                 )
                 
-                if response.status_code == 200:
-                    # Since we've forced non-streaming mode, we only need to handle non-streaming responses
+                lora_adapter_path = st.text_input(
+                    "LoRA适配器路径 | LoRA Adapter Path",
+                    value="internTAv2.0_test",
+                    help="LoRA微调适配器的路径 | Path to LoRA fine-tuned adapter"
+                )
+            
+            # Check if we need to load or reload the model
+            model_changed = (
+                "base_model_path" not in st.session_state or 
+                "lora_adapter_path" not in st.session_state or
+                st.session_state.get("base_model_path", "") != base_model_path or
+                st.session_state.get("lora_adapter_path", "") != lora_adapter_path
+            )
+            
+            if model_changed or "local_model" not in st.session_state:
+                # Only load the model if it's not loaded or the paths have changed
+                with st.spinner("加载模型中... | Loading model..."):
                     try:
-                        response_json = response.json()
-                        if "choices" in response_json and len(response_json["choices"]) > 0:
-                            content = response_json["choices"][0]["message"]["content"]
-                            processed_content = process_content_for_display(content)
+                        st.session_state.local_model, st.session_state.local_tokenizer = load_local_model(
+                            lora_adapter_path=lora_adapter_path,
+                            base_model_path=base_model_path
+                        )
+                        # Store current paths in session state
+                        st.session_state.base_model_path = base_model_path
+                        st.session_state.lora_adapter_path = lora_adapter_path
+                        st.success("模型加载成功！| Model loaded successfully!")
+                    except Exception as e:
+                        st.error(f"加载模型失败 | Failed to load model: {str(e)}")
+                        if "cuda" in str(e).lower() and "out of memory" in str(e).lower():
+                            st.warning("GPU内存不足，请考虑使用更小的模型或清理GPU内存 | GPU out of memory, consider using a smaller model or freeing GPU memory")
+            
+            # 本地模型的参数设置 - Enhanced with parameters from run.py
+            st.write("生成参数设置 | Generation Parameters:")
+            temperature = st.slider("温度 | Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.05, 
+                                  help="控制生成文本的随机性。较高的值 (如 0.8) 会使输出更加多样化，较低的值 (如 0.2) 使输出更加确定和集中 | Controls randomness in generation. Higher (0.8) is more diverse, lower (0.2) more focused")
+            
+            top_p = st.slider("Top P", min_value=0.0, max_value=1.0, value=0.15, step=0.05,
+                             help="核采样阈值 - 模型只考虑概率总和达到此值的候选词 | Nucleus sampling threshold - model only considers tokens that make up this probability mass")
+            
+            repetition_penalty = st.slider("重复惩罚 | Repetition Penalty", min_value=1.0, max_value=2.0, value=1.05, step=0.05,
+                                         help="控制重复内容的惩罚力度，较高的值会减少重复 | Controls penalty for repetition, higher reduces repetition")
+            
+            max_tokens = st.number_input("最大生成长度 | Max Tokens", min_value=100, max_value=100000, value=4096, step=100,
+                                       help="响应中生成的最大标记数 | Maximum number of tokens to generate in response")
+            
+            # 高级选项 (可折叠) | Advanced options (collapsible)
+            with st.expander("高级选项 | Advanced Options"):
+                do_sample = st.checkbox("使用采样 | Use Sampling", value=True, 
+                                      help="启用从概率分布采样，关闭则使用贪婪搜索 | Enable sampling from probability distribution, disable for greedy search")
+                
+            # 本地模型支持流式响应选项
+            use_streaming = st.checkbox("流式响应 | Streaming Response", value=True, 
+                                      help="逐步显示生成的文本 | Display generated text incrementally")
+        
+        # Memory management
+        with st.expander("内存管理 | Memory Management"):
+            if st.button("清理GPU缓存 | Clear GPU Cache"):
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                    st.success("GPU缓存已清理 | GPU cache cleared")
+                else:
+                    st.info("未检测到GPU | No GPU detected")
+        
+        # Clear chat button
+        if st.button("清空对话 | Clear Chat", help="清除所有对话历史 | Clear all chat history"):
+            st.session_state.messages = []
+            st.rerun()
+
+    # Main chat interface
+    #st.title("InternTA: 合成生物学助教 | Synthetic Biology Teaching Assistant")
+    #st.caption("基于 InternLM2 大模型，帮助学生更好地学习《合成生物学》 | Based on InternLM2 model, helping students better learn Synthetic Biology")
+
+    # Display chat messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            # Process the content for display with all necessary transformations
+            processed_content = process_content_for_display(message["content"])
+            st.markdown(processed_content, unsafe_allow_html=True)
+
+    # Get user input
+    if prompt := st.chat_input("请输入您的问题... | Enter your question..."):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        
+        # Display user message
+        with st.chat_message("user"):
+            processed_prompt = process_content_for_display(prompt, is_user_message=True)
+            st.markdown(processed_prompt, unsafe_allow_html=True)
+        
+        # Prepare model call
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            message_placeholder.markdown("思考中... | Thinking...")
+            
+            try:
+                # Determine which model to use
+                if model_source == "本地模型 | Local Model":
+                    # Check if model is loaded
+                    if "local_model" not in st.session_state:
+                        message_placeholder.error("本地模型未加载，请检查模型路径 | Local model not loaded, please check model path")
+                        st.stop()
+                    
+                    # Use local model
+                    if use_streaming:
+                        # Process streaming response
+                        full_response = ""
+                        
+                        # Stream the response with all parameters from UI
+                        for response_chunk in generate_local_response(
+                            st.session_state.local_model,
+                            st.session_state.local_tokenizer,
+                            st.session_state.messages,
+                            temperature=temperature,
+                            top_p=top_p,
+                            repetition_penalty=repetition_penalty,
+                            max_tokens=max_tokens,
+                            do_sample=do_sample if 'do_sample' in locals() else True,
+                            stream=True
+                        ):
+                            # Update the full response
+                            full_response = response_chunk
+                            # Update the placeholder with the processed content
+                            processed_content = process_content_for_display(full_response)
+                            message_placeholder.markdown(processed_content + "▌", unsafe_allow_html=True)
+                            # Short sleep to reduce CPU usage and improve UI responsiveness
+                            time.sleep(0.01)
+                        
+                        # Final update without the cursor
+                        if full_response:
+                            processed_content = process_content_for_display(full_response)
                             message_placeholder.markdown(processed_content, unsafe_allow_html=True)
                             # Add assistant response to chat history
-                            st.session_state.messages.append({"role": "assistant", "content": content})
+                            st.session_state.messages.append({"role": "assistant", "content": full_response})
                         else:
                             message_placeholder.error("无响应内容 | No response content")
-                    except Exception as e:
-                        message_placeholder.error(f"处理响应时出错 | Error processing response: {str(e)}")
-                        print(f"Response processing error: {str(e)}")
-                        print(f"Response content: {response.text[:500]}")  # Print first 500 chars of response for debugging
+                    else:
+                        # Non-streaming generation with all parameters from UI
+                        full_response = ""
+                        for response in generate_local_response(
+                            st.session_state.local_model,
+                            st.session_state.local_tokenizer,
+                            st.session_state.messages,
+                            temperature=temperature,
+                            top_p=top_p,
+                            repetition_penalty=repetition_penalty,
+                            max_tokens=max_tokens,
+                            do_sample=do_sample if 'do_sample' in locals() else True,
+                            stream=False
+                        ):
+                            full_response = response
+                            break  # Only need the first (and only) result
+                        
+                        if full_response:
+                            processed_content = process_content_for_display(full_response)
+                            message_placeholder.markdown(processed_content, unsafe_allow_html=True)
+                            # Add assistant response to chat history
+                            st.session_state.messages.append({"role": "assistant", "content": full_response})
+                        else:
+                            message_placeholder.error("无响应内容 | No response content")
                 else:
-                    error_message = f"错误 | Error: {response.status_code} - {response.text}"
-                    message_placeholder.error(error_message)
-                    print(f"API Error: {error_message}")
+                    # Use remote API
+                    if not st.session_state.api_key:
+                        message_placeholder.error("请在侧边栏输入 API 密钥 | Please enter an API key in the sidebar")
+                        st.stop()
                     
-                    # If it's the specific "ids" error, suggest a solution
-                    if "ids" in response.text and "list" in response.text and "integer" in response.text:
-                        message_placeholder.warning("尝试关闭流式响应并重试 | Try turning off streaming response and retry")
+                    # 远程API模式下强制使用非流式响应，不管用户在界面上选择什么
+                    # For remote API, always force non-streaming mode regardless of UI selection
+                    actual_streaming = False  # 强制设置为False | Force to False
                     
-                    # If it's a streaming-related error, inform the user again
-                    if "stream" in response.text.lower() or "not allowed" in response.text.lower():
-                        message_placeholder.warning("远程API不支持流式响应，请确保请求设置为非流式模式 | Remote API does not support streaming, please ensure requests are set to non-streaming mode")
-            
-            # Clear GPU cache if using CUDA
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
+                    if use_streaming:
+                        message_placeholder.warning("远程API不支持流式响应，已自动切换为非流式模式 | Remote API doesn't support streaming, automatically switched to non-streaming mode")
+                    
+                    # Prepare the payload for the API call
+                    payload = {
+                        "model": MODEL_NAME,
+                        "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
+                        "temperature": float(temperature),
+                        "max_tokens": int(max_tokens),
+                        "top_p": float(top_p),
+                        "stream": actual_streaming  # 使用强制的非流式模式 | Use forced non-streaming mode
+                    }
+                    
+                    # Add optional parameters if provided from UI
+                    if "repetition_penalty" in locals() and repetition_penalty > 1.0:
+                        payload["repetition_penalty"] = float(repetition_penalty)
+                    
+                    # If there's an n parameter (number of completions), ensure it's an integer
+                    payload["n"] = 1  # Set to 1 as we just want a single response
+                    
+                    headers = {
+                        "Content-Type": "application/json"
+                    }
+                    
+                    # Add Authorization header if API key is provided
+                    headers["Authorization"] = f"Bearer {st.session_state.api_key}"
+                    
+                    # Make the API call
+                    response = requests.post(
+                        API_BASE_URL,
+                        headers=headers,
+                        json=payload,
+                        stream=actual_streaming,  # 使用强制的非流式模式 | Use forced non-streaming mode
+                        timeout=600  # 10-minute timeout
+                    )
+                    
+                    if response.status_code == 200:
+                        # Since we've forced non-streaming mode, we only need to handle non-streaming responses
+                        try:
+                            response_json = response.json()
+                            if "choices" in response_json and len(response_json["choices"]) > 0:
+                                content = response_json["choices"][0]["message"]["content"]
+                                processed_content = process_content_for_display(content)
+                                message_placeholder.markdown(processed_content, unsafe_allow_html=True)
+                                # Add assistant response to chat history
+                                st.session_state.messages.append({"role": "assistant", "content": content})
+                            else:
+                                message_placeholder.error("无响应内容 | No response content")
+                        except Exception as e:
+                            message_placeholder.error(f"处理响应时出错 | Error processing response: {str(e)}")
+                            print(f"Response processing error: {str(e)}")
+                            print(f"Response content: {response.text[:500]}")  # Print first 500 chars of response for debugging
+                    else:
+                        error_message = f"错误 | Error: {response.status_code} - {response.text}"
+                        message_placeholder.error(error_message)
+                        print(f"API Error: {error_message}")
+                        
+                        # If it's the specific "ids" error, suggest a solution
+                        if "ids" in response.text and "list" in response.text and "integer" in response.text:
+                            message_placeholder.warning("尝试关闭流式响应并重试 | Try turning off streaming response and retry")
+                        
+                        # If it's a streaming-related error, inform the user again
+                        if "stream" in response.text.lower() or "not allowed" in response.text.lower():
+                            message_placeholder.warning("远程API不支持流式响应，请确保请求设置为非流式模式 | Remote API does not support streaming, please ensure requests are set to non-streaming mode")
                 
-        except Exception as e:
-            message_placeholder.error(f"错误 | Error: {str(e)}")
-            print(f"Generation error: {str(e)}")
-            
-            # If it's a CUDA out of memory error, suggest a solution
-            if "CUDA out of memory" in str(e):
-                message_placeholder.warning("GPU内存不足，请尝试降低最大生成长度或使用CPU模式 | GPU out of memory, try reducing max tokens or using CPU mode")
+                # Clear GPU cache if using CUDA
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
                 
-            # Clear GPU cache if using CUDA
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
+            except Exception as e:
+                message_placeholder.error(f"错误 | Error: {str(e)}")
+                print(f"Generation error: {str(e)}")
+                
+                # If it's a CUDA out of memory error, suggest a solution
+                if "CUDA out of memory" in str(e):
+                    message_placeholder.warning("GPU内存不足，请尝试降低最大生成长度或使用CPU模式 | GPU out of memory, try reducing max tokens or using CPU mode")
+                    
+                # Clear GPU cache if using CUDA
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
 
-# Display some helpful information at the bottom
-st.markdown("---")
-if model_source == "本地模型 | Local Model":
-    st.caption(f"使用模型 | Using model: Base={base_model_path}, LoRA={lora_adapter_path}")
-else:
-    st.caption("默认 API 端点 ｜ Default API Endpoint: https://api.ecopi.chat - 请在侧边栏输入 API 密钥开始对话。| Enter your API key in the sidebar to begin.")
+    # Display some helpful information at the bottom
+    st.markdown("---")
+    if model_source == "本地模型 | Local Model":
+        st.caption(f"使用模型 | Using model: Base={base_model_path}, LoRA={lora_adapter_path}")
+    else:
+        st.caption("默认 API 端点 ｜ Default API Endpoint: https://api.ecopi.chat - 请在侧边栏输入 API 密钥开始对话。| Enter your API key in the sidebar to begin.")
+
+# Run the main function when executed directly
+if __name__ == "__main__":
+    main()

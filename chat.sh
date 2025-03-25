@@ -1,1 +1,0 @@
-xtuner chat model --adapter huggingface --prompt-template internlm2_chat
