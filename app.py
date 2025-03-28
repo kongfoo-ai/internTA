@@ -24,8 +24,6 @@ Dependencies:
 - transformers, torch, and peft for local model loading and inference
 - requests for API communication
 
-Author: [Your Name]
-Date: [Creation/Last Update Date]
 """
 
 import streamlit as st
