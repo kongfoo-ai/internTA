@@ -8,3 +8,4 @@
 #模型
 ./kongfoo
 local
+.env
