@@ -1,6 +1,6 @@
 # InternTA: 从有限数据中学习的多智能体AI助教系统
 
-[中文版](README.md) | [English Version](README-EN.md)
+[中文版](README-zh.md) | [English Version](README.md)
 
 <div align="center"><img src="./statics/demo.gif" width="500"></div>
 
@@ -67,7 +67,7 @@ InternTA系统设计强调数据隐私保护和部署灵活性：
 
 ## 快速体验
 
-**在线体验地址**：[[Powered by Coze]](https://www.kongfoo.cloud/)
+**在线体验地址**：[[E. Copi (Education)]](https://ita.ecopi.chat)
 
 **本地部署方法**(8G显存以上NVIDIA GPU)：
 

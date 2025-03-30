@@ -67,7 +67,7 @@ InternTA system design emphasizes data privacy protection and deployment flexibi
 
 ## Quick Experience
 
-**Online Experience Address**: [[Powered by Coze]](https://www.kongfoo.cloud/)
+**Online Experience Address**: [[E. Copi (Education)]](https://ita.ecopi.chat)
 
 **Local Deployment Method** (NVIDIA GPU with 8GB or more VRAM):
 
@@ -185,4 +185,4 @@ This command will process the data file and output the results to the `test_resu
 
 - [DeepSeekR1-Distill-Qwen-7B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B)
 - [internDog](https://github.com/BestAnHongjun/InternDog)
-- [Peft](hhttps://github.com/huggingface/peft)
+- [Peft](https://github.com/huggingface/peft)
