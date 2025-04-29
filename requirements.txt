@@ -24,7 +24,7 @@ python-docx
 markdown
 jieba
 rouge_chinese
-streamlit==1.31.0
+streamlit==1.37.0
 # gradio==4.4.0
 fastapi
 # chromadb==0.4.15
