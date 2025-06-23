@@ -17,7 +17,9 @@ def get_answer(prompt, fine_tuned_model, tokenizer, max_seq_length=8000, load_in
     # Prepare the model for inference
     fine_tuned_model.eval()
 
-    prompt = f"<|start_header_id|>system<|end_header_id|> Please reason step by step .<|eot_id|><|start_header_id|> User: <|end_header_id|>{prompt}<|eot_id|>\n\n"
+    # prompt = f"<|start_header_id|>system<|end_header_id|> Please reason step by step .<|eot_id|><|start_header_id|> User: <|end_header_id|>{prompt}<|eot_id|>\n\n"
+    prompt = f"<|im_start|>system\nPlease reason step by step.\n<|im_end|>\n<|im_start|>user\n{prompt}\n<|im_end|>\n<|im_start|>assistant\n"
+
     # Tokenizing the input and generating the output
     inputs = tokenizer([prompt], return_tensors="pt").to("cuda")
     outputs = fine_tuned_model.generate(**inputs, max_new_tokens=max_seq_length, use_cache=True)
