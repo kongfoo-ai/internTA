@@ -58,7 +58,8 @@ curl -X POST "https://api.ecopi.chat/v1/chat/completions" \
   -d '{
     "model": "internta-v02",
     "messages": [
-      {"role": "user", "content": "What is synthetic biology?"}
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Can you teach me some synthetic biology?"}
     ]
   }'
 ```
@@ -67,14 +68,27 @@ curl -X POST "https://api.ecopi.chat/v1/chat/completions" \
 
 ```json
 {
+  "id": "chatcmpl-1753709210352",
+  "object": "chat.completion",
+  "created": 1753709210,
+  "model": "internta-v02",
   "choices": [
     {
+      "index": 0,
       "message": {
         "role": "assistant",
-        "content": "Synthetic biology is an interdisciplinary field that combines..."
-      }
+        "content": "Sure! Synthetic biology is an interdisciplinary field that combines biology, engineering, and computer science to design and construct new biological parts, devices, and systems. Here are some key concepts and areas within synthetic biology:\n\n1. **Basic Concepts**:\n   - **DNA as a Programming Language**: In synthetic biology, DNA is often viewed as a code that can be manipulated to create new functions in organisms.\n   - **Genetic Engineering**: Techniques like CRISPR-Cas9 allow scientists to edit genes with precision, enabling the modification of organisms for desired traits.\n\n2. **Key Techniques**:\n   - **Gene Synthesis**: The process of artificially creating genes in the lab, allowing for the design of new genetic sequences.\n   - **Pathway Engineering**: Modifying metabolic pathways in organisms to produce desired compounds, such as biofuels or pharmaceuticals.\n   - **Synthetic Circuits**: Creating genetic circuits that can control gene expression in response to specific signals, similar to electronic circuits.\n\n3. **Applications**:\n   - **Medicine**: Developing new therapies, vaccines, and diagnostic tools. For example, engineered bacteria can be used to produce insulin.\n   - **Agriculture**: Creating genetically modified crops that are resistant to pests or have enhanced nutritional value.\n   - **Environmental**: Engineering microbes to degrade pollutants or capture carbon dioxide.\n\n4. **Ethical Considerations**:\n   - The manipulation of life forms raises ethical questions about safety, biodiversity, and the potential consequences of releasing engineered organisms into the environment.\n\n5. **Future Directions**:\n   - Advances in synthetic biology could lead to breakthroughs in personalized medicine, sustainable energy, and innovative materials.\n\nIf you have specific topics or questions within synthetic biology that you'd like to explore further, feel free to ask!"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
     }
-  ]
+  ],
+  "usage": {
+    "prompt_tokens": 100,
+    "completion_tokens": 10,
+    "total_tokens": 110
+  },
+  "system_fingerprint": "fp_2f57f81c11"
 }
 ```
 
