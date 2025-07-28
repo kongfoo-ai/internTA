@@ -16,11 +16,72 @@ description: "API documentation for the Synthetic Biology Teaching Assistant pow
 
 ## Overview
 
-InternTA is a teaching assistant based on the InternLM2 large language model, specifically designed to help students learn the "Synthetic Biology" course. The API allows you to integrate InternTA's capabilities into your own applications.
+InternTA is a multi-agent AI teaching assistant that learns from limited data, specifically designed to help students learn the "Synthetic Biology" course. The system addresses critical challenges in AI-powered education, including data privacy risks and limited effectiveness in courses with scarce teaching materials.
+
+## Abstract
+
+Large language models (LLMs) have shown great potential to enhance student learning by serving as AI-powered teaching assistants (TA). However, existing LLM-based TA systems often face critical challenges, including data privacy risks associated with third-party API-based solutions and limited effectiveness in courses with limited teaching materials.
+
+This project proposes an automated TA training system based on LLM agents, designed to train customized, lightweight, and privacy-preserving AI models. Unlike traditional cloud-based AI TAs, our system allows local deployment, reducing data security concerns, and includes three components:
+
+1. **Dataset Agent**: Constructing high-quality datasets with explicit reasoning paths
+2. **Training Agent**: Fine-tuning models via Knowledge Distillation, effectively adapting to limited-data courses
+3. **RAG Agent**: Enhancing responses by retrieving external knowledge
+
+We validate our system in Synthetic Biology, an interdisciplinary field characterized by scarce structured training data. Experimental results and user evaluations demonstrate that our AI TA achieves strong performance, high user satisfaction, and improved student engagement, highlighting its practical applicability in real-world educational settings.
+
+## Background
+
+Synthetic biology is a cutting-edge field that integrates knowledge from biology, chemistry, engineering, and computer science. In recent years, applications ranging from lab-grown meat to CRISPR-Cas9 gene editing technology have been leading the "Third Biotechnology Revolution." However, the dissemination of synthetic biology knowledge faces two major challenges:
+
+1. **Interdisciplinary complexity**: Requires integration of knowledge from multiple domains, creating a steep learning curve
+2. **Educational resource limitations**: Shortage of teaching talent with cross-disciplinary knowledge and practical experience
+
+Traditional AI teaching assistant solutions typically rely on cloud service APIs, which introduce data privacy risks and perform poorly when specialized teaching materials are limited. The InternTA project is designed to address these challenges.
+
+## Technical Architecture
+
+InternTA adopts a three-layer agent architecture to achieve automated training, local deployment, and privacy protection:
+
+### 1. Dataset Agent
+
+The Dataset Agent is responsible for constructing high-quality training data with explicit reasoning paths:
+
+- **Data Sources**: Extracts post-class questions, key terms, and fundamental concepts from the "Synthetic Biology" textbook
+- **Reasoning Path Construction**: Generates explicit reasoning paths for each question
+- **Guided Teaching Design**: For complex thought questions, designs guided responses rather than providing direct answers
+
+### 2. Training Agent
+
+The Training Agent fine-tunes lightweight models using knowledge distillation techniques:
+
+- **Base Model**: Uses [DeepSeekR1-Distill-Qwen-7B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B) as the foundation model
+- **Fine-Tuning Tools**: Employs [PeftModel](https://github.com/huggingface/peft) for efficient fine-tuning
+- **Knowledge Distillation**: Transfers knowledge from larger parameter-scale models to lightweight models
+
+### 3. RAG Agent
+
+The RAG (Retrieval-Augmented Generation) Agent enhances answer quality by retrieving external knowledge:
+
+- **Knowledge Base Construction**: Structured processing of "Synthetic Biology" textbook content
+- **Semantic Retrieval**: Retrieves relevant knowledge points based on user questions
+- **Enhanced Generation**: Combines retrieved knowledge to generate more accurate and in-depth answers
 
 ## Key Features
 
 <CardGroup cols={2}>
+  <Card
+    title="Privacy Protection"
+    icon="shield"
+  >
+    Local deployment capability, avoiding data exposure to third-party services
+  </Card>
+  <Card
+    title="Multi-Agent Architecture"
+    icon="robot"
+  >
+    Three specialized agents for dataset construction, model training, and knowledge retrieval
+  </Card>
   <Card
     title="Synthetic Biology Expertise"
     icon="dna"
@@ -45,7 +106,27 @@ InternTA is a teaching assistant based on the InternLM2 large language model, sp
   >
     Engaging dialogue-based learning experience
   </Card>
+  <Card
+    title="Lightweight Design"
+    icon="feather"
+  >
+    Optimized model size to run efficiently on ordinary hardware
+  </Card>
+  <Card
+    title="Knowledge Distillation"
+    icon="brain"
+  >
+    Effective adaptation to limited-data courses through advanced training techniques
+  </Card>
 </CardGroup>
+
+## Privacy Protection and Local Deployment
+
+InternTA system design emphasizes data privacy protection and deployment flexibility:
+
+- **Local Model Deployment**: All models can run on local machines, avoiding data exposure
+- **API Token Authentication**: Provides API access control mechanisms to secure the system
+- **Lightweight Design**: Optimizes model size to run efficiently on ordinary hardware
 
 ## Getting Started
 
@@ -62,7 +143,7 @@ Learn how to integrate InternTA into your applications:
   <Card
     title="Authentication"
     icon="key"
-    href="http://localhost:3000/api-reference/introduction#authentication"
+    href="http://docs.ecopi.chat/api-reference/introduction#authentication"
   >
     Learn about the authentication process
   </Card>
@@ -76,7 +157,7 @@ Learn how to integrate InternTA into your applications:
   <Card
     title="Demo Application"
     icon="play"
-    href="https://ecopi.chat"
+    href="https://ita.ecopi.chat"
   >
     Try out the live demo
   </Card>
@@ -85,8 +166,7 @@ Learn how to integrate InternTA into your applications:
 ## Resources
 
 - Model Repository: [OpenXLab](https://openxlab.org.cn/models/detail/Kongfoo_EC/internTA)
-- Demo Video: [Google Drive](https://drive.google.com/file/d/1ZuOSX62aLsM21x3F_5N3jznDHkPgDigJ/view?usp=sharing)
-- Online Demo: [Powered by Coze](https://ecopi.chat/)
+- GitHub Repository: [InternTA](https://github.com/kongfoo-ai/internTA)
 
 ## Support
 
