@@ -17,6 +17,9 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 EXPECTED_OUTPUT = "Answer: 25"
 
+# TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
+YOUR_SYSTEM_PROMPT = ""
+
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".
 
