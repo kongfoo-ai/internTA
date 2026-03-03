@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 NUM_RUNS_TIMES = 5
+
+# TODO: Fill this in!
 YOUR_SYSTEM_PROMPT = os.getenv("COT_SYSTEM_PROMPT", "")
 
 USER_PROMPT = """
