@@ -9,6 +9,7 @@ import pandas as pd
 from data.model_evaluation import process_data, get_model_answer, compute_similarity_rouge
 current_path = os.path.dirname(os.path.abspath(__file__))
 main_folder_path = os.path.join(current_path, '..')
+
 class TestRougeEvaluation(unittest.TestCase):
     """
     Unit tests for evaluating functions related to model evaluation,

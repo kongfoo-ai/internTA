@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "listenhub": {
+      "source": "marswaveai/skills",
+      "sourceType": "github",
+      "computedHash": "beb829b807d420fe92e451340926bd2fe9a15faac0dab91f339f50737765150d"
+    }
+  }
+}
