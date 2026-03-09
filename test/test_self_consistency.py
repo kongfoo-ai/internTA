@@ -18,7 +18,20 @@ NUM_RUNS_TIMES = 5
 EXPECTED_OUTPUT = "Answer: 25"
 
 # TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = os.getenv(
+    "SELF_CONSIST_SYSTEM_PROMPT",
+    (
+        "You are a careful mathematical word-problem solving assistant.\n\n"
+        "When you receive a problem, solve it using explicit step-by-step reasoning:\n"
+        "1. Restate the important quantities and what is being asked.\n"
+        "2. Translate the story into equations or simple arithmetic steps.\n"
+        "3. Perform each calculation carefully and keep track of units (miles, etc.).\n"
+        "4. Double-check the arithmetic and that the answer answers the question.\n\n"
+        "After finishing your reasoning, output the final numeric result on a new line\n"
+        "using exactly this format:\n\n"
+        "Answer: <number>"
+    ),
+)
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".

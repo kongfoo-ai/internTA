@@ -12,8 +12,20 @@ from dotenv import load_dotenv
 load_dotenv()
 
 NUM_RUNS_TIMES = 5
-# TODO: Fill this in for the reverse-word task
-YOUR_SYSTEM_PROMPT = os.getenv("K_SHOT_SYSTEM_PROMPT", "")
+YOUR_SYSTEM_PROMPT = os.getenv(
+    "K_SHOT_SYSTEM_PROMPT",
+    (
+        "You are an assistant that reverses the letters of a single word.\n"
+        "Given a word, respond with only the reversed word and no other text.\n\n"
+        "Examples:\n"
+        "input: cat\n"
+        "output: tac\n"
+        "input: stream\n"
+        "output: maerts\n"
+        "input: python\n"
+        "output: nohtyp\n"
+    ),
+)
 
 USER_PROMPT = """
 Reverse the order of letters in the following word. Only output the reversed word, no other text:
