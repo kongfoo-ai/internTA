@@ -1,6 +1,7 @@
 #数据
 ./data/personal_assistant.json
 .agents
+*.mp3
 
 # 忽略缓存文件
 /test/__pycache__/

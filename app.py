@@ -418,7 +418,7 @@ def main():
         st.session_state.messages = []
 
     # Fixed API URL - no need for user input
-    API_BASE_URL = "https://api.ecopi.chat/v1/chat/completions"
+    API_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
 
     if "api_key" not in st.session_state:
         st.session_state.api_key = ""
