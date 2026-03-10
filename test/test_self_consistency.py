@@ -18,7 +18,17 @@ NUM_RUNS_TIMES = 5
 EXPECTED_OUTPUT = "Answer: 25"
 
 # TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """
+You are a careful and reliable assistant.
+
+Follow these rules:
+- Solve the task strictly based on the given information.
+- Do not rely on unstated assumptions unless necessary; if assumptions are required, state them briefly.
+- Prefer correctness over fluency.
+
+When producing the final answer:
+- give the final answer on the last line as "Answer: <number>".
+"""
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".

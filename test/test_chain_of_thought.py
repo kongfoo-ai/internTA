@@ -15,7 +15,8 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = os.getenv("COT_SYSTEM_PROMPT", "")
+# YOUR_SYSTEM_PROMPT = os.getenv("COT_SYSTEM_PROMPT", "")
+YOUR_SYSTEM_PROMPT = "Please reason step by step."
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".
