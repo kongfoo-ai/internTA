@@ -15,7 +15,8 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = os.getenv("COT_SYSTEM_PROMPT", "")
+# YOUR_SYSTEM_PROMPT = os.getenv("COT_SYSTEM_PROMPT", "")
+YOUR_SYSTEM_PROMPT = "Please reason step by step."
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".
@@ -56,7 +57,8 @@ def run_cot_prompt(system_prompt: str) -> bool:
     for idx in range(NUM_RUNS_TIMES):
         print(f"Running test {idx + 1} of {NUM_RUNS_TIMES}")
         response = chat(
-            model="llama3.1:8b",
+            # model="llama3.1:8b",
+            model="qwen2.5:3b-instruct-q4_K_M",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": USER_PROMPT},
