@@ -2,10 +2,12 @@
 ./data/personal_assistant.json
 .agents
 *.mp3
+./web/data/app.db
 
 # 忽略缓存文件
 /test/__pycache__/
 .pytest_cache/
+*.pyc
 
 #模型
 ./kongfoo

@@ -27,6 +27,7 @@ rouge_chinese
 streamlit==1.37.0
 # gradio==4.4.0
 fastapi
+fastmcp
 # chromadb==0.4.15
 pandas
 openai
