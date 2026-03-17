@@ -13,22 +13,15 @@ load_dotenv()
 
 NUM_RUNS_TIMES = 5
 # TODO: Fill this in for the reverse-word task
-# YOUR_SYSTEM_PROMPT = os.getenv("K_SHOT_SYSTEM_PROMPT", "")
-YOUR_SYSTEM_PROMPT = """You are a word reversal assistant. Given a word, reverse the order of its letters.
+YOUR_SYSTEM_PROMPT = """Reverse the input exactly.
 
-Example 1:
-Input: "hello"
-Output: "olleh"
+hello -> olleh
+world -> dlrow
+python -> nohtyp
 
-Example 2:
-Input: "world"
-Output: "dlrow"
+Output only the reversed input."""
 
-Example 3:
-Input: "python"
-Output: "nohtyp"
 
-For any word given, reverse all its letters and output only the reversed word."""
 
 USER_PROMPT = """
 Reverse the order of letters in the following word. Only output the reversed word, no other text:

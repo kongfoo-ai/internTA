@@ -148,11 +148,11 @@ class TestSelfConsistencyFlow(unittest.TestCase):
     def test_flow_success_when_majority_correct(self, mock_chat):
         # Simulate 3/5 runs returning correct answer
         responses = [
-            "Reasoning... Answer: 25",
-            "Reasoning... Answer: 30",
-            "Reasoning... Answer: 25",
-            "Reasoning... Answer: 25",
-            "Reasoning... Answer: 20",
+            "Reasoning... \nAnswer: 25",
+            "Reasoning... \nAnswer: 30",
+            "Reasoning... \nAnswer: 25",
+            "Reasoning... \nAnswer: 25",
+            "Reasoning... \nAnswer: 20",
         ]
         mock_chat.side_effect = [
             MagicMock(message=MagicMock(content=content)) for content in responses
@@ -163,7 +163,8 @@ class TestSelfConsistencyFlow(unittest.TestCase):
         answers = []
         for _ in range(NUM_RUNS_TIMES):
             resp = chat(
-                model="llama3.1:8b",
+                # model="llama3.1:8b",
+                model="qwen2.5:7b-instruct-q4_K_M",
                 messages=[
                     {"role": "system", "content": ""},
                     {"role": "user", "content": USER_PROMPT},
