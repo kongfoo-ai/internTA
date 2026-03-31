@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 from .db import init_db
-from .routers import action_items, notes
+from .routers import action_items, notes, opm
 from . import db
 
 init_db()
@@ -24,6 +24,7 @@ def index() -> str:
 
 app.include_router(notes.router)
 app.include_router(action_items.router)
+app.include_router(opm.router)
 
 
 static_dir = Path(__file__).resolve().parents[1] / "frontend"
