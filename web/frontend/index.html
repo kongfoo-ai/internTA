@@ -3,36 +3,285 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Action Item Extractor</title>
+    <title>Action Items &amp; OPM Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; margin: 2rem auto; max-width: 800px; padding: 0 1rem; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; margin: 2rem auto; max-width: 960px; padding: 0 1rem; line-height: 1.45; }
       h1 { font-size: 1.5rem; }
-      textarea { width: 100%; min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace; }
-      button { padding: 0.5rem 1rem; }
+      h2 { font-size: 1.2rem; margin-top: 2rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.35rem; }
+      textarea { width: 100%; min-height: 140px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace; font-size: 0.875rem; }
+      button { padding: 0.45rem 0.9rem; cursor: pointer; }
       .items { margin-top: 1rem; }
       .item { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; }
       .muted { color: #6b7280; font-size: 0.875rem; }
-      .row { display: flex; gap: 0.5rem; align-items: center; }
+      .row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+      .err-box { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; white-space: pre-wrap; font-size: 0.875rem; }
+      .err-box.hard { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+      .ok-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; font-size: 0.875rem; }
+      .json-out { background: #f9fafb; border: 1px solid #e5e7eb; padding: 0.75rem; border-radius: 6px; overflow: auto; max-height: 280px; font-size: 0.75rem; margin-top: 0.75rem; }
+      .mermaid-wrap { margin-top: 1rem; overflow: auto; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem; }
+      .pill { display: inline-block; background: #eef2ff; color: #3730a3; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; margin-right: 0.35rem; }
+      .persist-banner { background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.75rem; border-radius: 6px; margin-top: 1rem; margin-bottom: 0.5rem; }
+      .persist-banner .mermaid-wrap { max-height: min(55vh, 480px); overflow: auto; }
+      .opm-input-block { position: relative; z-index: 2; background: #fff; padding-bottom: 0.25rem; }
     </style>
   </head>
   <body>
     <h1>Action Item Extractor</h1>
-    <p class="muted">Paste notes and extract actionable items. Minimal raw HTML frontend.</p>
+    <p class="muted">Paste notes and extract actionable items.</p>
 
     <label for="text">Notes</label>
-    <textarea id="text" placeholder="Paste notes here...&#10;e.g.&#10;- [ ] Set up database&#10;- Implement extract endpoint"></textarea>
+    <textarea id="text" placeholder="Paste notes here..."></textarea>
     <div class="row">
       <label class="row"><input id="save_note" type="checkbox" checked /> Save as note</label>
-      <button id="extract">Extract</button>
+      <button id="extract" type="button">Extract</button>
     </div>
 
     <div class="items" id="items"></div>
 
+    <h2>OPM object–process diagram</h2>
+    <p class="muted">Extract an OPM-style diagram from text and store the result in SQLite. The <strong>last saved</strong> diagram is shown under the input area after you load or save (persistence).</p>
+
+    <div class="opm-input-block">
+      <label for="opm-text">Input text</label>
+      <textarea id="opm-text" name="opm-text" placeholder="Default testcase (TC1); replace with your own text if needed." autocomplete="off">INDICATIONS AND USAGE — EXAMPLIX (ficticia) injection is indicated as an adjunct to diet and increased physical activity for long-term condition management in adults meeting enrollment criteria.</textarea>
+      <div class="row" style="margin-top:0.5rem;">
+        <button id="opm-extract" type="button">Extract OPM &amp; save</button>
+        <label class="row"><input id="opm-save-note" type="checkbox" /> Also save as note</label>
+      </div>
+      <div class="row" style="margin-top:0.5rem;">
+        <span class="muted">Quick samples (test cases):</span>
+        <button type="button" id="sample-drug" class="muted">Drug label excerpt</button>
+        <button type="button" id="sample-complex" class="muted">Complex mechanism (may fail validation)</button>
+      </div>
+    </div>
+
+    <div id="persisted-banner" class="persist-banner" style="display:none;"></div>
+
+    <div id="opm-error"></div>
+    <div id="opm-success"></div>
+    <div id="opm-mermaid" class="mermaid-wrap" style="display:none;"></div>
+    <pre id="opm-json" class="json-out" style="display:none;"></pre>
+
     <script>
+      mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      const SAMPLE_DRUG_LABEL =
+        'INDICATIONS AND USAGE — EXAMPLIX (ficticia) injection is indicated as an adjunct to diet and increased physical activity for long-term condition management in adults meeting enrollment criteria.';
+
+      const SAMPLE_COMPLEX_MECHANISM = `The GLP-1 receptor is predominantly coupled to a **stimulatory G-protein**, known as **Gs**. Activation of this Gs protein initiates the cAMP-PKA signaling cascade. This is the canonical pathway responsible for most of GLP-1's key effects, especially in the pancreatic beta-cells which release insulin.
+
+Here is a step-by-step explanation of the process:
+
+1. **Binding:** The GLP-1 hormone, released from the gut after a meal, travels through the bloodstream and binds to its specific receptor (GLP-1R) on the surface of a target cell (e.g., a pancreatic beta-cell).
+2. **G-Protein Activation:** This binding causes a conformational change in the GLP-1R, which in turn activates the associated Gs protein. The alpha subunit of the Gs protein (Gsα) releases its bound GDP and binds a new molecule of GTP, becoming active.
+3. **Adenylyl Cyclase Activation:** The activated Gsα subunit then binds to and activates an enzyme called **adenylyl cyclase** (AC).
+4. **cAMP Production:** Adenylyl cyclase converts ATP (adenosine triphosphate) into the crucial second messenger molecule, **cyclic AMP** (cAMP).
+5. **PKA Activation:** The rise in intracellular cAMP levels leads to the activation of **Protein Kinase A** (PKA). cAMP binds to the regulatory subunits of PKA, causing them to detach from the catalytic subunits, thereby activating them.
+6. **Downstream Cellular Effects:** The active PKA then phosphorylates (adds a phosphate group to) numerous target proteins within the cell. In a pancreatic beta-cell, this leads to:
+    - Closure of ATP-sensitive potassium channels (KATP), which leads to membrane depolarization.
+    - Opening of voltage-gated calcium channels, causing an influx of calcium ions (Ca²⁺).
+    - Enhanced exocytosis (release) of insulin-containing granules from the cell.
+    - Increased transcription of the proinsulin gene, leading to more insulin synthesis for future release.
+
+This entire process coordinates receptor signaling, second messengers, and vesicle release to regulate insulin output.`;
+
+      function escMermaid(s) {
+        return String(s).replace(/"/g, '#quot;').replace(/\n/g, ' ');
+      }
+
+      function sanitizeMermaidId(id) {
+        return String(id).replace(/[^a-zA-Z0-9_]/g, '_');
+      }
+
+      function diagramToMermaid(diagram) {
+        const lines = ['flowchart LR'];
+        const nodes = diagram.nodes || [];
+        const links = diagram.links || [];
+        for (const n of nodes) {
+          const mid = sanitizeMermaidId(n.id);
+          const lab = escMermaid(`${n.kind || 'node'}: ${n.label || n.id}`);
+          lines.push(`${mid}["${lab}"]`);
+        }
+        for (const l of links) {
+          const s = sanitizeMermaidId(l.source);
+          const t = sanitizeMermaidId(l.target);
+          const rel = escMermaid(l.relation);
+          lines.push(`${s} -->|${rel}| ${t}`);
+        }
+        return lines.join('\n');
+      }
+
+      async function renderMermaidInto(el, diagram) {
+        el.style.display = 'block';
+        el.innerHTML = '';
+        const def = diagramToMermaid(diagram);
+        const id = 'opm-' + Math.random().toString(36).slice(2);
+        try {
+          const { svg } = await mermaid.render(id, def);
+          el.innerHTML = svg;
+        } catch (e) {
+          el.innerHTML = '<p class="muted">Could not render the diagram (see JSON below).</p>';
+          console.error(e);
+        }
+      }
+
+      function opmStageLabel(stage) {
+        if (stage === 'validation') return 'Diagram format check';
+        if (stage === 'llm') return 'Generator';
+        return String(stage || 'unknown');
+      }
+
+      function showOpmError(res, body) {
+        const box = document.getElementById('opm-error');
+        if (!box) return;
+        body = body || {};
+        let d = body.detail;
+        if (Array.isArray(d)) {
+          const msgs = d.map((e) => (e && (e.msg || e.message)) || JSON.stringify(e)).filter(Boolean);
+          d = { stage: 'validation', detail: msgs.join('; ') || 'Validation failed.' };
+        }
+        let headline = "Something went wrong";
+        let hint = "";
+        if (res.status === 422) {
+          headline = "This diagram could not be saved";
+          hint = "The service is running, but the model output did not match the diagram format we can store. Read the short explanation below, then try again or shorten the input.";
+        } else if (res.status === 502) {
+          headline = "The diagram generator is unavailable";
+          hint = "Try again in a moment or check your API settings.";
+        } else if (res.status === 400) {
+          headline = "Missing input";
+        }
+
+        let stage = d && typeof d === 'object' ? d.stage : '';
+        const detailStr = d && typeof d === 'object' && d.detail != null ? String(d.detail) : '';
+        const technicalStr =
+          d && typeof d === 'object' && d.technical_detail != null ? String(d.technical_detail) : '';
+        if (res.status === 422 && /OpmDiagram|Value error|validation error/i.test(detailStr + technicalStr)) {
+          stage = 'validation';
+        }
+
+        let parts = [`<strong>${escapeHtml(headline)}</strong> <span class="muted">(HTTP ${res.status})</span>`];
+        if (hint) parts.push(`<span class="muted">${escapeHtml(hint)}</span>`);
+
+        if (d && typeof d === 'object') {
+          parts.push(`<strong>Where</strong>: ${escapeHtml(opmStageLabel(stage))}`);
+          const mainDetail = detailStr || (technicalStr ? '(see technical details below)' : JSON.stringify(d));
+          parts.push(`<strong>Details</strong>: ${escapeHtml(mainDetail)}`);
+          if (technicalStr) {
+            const tech = escapeHtml(technicalStr.length > 6000 ? technicalStr.slice(0, 6000) + '…' : technicalStr);
+            parts.push(
+              `<details class="opm-tech-details" style="margin-top:0.5rem;"><summary style="cursor:pointer;" class="muted">Technical details (same as server log)</summary><pre style="white-space:pre-wrap;font-size:0.75rem;margin:0.5rem 0 0;">${tech}</pre></details>`
+            );
+          }
+          if (d.raw_response != null && String(d.raw_response).trim()) {
+            parts.push(`<strong>Model output (excerpt)</strong>: ${escapeHtml(String(d.raw_response).slice(0, 800))}`);
+          }
+        } else if (typeof d === 'string') {
+          parts.push(escapeHtml(d));
+        } else {
+          parts.push(escapeHtml(body && body.message ? String(body.message) : 'The request did not complete.'));
+        }
+        const boxClass = res.status === 502 ? 'err-box hard' : 'err-box';
+        box.innerHTML = `<div class="${boxClass}">${parts.join('<br/>')}</div>`;
+        document.getElementById('opm-success').innerHTML = '';
+        document.getElementById('opm-mermaid').style.display = 'none';
+        document.getElementById('opm-json').style.display = 'none';
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function showOpmSuccess(diagram, diagramId) {
+        document.getElementById('opm-error').innerHTML = '';
+        const ok = document.getElementById('opm-success');
+        ok.innerHTML = `<div class="ok-box">Saved <span class="pill">diagram_id=${diagramId}</span>. Diagram and JSON below are from this extraction.</div>`;
+        document.getElementById('opm-json').style.display = 'block';
+        document.getElementById('opm-json').textContent = JSON.stringify(diagram, null, 2);
+        renderMermaidInto(document.getElementById('opm-mermaid'), diagram);
+      }
+
+      async function loadPersistedDiagram() {
+        const banner = document.getElementById('persisted-banner');
+        try {
+          const res = await fetch('/opm?limit=1');
+          if (!res.ok) return;
+          const data = await res.json();
+          const list = data.diagrams || [];
+          banner.style.display = 'block';
+          if (list.length === 0) {
+            banner.innerHTML = '<strong>Persistence</strong>: No diagram in the database yet. After a successful extraction, data is stored in SQLite and the latest record still appears after a service restart.';
+            return;
+          }
+          const latest = list[0];
+          banner.innerHTML = '';
+          const head = document.createElement('div');
+          head.innerHTML = `<strong>Last saved diagram</strong> diagram_id=<code>${escapeHtml(String(latest.id))}</code> · <span class="muted">${escapeHtml(String(latest.created_at || ''))}</span>`;
+          banner.appendChild(head);
+          const mj = document.createElement('div');
+          mj.className = 'mermaid-wrap';
+          banner.appendChild(mj);
+          await renderMermaidInto(mj, latest.diagram);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      document.getElementById('sample-drug').addEventListener('click', () => {
+        document.getElementById('opm-text').value = SAMPLE_DRUG_LABEL;
+      });
+      document.getElementById('sample-complex').addEventListener('click', () => {
+        document.getElementById('opm-text').value = SAMPLE_COMPLEX_MECHANISM;
+      });
+
+      document.getElementById('opm-extract').addEventListener('click', async () => {
+        const text = document.getElementById('opm-text').value.trim();
+        const saveNote = document.getElementById('opm-save-note').checked;
+        document.getElementById('opm-error').innerHTML = '';
+        if (!text) {
+          document.getElementById('opm-error').innerHTML = '<div class="err-box">Please enter some text.</div>';
+          return;
+        }
+        try {
+          const res = await fetch('/opm/extract', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, save_note: saveNote }),
+          });
+          const rawText = await res.text();
+          let body = {};
+          try {
+            body = rawText ? JSON.parse(rawText) : {};
+          } catch (parseErr) {
+            body = {
+              detail: {
+                stage: 'validation',
+                detail: 'The server did not return JSON (maybe a proxy error page).',
+                technical_detail: rawText.slice(0, 4000),
+              },
+            };
+          }
+          if (!res.ok) {
+            showOpmError(res, body);
+            return;
+          }
+          showOpmSuccess(body.diagram, body.diagram_id);
+          await loadPersistedDiagram();
+        } catch (err) {
+          console.error(err);
+          document.getElementById('opm-error').innerHTML = '<div class="err-box hard">Could not reach the server. Check your connection and try again.</div>';
+        }
+      });
+
       const $ = (sel) => document.querySelector(sel);
       const itemsEl = $('#items');
-      const btn = $('#extract');
-      btn.addEventListener('click', async () => {
+      $('#extract').addEventListener('click', async () => {
         const text = $('#text').value;
         const save = $('#save_note').checked;
         itemsEl.textContent = 'Extracting...';
@@ -67,8 +316,15 @@
         }
       });
 
+      function scheduleLoadPersistedDiagram() {
+        const run = () => loadPersistedDiagram();
+        if (typeof requestIdleCallback === 'function') {
+          requestIdleCallback(run, { timeout: 2500 });
+        } else {
+          setTimeout(run, 0);
+        }
+      }
+      scheduleLoadPersistedDiagram();
     </script>
   </body>
-  </html>
-
-
+</html>

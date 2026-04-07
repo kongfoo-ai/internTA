@@ -9,32 +9,135 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from ..app.services.opm_extract import extract_opm_diagram
+from ..app.services.opm_extract import (
+    OPMExtractionError,
+    extract_opm_diagram,
+    normalize_llm_output,
+    parse_json,
+)
+from .conftest import VALID_OPM_LLM_JSON, fake_opm_llm_success
 
 
 # ---------------------------------------------------------------------------
-# Unit tests: stub extractor
+# Unit tests: JSON helpers
 # ---------------------------------------------------------------------------
 
 
-def test_stub_returns_dict():
-    result = extract_opm_diagram("any text")
+def test_parse_json_accepts_object():
+    assert parse_json('{"a": 1}') == {"a": 1}
+
+
+def test_parse_json_invalid_raises():
+    with pytest.raises(ValueError, match="Invalid JSON"):
+        parse_json("not json")
+
+
+def test_parse_json_array_raises_must_be_object():
+    with pytest.raises(ValueError, match="JSON must be object"):
+        parse_json("[1,2]")
+
+
+def test_normalize_strips_markdown_fence():
+    raw = '```json\n{"version": "1.0", "nodes": [], "links": []}\n```'
+    out = normalize_llm_output(raw)
+    assert parse_json(out)["version"] == "1.0"
+
+
+# ---------------------------------------------------------------------------
+# Unit tests: extract (mocked LLM)
+# ---------------------------------------------------------------------------
+
+
+def test_extract_returns_dict_with_mock_llm():
+    with patch("web.app.services.opm_extract.call_llm", side_effect=fake_opm_llm_success):
+        result = extract_opm_diagram("any text")
     assert isinstance(result, dict)
 
 
-def test_stub_version_field():
-    result = extract_opm_diagram("any text")
+def test_extract_version_field():
+    with patch("web.app.services.opm_extract.call_llm", side_effect=fake_opm_llm_success):
+        result = extract_opm_diagram("any text")
     assert result["version"] == "1.0"
 
 
-def test_stub_has_nodes_and_links():
-    result = extract_opm_diagram("any text")
+def test_extract_has_nodes_and_links():
+    with patch("web.app.services.opm_extract.call_llm", side_effect=fake_opm_llm_success):
+        result = extract_opm_diagram("any text")
     assert "nodes" in result
     assert "links" in result
 
 
-def test_stub_is_deterministic():
-    assert extract_opm_diagram("foo") == extract_opm_diagram("bar")
+def test_extract_non_object_json_no_retry_raises_422():
+    calls: list[None] = []
+
+    def bad_llm(s: str, u: str, **kwargs) -> str:
+        calls.append(None)
+        return "[1]"
+
+    with patch("web.app.services.opm_extract.call_llm", side_effect=bad_llm):
+        with pytest.raises(OPMExtractionError) as ei:
+            extract_opm_diagram("x")
+    assert ei.value.status_code == 422
+    assert "JSON must be object" in ei.value.detail
+    assert len(calls) == 1
+
+
+def test_extract_invalid_json_retries_once_then_422():
+    calls: list[int] = []
+
+    def flaky(s: str, u: str, **kwargs) -> str:
+        calls.append(1)
+        if len(calls) == 1:
+            return "not-json"
+        return VALID_OPM_LLM_JSON
+
+    with patch("web.app.services.opm_extract.call_llm", side_effect=flaky):
+        result = extract_opm_diagram("x")
+    assert result["version"] == "1.0"
+    assert len(calls) == 2
+
+
+def test_extract_502_retries_once():
+    attempts = {"n": 0}
+
+    def fail_then_ok(s: str, u: str, **kwargs) -> str:
+        attempts["n"] += 1
+        if attempts["n"] == 1:
+            raise OPMExtractionError(502, "timeout", None)
+        return VALID_OPM_LLM_JSON
+
+    with patch("web.app.services.opm_extract.call_llm", side_effect=fail_then_ok):
+        result = extract_opm_diagram("x")
+    assert result["version"] == "1.0"
+    assert attempts["n"] == 2
+
+
+def test_extract_validation_failure_triggers_second_llm_round():
+    """Graph integrity (e.g. duplicate node ids) fails → repair prompt → valid JSON."""
+    calls: list[str] = []
+    # Loose validation accepts object→object instrument; use duplicate node ids (still rejected).
+    bad = json.dumps(
+        {
+            "version": "1.0",
+            "nodes": [
+                {"id": "a", "kind": "object", "label": "A"},
+                {"id": "a", "kind": "object", "label": "B"},
+            ],
+            "links": [],
+        }
+    )
+
+    def bad_then_ok(s: str, u: str, **kwargs) -> str:
+        calls.append(u)
+        if len(calls) == 1:
+            return bad
+        return VALID_OPM_LLM_JSON
+
+    with patch("web.app.services.opm_extract.call_llm", side_effect=bad_then_ok):
+        result = extract_opm_diagram("x")
+    assert result["version"] == "1.0"
+    assert len(calls) == 2
+    assert "failed server validation" in calls[1]
 
 
 # ---------------------------------------------------------------------------
@@ -148,8 +251,12 @@ def client(tmp_db: Path) -> Generator[TestClient, None, None]:
         if mod.startswith("web.app"):
             del sys.modules[mod]
     from web.app.main import app
-    with TestClient(app) as c:
-        yield c
+
+    with patch(
+        "web.app.services.opm_extract.call_llm", side_effect=fake_opm_llm_success
+    ):
+        with TestClient(app) as c:
+            yield c
 
 
 def test_post_extract_inserts_row(client: TestClient, tmp_db: Path):
@@ -212,3 +319,17 @@ def test_multiple_inserts_distinct_ids(client: TestClient):
 def test_post_extract_missing_text_returns_400(client: TestClient):
     response = client.post("/opm/extract", json={"save_note": False})
     assert response.status_code == 400
+
+
+def test_post_extract_llm_error_returns_opm_extraction_failed(client: TestClient):
+    # client fixture reloads web.app; use OPMExtractionError from that same module instance
+    import web.app.services.opm_extract as opm_mod
+
+    err = opm_mod.OPMExtractionError(502, "LLM unavailable", None)
+    with patch.object(opm_mod, "call_llm", side_effect=err):
+        response = client.post("/opm/extract", json={"text": "hello", "save_note": False})
+    assert response.status_code == 502
+    detail = response.json()["detail"]
+    assert detail["error"] == "opm_extraction_failed"
+    assert detail["stage"] == "llm"
+    assert detail["detail"] == "LLM unavailable"

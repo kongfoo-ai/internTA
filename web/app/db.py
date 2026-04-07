@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import os
 import sqlite3
 from pathlib import Path
 from typing import Optional
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = BASE_DIR / "data"
+_data_override = os.environ.get("WEB_DATA_DIR", "").strip()
+DATA_DIR = Path(_data_override) if _data_override else BASE_DIR / "data"
 DB_PATH = DATA_DIR / "app.db"
 
 
@@ -138,12 +140,15 @@ def insert_opm_diagram(payload: dict, note_id: Optional[int] = None) -> int:
         return int(cursor.lastrowid)
 
 
-def list_opm_diagrams() -> list[dict]:
+def list_opm_diagrams(limit: Optional[int] = None) -> list[dict]:
+    q = "SELECT id, note_id, payload, created_at FROM opm_diagrams ORDER BY id DESC"
+    params: tuple = ()
+    if limit is not None:
+        q += " LIMIT ?"
+        params = (int(limit),)
     with get_connection() as connection:
         cursor = connection.cursor()
-        cursor.execute(
-            "SELECT id, note_id, payload, created_at FROM opm_diagrams ORDER BY id DESC"
-        )
+        cursor.execute(q, params)
         rows = cursor.fetchall()
     return [
         {

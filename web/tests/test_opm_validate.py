@@ -9,8 +9,14 @@ from unittest.mock import MagicMock, patch
 import pytest
 from pydantic import ValidationError
 
-from web.app.services.opm_validate import validate_diagram
+from web.app.services.opm_validate import (
+    humanize_diagram_validation,
+    repair_common_llm_link_relations,
+    validate_diagram,
+)
 from web.app.schemas.opm import OpmDiagram
+
+from .conftest import fake_opm_llm_success
 
 
 # ---------------------------------------------------------------------------
@@ -78,7 +84,7 @@ def test_invalid_relation_rejected():
 
 
 def test_label_too_long_rejected():
-    long_label = "a" * 81
+    long_label = "a" * 161
     bad = _diagram(nodes=[{"id": "farmer", "kind": "object", "label": long_label}])
     with pytest.raises(ValidationError):
         validate_diagram(bad)
@@ -90,10 +96,37 @@ def test_empty_label_rejected():
         validate_diagram(bad)
 
 
-def test_non_kebab_node_id_rejected():
-    bad = _diagram(nodes=[{"id": "MyNode", "kind": "object", "label": "My Node"}])
+def test_invalid_node_id_with_space_rejected():
+    bad = _diagram(nodes=[{"id": "farmer node", "kind": "object", "label": "My Node"}])
     with pytest.raises(ValidationError):
         validate_diagram(bad)
+
+
+def test_humanize_diagram_validation_collapses_many_id_pattern_errors():
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "ok_a", "kind": "object", "label": "A"},
+            {"id": "Bad Upper", "kind": "object", "label": "B"},
+            {"id": "also_bad", "kind": "object", "label": "C"},
+        ],
+        "links": [],
+    }
+    with pytest.raises(ValidationError) as ei:
+        validate_diagram(bad)
+    msg = humanize_diagram_validation(ei.value)
+    assert "17 validation errors" not in msg
+    assert "pydantic" not in msg.lower()
+    assert "lowercase" in msg.lower() or "format" in msg.lower()
+
+
+def test_snake_case_node_id_accepted():
+    d = _diagram(
+        nodes=[{"id": "my_node_id", "kind": "object", "label": "X"}],
+        links=[],
+    )
+    out = validate_diagram(d)
+    assert out.nodes[0].id == "my_node_id"
 
 
 def test_uppercase_node_id_rejected():
@@ -113,15 +146,18 @@ def test_duplicate_node_ids_rejected():
         validate_diagram(bad)
 
 
-def test_duplicate_link_ids_rejected():
-    bad = _diagram(
+def test_duplicate_link_ids_renamed_automatically():
+    """LLM often reuses the same link id; validation renames duplicates."""
+    dup = _diagram(
         links=[
             {"id": "l1", "source": "farmer", "target": "grow", "relation": "agent"},
             {"id": "l1", "source": "grow", "target": "crop", "relation": "result"},
         ]
     )
-    with pytest.raises((ValidationError, ValueError)):
-        validate_diagram(bad)
+    result = validate_diagram(dup)
+    ids = [lk.id for lk in result.links]
+    assert ids == ["l1", "l1-2"]
+    assert len(set(ids)) == len(ids)
 
 
 def test_dangling_link_source_rejected():
@@ -140,6 +176,140 @@ def test_dangling_link_target_rejected():
         validate_diagram(bad)
 
 
+def test_result_object_to_state_rejected():
+    """result must be process→object."""
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "drug", "kind": "object", "label": "Drug"},
+            {"id": "adm", "kind": "process", "label": "administer"},
+            {"id": "goal", "kind": "state", "label": "management"},
+        ],
+        "links": [
+            {"id": "l1", "source": "drug", "target": "goal", "relation": "result"},
+            {"id": "l2", "source": "drug", "target": "adm", "relation": "agent"},
+        ],
+    }
+    with pytest.raises(ValueError, match="result.*process"):
+        validate_diagram(bad)
+
+
+def test_effect_object_to_state_rejected():
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "drug", "kind": "object", "label": "Drug"},
+            {"id": "goal", "kind": "state", "label": "management"},
+        ],
+        "links": [{"id": "l1", "source": "drug", "target": "goal", "relation": "effect"}],
+    }
+    with pytest.raises(ValueError, match="effect.*process"):
+        validate_diagram(bad)
+
+
+def test_agent_object_to_state_rejected():
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "diet", "kind": "object", "label": "diet"},
+            {"id": "goal", "kind": "state", "label": "management"},
+        ],
+        "links": [{"id": "l1", "source": "diet", "target": "goal", "relation": "agent"}],
+    }
+    with pytest.raises(ValueError, match="agent.*object"):
+        validate_diagram(bad)
+
+
+def test_repair_swaps_result_to_effect_when_target_is_state():
+    """LLM often emits result→state; repair fixes before validate."""
+    raw = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "drug", "kind": "object", "label": "Drug"},
+            {"id": "adm", "kind": "process", "label": "administer"},
+            {"id": "goal", "kind": "state", "label": "outcome"},
+        ],
+        "links": [
+            {"id": "l1", "source": "drug", "target": "adm", "relation": "agent"},
+            {"id": "l2", "source": "adm", "target": "goal", "relation": "result"},
+        ],
+    }
+    fixed = repair_common_llm_link_relations(raw)
+    assert fixed["links"][1]["relation"] == "effect"
+    result = validate_diagram(fixed)
+    assert result.links[1].relation.value == "effect"
+
+
+def test_normalize_numeric_link_endpoint_to_node_prefix():
+    raw = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "node5", "kind": "process", "label": "p"},
+            {"id": "node6", "kind": "state", "label": "s"},
+        ],
+        "links": [{"id": "l1", "source": 5, "target": "node6", "relation": "result"}],
+    }
+    d = validate_diagram(raw)
+    assert d.links[0].source == "node5"
+    assert d.links[0].relation.value == "effect"
+
+
+def test_repair_result_to_effect_case_insensitive_relation():
+    raw = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "node5", "kind": "process", "label": "p"},
+            {"id": "node6", "kind": "state", "label": "s"},
+        ],
+        "links": [{"id": "link5", "source": "node5", "target": "node6", "relation": "Result"}],
+    }
+    d = validate_diagram(raw)
+    assert d.links[0].relation.value == "effect"
+
+
+def test_repair_swaps_effect_to_result_when_target_is_object():
+    raw = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "p", "kind": "process", "label": "step"},
+            {"id": "o", "kind": "object", "label": "product"},
+        ],
+        "links": [{"id": "l1", "source": "p", "target": "o", "relation": "effect"}],
+    }
+    fixed = repair_common_llm_link_relations(raw)
+    assert fixed["links"][0]["relation"] == "result"
+    validate_diagram(fixed)
+
+
+def test_instrument_object_to_object_rejected():
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "a", "kind": "object", "label": "A"},
+            {"id": "b", "kind": "object", "label": "B"},
+        ],
+        "links": [{"id": "l1", "source": "a", "target": "b", "relation": "instrument"}],
+    }
+    with pytest.raises(ValueError, match="instrument.*object"):
+        validate_diagram(bad)
+
+
+def test_humanize_opm_link_rule_errors():
+    bad = {
+        "version": "1.0",
+        "nodes": [
+            {"id": "a", "kind": "object", "label": "A"},
+            {"id": "b", "kind": "object", "label": "B"},
+        ],
+        "links": [{"id": "l1", "source": "a", "target": "b", "relation": "instrument"}],
+    }
+    with pytest.raises(ValidationError) as ei:
+        validate_diagram(bad)
+    msg = humanize_diagram_validation(ei.value)
+    assert "OPM rules" in msg
+    assert "object to a process" in msg
+
+
 # ---------------------------------------------------------------------------
 # Unit tests: warning-only semantic checks
 # ---------------------------------------------------------------------------
@@ -150,7 +320,7 @@ def test_self_loop_warns_not_rejects(caplog):
         "version": "1.0",
         "nodes": [{"id": "node-a", "kind": "object", "label": "A"}],
         "links": [
-            {"id": "l1", "source": "node-a", "target": "node-a", "relation": "effect"}
+            {"id": "l1", "source": "node-a", "target": "node-a", "relation": "aggregation"}
         ],
     }
     with caplog.at_level(logging.WARNING, logger="web.app.services.opm_validate"):
@@ -185,13 +355,14 @@ def test_duplicate_relation_warns(caplog):
 @pytest.fixture()
 def client() -> Generator:
     sys.modules.setdefault("ollama", MagicMock())
-    for mod in list(sys.modules):
-        if mod.startswith("web.app"):
-            del sys.modules[mod]
     from fastapi.testclient import TestClient
     from web.app.main import app
-    with TestClient(app) as c:
-        yield c
+
+    with patch(
+        "web.app.services.opm_extract.call_llm", side_effect=fake_opm_llm_success
+    ):
+        with TestClient(app) as c:
+            yield c
 
 
 def test_valid_stub_passes_validation_and_stores(client, tmp_path):
@@ -208,7 +379,7 @@ def test_invalid_diagram_blocked_before_db_insert(client, tmp_path, monkeypatch)
     """An invalid dict from extraction must be rejected with 422, not stored."""
     bad_diagram = {"version": "1.0", "nodes": [{"id": "BadID", "kind": "object", "label": "X"}], "links": []}
     # Patch the name as imported in the router module
-    monkeypatch.setattr("web.app.routers.opm.extract_opm_diagram", lambda text: bad_diagram)
+    monkeypatch.setattr("web.app.services.opm_extract.extract_opm_diagram", lambda text: bad_diagram)
 
     with patch("web.app.db.DB_PATH", tmp_path / "test.db"):
         from web.app import db as db_module
@@ -224,7 +395,7 @@ def test_invalid_diagram_blocked_before_db_insert(client, tmp_path, monkeypatch)
 def test_invalid_diagram_not_persisted(client, tmp_path, monkeypatch):
     """After a validation failure, no row should appear in opm_diagrams."""
     bad_diagram = {"version": "1.0", "nodes": [{"id": "Bad", "kind": "object", "label": "X"}], "links": []}
-    monkeypatch.setattr("web.app.routers.opm.extract_opm_diagram", lambda text: bad_diagram)
+    monkeypatch.setattr("web.app.services.opm_extract.extract_opm_diagram", lambda text: bad_diagram)
 
     with patch("web.app.db.DB_PATH", tmp_path / "test.db"):
         from web.app import db as db_module
