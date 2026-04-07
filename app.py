@@ -417,14 +417,20 @@ def main():
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Fixed API URL - no need for user input
-    API_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
+    # Use the local accounting proxy in deployment:
+    # INTERTA_API_BASE_URL=http://127.0.0.1:8080/chat/completions
+    API_BASE_URL = os.getenv(
+        "INTERTA_API_BASE_URL",
+        "https://api.deepseek.com/v1/chat/completions",
+    )
 
     if "api_key" not in st.session_state:
         st.session_state.api_key = ""
 
-    # Fixed model name - no need for user input
-    MODEL_NAME = "internta"
+    if "user_id" not in st.session_state:
+        st.session_state.user_id = os.getenv("INTERTA_DEFAULT_USER_ID", "anonymous")
+
+    MODEL_NAME = os.getenv("INTERTA_MODEL", "internta")
 
     # Sidebar for configuration
     with st.sidebar:
@@ -458,6 +464,14 @@ def main():
             
             if api_key != st.session_state.api_key:
                 st.session_state.api_key = api_key
+
+            user_id = st.text_input(
+                "User ID",
+                value=st.session_state.user_id,
+                help="Used by the local accounting proxy to attribute token usage.",
+            )
+            if user_id != st.session_state.user_id:
+                st.session_state.user_id = user_id
             
             # 远程API模式下的参数设置
             st.write("参数设置 | Parameters:")
@@ -672,6 +686,8 @@ def main():
                     
                     # Add Authorization header if API key is provided
                     headers["Authorization"] = f"Bearer {st.session_state.api_key}"
+                    if st.session_state.get("user_id"):
+                        headers["X-User-ID"] = st.session_state.user_id
                     
                     # Make the API call
                     response = requests.post(

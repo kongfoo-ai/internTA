@@ -1,224 +1,98 @@
 """
-InternTA MCP Server
-==================
+InternTA MCP server.
 
-English:
---------
-This file implements an MCP (Model Context Protocol) server for the InternTA
-(Synthetic Biology Teaching Assistant) based on the DeepSeek-R1-Distill-Qwen-7B
-model with QLoRA fine-tuning. It exposes a chat completion tool that can be
-invoked by MCP clients.
-
-Key components:
-- FastMCP for the MCP server and tools
-- Hugging Face Transformers for model loading and inference
-- PEFT (Parameter-Efficient Fine-Tuning) for loading the QLoRA adapter
-- BitsAndBytes for 4-bit quantization
-
-Chinese:
---------
-此文件实现了基于 DeepSeek-R1-Distill-Qwen-7B 与 QLoRA 微调的合成生物学助教
-InternTA 的 MCP（Model Context Protocol）服务器，通过工具供 MCP 客户端调用。
-
-主要组件：
-- FastMCP 提供 MCP 服务器与工具
-- Hugging Face Transformers 用于模型加载与推理
-- PEFT 用于加载 QLoRA 适配器
-- BitsAndBytes 用于 4 位量化
+The MCP process delegates model inference to a vLLM OpenAI-compatible server.
+This keeps GPU model serving, token accounting, and MCP tool exposure separated.
 """
 
-import os
+from __future__ import annotations
+
+import asyncio
 import json
-import warnings
-from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+import os
+from typing import Any, Dict
 
 from dotenv import load_dotenv
 from fastmcp import FastMCP
-import torch
-from transformers.utils import logging
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-from peft import PeftModel
 
-logger = logging.get_logger(__name__)
+from web.app import db
+from web.app.services.llm import VLLMClientError, create_chat_completion, health_check
+
 load_dotenv()
-
-# Optional: set HF mirror for downloads
-os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
-
-# Module-level cache for model and tokenizer (replaces st.cache_resource)
-_model_and_tokenizer: Optional[tuple] = None
+db.init_db()
 
 mcp = FastMCP(name="InternTA")
 
 
-def init():
-    """Download or prepare model assets if needed."""
-    from modelscope import snapshot_download
-    snapshot_download("Kongfoo-ai/internTAv2.0_test", cache_dir="./")
-    os.system(
-        "huggingface-cli download --resume-download deepseek-ai/DeepSeek-R1-Distill-Qwen-7B "
-        "--local-dir DeepSeek-R1-Distill-Qwen-7B --cache-dir DeepSeek-R1-Distill-Qwen-7B"
-    )
-
-
-@dataclass
-class GenerationConfig:
-    max_length: int = 32768
-    max_new_tokens: Optional[int] = 8000
-    top_p: float = 0.8
-    temperature: float = 0.8
-    do_sample: bool = True
-    repetition_penalty: float = 1.005
-
-    def update(self, **kwargs):
-        config = asdict(self).copy()
-        config.update(kwargs)
-        config.pop("cache_position", None)
-        return config
-
-
-def load_model() -> tuple:
-    """Load base model with 4-bit quantization and QLoRA adapter. Cached at module level."""
-    global _model_and_tokenizer
-    if _model_and_tokenizer is not None:
-        return _model_and_tokenizer
-
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float16,
-    )
-    base_model_path = "DeepSeek-R1-Distill-Qwen-7B"
-    base_model = AutoModelForCausalLM.from_pretrained(
-        base_model_path,
-        quantization_config=bnb_config,
-        device_map="auto",
-        trust_remote_code=True,
-    )
-    lora_adapter_path = "internTAv2.0_test"
-    lora_model = PeftModel.from_pretrained(base_model, lora_adapter_path)
-    tokenizer = AutoTokenizer.from_pretrained(lora_adapter_path)
-    _model_and_tokenizer = (lora_model, tokenizer)
-    return _model_and_tokenizer
-
-
-@torch.inference_mode()
-def generate_response(
-    model,
-    tokenizer,
-    prompt: str,
-    generation_config: Optional[GenerationConfig] = None,
-    **kwargs,
-) -> str:
-    """Run non-streaming generation and return the full assistant text."""
-    inputs = tokenizer([prompt], return_tensors="pt", padding=True)
-    input_ids = inputs["input_ids"].cuda()
-    attention_mask = inputs["attention_mask"].cuda()
-
-    if generation_config is None:
-        generation_config = GenerationConfig()
-    gen_kwargs = generation_config.update(**kwargs)
-    if gen_kwargs.get("pad_token_id") is None:
-        gen_kwargs["pad_token_id"] = (
-            tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
-        )
-
-    outputs = model.generate(input_ids, attention_mask=attention_mask, **gen_kwargs)
-    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    if generated_text.startswith(prompt):
-        generated_text = generated_text[len(prompt) :]
-    return generated_text.strip()
-
-
-def _messages_to_prompt(messages: List[Dict[str, str]]) -> str:
-    """Build chat prompt from list of message dicts (role, content)."""
-    total_prompt = "<s>"
-    for msg in messages:
-        role = msg.get("role", "user")
-        content = msg.get("content", "")
-        if role == "system":
-            total_prompt += f"<|im_start|>system\n{content}<|im_end|>\n"
-        elif role == "user":
-            total_prompt += f"<|im_start|>user\n{content}<|im_end|>\n"
-        elif role == "assistant":
-            total_prompt += f"<|im_start|>assistant\n{content}<|im_end|>\n"
-    total_prompt += "<|im_start|>assistant\n"
-    return total_prompt
-
-
-@mcp.tool
+@mcp.tool()
 def chat_completion(
     messages: str,
     temperature: float = 0.8,
     max_tokens: int = 8000,
     top_p: float = 0.8,
+    user_id: str = "mcp",
+    model: str | None = None,
+    repetition_penalty: float | None = None,
 ) -> Dict[str, Any]:
     """
-    Get a chat completion from the InternTA (synthetic biology teaching assistant) model.
-    :param messages: JSON array of message objects, each with "role" ("system"|"user"|"assistant") and "content".
-    :param temperature: Sampling temperature (default 0.8).
-    :param max_tokens: Maximum new tokens to generate (default 8000).
-    :param top_p: Top-p nucleus sampling (default 0.8).
-    :return: Dict with "content" (assistant reply) and "role" ("assistant").
+    Get a chat completion from the InternTA model through vLLM.
+
+    messages must be a JSON array of OpenAI-style message objects.
     """
     try:
-        msg_list = json.loads(messages)
-    except json.JSONDecodeError as e:
-        return {"error": f"Invalid messages JSON: {e}", "content": "", "role": "assistant"}
-
-    if not isinstance(msg_list, list):
-        return {"error": "messages must be a JSON array", "content": "", "role": "assistant"}
-
-    for i, m in enumerate(msg_list):
-        if not isinstance(m, dict) or "role" not in m or "content" not in m:
-            return {
-                "error": f"messages[{i}] must be an object with 'role' and 'content'",
-                "content": "",
-                "role": "assistant",
-            }
-        m["content"] = str(m["content"])
+        message_list = json.loads(messages)
+    except json.JSONDecodeError as exc:
+        return {"error": f"Invalid messages JSON: {exc}", "content": "", "role": "assistant"}
 
     try:
-        model, tokenizer = load_model()
-    except Exception as e:
-        return {"error": f"Model load failed: {e}", "content": "", "role": "assistant"}
-
-    prompt = _messages_to_prompt(msg_list)
-    config = GenerationConfig(
-        temperature=temperature,
-        max_new_tokens=max_tokens,
-        top_p=top_p,
-    )
-    try:
-        content = generate_response(
+        result = create_chat_completion(
+            message_list,
             model=model,
-            tokenizer=tokenizer,
-            prompt=prompt,
-            generation_config=config,
-            use_cache=False,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            top_p=top_p,
+            repetition_penalty=repetition_penalty,
         )
-    except Exception as e:
-        return {"error": str(e), "content": "", "role": "assistant"}
+    except VLLMClientError as exc:
+        return {"error": str(exc), "content": "", "role": "assistant"}
 
-    return {"role": "assistant", "content": content}
+    usage = result["usage"]
+    request_id = result["id"] or "mcp"
+    db.insert_token_usage(
+        user_id=user_id or "mcp",
+        request_id=request_id,
+        model=result["model"],
+        prompt_tokens=usage["prompt_tokens"],
+        completion_tokens=usage["completion_tokens"],
+        total_tokens=usage["total_tokens"],
+        source="mcp",
+    )
+
+    return {
+        "role": result["role"],
+        "content": result["content"],
+        "model": result["model"],
+        "request_id": request_id,
+        "usage": usage,
+        "finish_reason": result["finish_reason"],
+    }
 
 
-@mcp.tool
+@mcp.tool()
 def internta_health() -> Dict[str, Any]:
-    """
-    Check whether the InternTA model is loaded and ready.
-    :return: Dict with "loaded" (bool) and optional "error" if load failed.
-    """
-    global _model_and_tokenizer
-    if _model_and_tokenizer is not None:
-        return {"loaded": True}
-    try:
-        load_model()
-        return {"loaded": True}
-    except Exception as e:
-        return {"loaded": False, "error": str(e)}
+    """Check whether the configured vLLM endpoint is reachable."""
+    return health_check()
 
 
 if __name__ == "__main__":
-    mcp.run()
+    transport = os.getenv("MCP_TRANSPORT")
+    if transport:
+        if transport == "http":
+            transport = "streamable-http"
+        run_kwargs: dict[str, Any] = {"transport": transport}
+        if transport in {"http", "streamable-http", "sse"}:
+            run_kwargs["host"] = os.getenv("MCP_HOST", "127.0.0.1")
+            run_kwargs["port"] = int(os.getenv("MCP_PORT", "9000"))
+        asyncio.run(mcp.run_async(**run_kwargs))
+    else:
+        mcp.run()
