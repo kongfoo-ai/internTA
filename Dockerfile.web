@@ -1,0 +1,17 @@
+# OPM + action-items API and static UI (testcase.md VM deployment)
+FROM python:3.10-slim-bookworm
+
+WORKDIR /app
+
+COPY web/requirements-min.txt /app/web/requirements-min.txt
+RUN pip install --no-cache-dir -r /app/web/requirements-min.txt
+
+COPY web/ /app/web/
+
+ENV PYTHONPATH=/app
+ENV WEB_DATA_DIR=/data
+
+EXPOSE 8000
+
+# Persist SQLite under /data when mounting a volume (docker-compose)
+CMD ["sh", "-c", "mkdir -p /data && exec uvicorn web.app.main:app --host 0.0.0.0 --port 8000"]

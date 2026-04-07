@@ -1,0 +1,6 @@
+# Minimal deps for FastAPI OPM web app (VM / API-only deploy). Full stack: use ../requirements.txt
+fastapi>=0.111.0
+uvicorn[standard]>=0.23.0
+pydantic>=2.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
