@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import os
 import sqlite3
 from pathlib import Path
 from typing import Optional
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = BASE_DIR / "data"
+_data_override = os.environ.get("WEB_DATA_DIR", "").strip()
+DATA_DIR = Path(_data_override) if _data_override else BASE_DIR / "data"
 DB_PATH = DATA_DIR / "app.db"
 
 
@@ -43,6 +45,16 @@ def init_db() -> None:
                 done INTEGER DEFAULT 0,
                 created_at TEXT DEFAULT (datetime('now')),
                 FOREIGN KEY (note_id) REFERENCES notes(id)
+            );
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS opm_diagrams (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                note_id INTEGER,
+                payload TEXT NOT NULL,
+                created_at TEXT DEFAULT (datetime('now'))
             );
             """
         )
@@ -113,4 +125,56 @@ def mark_action_item_done(action_item_id: int, done: bool) -> None:
         )
         connection.commit()
 
+
+import json as _json
+
+
+def insert_opm_diagram(payload: dict, note_id: Optional[int] = None) -> int:
+    with get_connection() as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO opm_diagrams (note_id, payload) VALUES (?, ?)",
+            (note_id, _json.dumps(payload)),
+        )
+        connection.commit()
+        return int(cursor.lastrowid)
+
+
+def list_opm_diagrams(limit: Optional[int] = None) -> list[dict]:
+    q = "SELECT id, note_id, payload, created_at FROM opm_diagrams ORDER BY id DESC"
+    params: tuple = ()
+    if limit is not None:
+        q += " LIMIT ?"
+        params = (int(limit),)
+    with get_connection() as connection:
+        cursor = connection.cursor()
+        cursor.execute(q, params)
+        rows = cursor.fetchall()
+    return [
+        {
+            "id": r["id"],
+            "note_id": r["note_id"],
+            "created_at": r["created_at"],
+            "diagram": _json.loads(r["payload"]),
+        }
+        for r in rows
+    ]
+
+
+def get_opm_diagram(diagram_id: int) -> Optional[dict]:
+    with get_connection() as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT id, note_id, payload, created_at FROM opm_diagrams WHERE id = ?",
+            (diagram_id,),
+        )
+        row = cursor.fetchone()
+    if row is None:
+        return None
+    return {
+        "id": row["id"],
+        "note_id": row["note_id"],
+        "created_at": row["created_at"],
+        "diagram": _json.loads(row["payload"]),
+    }
 
