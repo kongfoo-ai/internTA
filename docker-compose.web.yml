@@ -18,6 +18,8 @@ services:
       OPM_MODEL: ${OPM_MODEL:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      OPM_OPENAI_EXTRA_HEADERS: ${OPM_OPENAI_EXTRA_HEADERS:-}
+      OPM_TOP_P: ${OPM_TOP_P:-}
     volumes:
       - opm_web_data:/data
 

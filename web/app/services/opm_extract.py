@@ -100,9 +100,37 @@ def parse_json(raw: str) -> dict:
     return data
 
 
+# Models with chain-of-thought often emit reasoning before JSON; keep only after the last closing tag.
+_THINK_CLOSE_TAGS: tuple[str, ...] = (
+    '</think>',
+    '</rethink>',
+    '</redacted_thinking>',
+    '`</think>`',
+    '`</rethink>`',
+    '`</redacted_thinking>`',
+)
+
+
+def _strip_thinking_prefix(raw: str) -> str:
+    """
+    Drop everything before the last known end-of-reasoning tag so JSON parse sees only the answer.
+
+    Handles `<think>...</think>` / `</think>` style wrappers; if no tag is found, returns `raw` unchanged.
+    """
+    s = raw
+    cut_end = 0
+    for tag in _THINK_CLOSE_TAGS:
+        i = s.rfind(tag)
+        if i != -1:
+            cut_end = max(cut_end, i + len(tag))
+    if cut_end > 0:
+        return s[cut_end:].lstrip()
+    return s
+
+
 def normalize_llm_output(raw: str) -> str:
-    """Strip optional markdown fences if the model wrapped JSON in ``` blocks."""
-    s = raw.strip()
+    """Strip CoT/thinking wrappers, then optional markdown fences if the model wrapped JSON in ``` blocks."""
+    s = _strip_thinking_prefix(raw.strip())
     if not s.startswith("```"):
         return s
     lines = s.splitlines()
@@ -126,6 +154,13 @@ def build_system_prompt() -> str:
 
 Density rule: short notes → small graph; long structured text → **large** graph with separate nodes for distinct requirements, entities, and steps.
 
+**Pharmaceutical domain vocabulary (apply when text concerns drugs, medications, or clinical contexts):**
+- `object` (entities/things): drug, compound, receptor, enzyme, metabolite, protein, antibody, dose, carrier, pathway, inhibitor, agonist, antagonist, substrate, cell, tissue, ligand
+- `process` (transformations — label as verb phrase/gerund): binding, inhibiting, activating, metabolising, administering, blocking, releasing, distributing, targeting, synthesising, degrading, absorbing, interacting, phosphorylating
+- `state` (conditions/outcomes): therapeutic effect, adverse event, toxicity, resistance, bioavailability, side effect, overdose, bleeding risk, reduced efficacy, contraindication, tolerance
+- **agent objects** (human/intelligent — use `agent` link): patient, clinician, physician, nurse, healthcare provider
+- **instrument objects** (non-intelligent — use `instrument` link): drug, enzyme, receptor, device, compound, antibody, carrier — everything non-human
+
 Return exactly one JSON object with this schema:
 {
   "version": "1.0",
@@ -140,19 +175,33 @@ Return exactly one JSON object with this schema:
 **Node `id` format (required):** lowercase letters and digits only, with single hyphens or underscores between segments — e.g. `glp1_receptor`, `gs-alpha`, `step_3`. No spaces, no uppercase, no dots.
 
 Node kinds:
-- object = entity, actor, thing, or other noun-like referent in the domain
-- process = verb-like action or step
-- state = named condition, risk, or outcome phrase when modeled as a condition
+- object = a physical or informational entity that exists in the domain (noun)
+- process = a transformation that creates/consumes an object or changes its state — **label must be a verb phrase or gerund** (e.g. "Administering warfarin", "Binding receptor"). NEVER use a noun phrase as a process label — words like "Indication", "Therapy", "Management", "Treatment", "Use", "Administration" used as standalone nouns are NOT processes; they are either states or must be rephrased as verb phrases.
+- state = a specific condition or outcome an object can be in — medical goals, indications, conditions, and approved uses are states, not processes (e.g. "Chronic weight management", "Long-term diabetes control", "Indicated for obesity" are all states)
+
+**Kind selection quick test:**
+- Ask: "Does this describe a *thing that exists*?" → object
+- Ask: "Does this describe an *action transforming something*?" → process (rephrase as verb if needed)
+- Ask: "Does this describe a *condition, goal, or outcome*?" → state
+
+**agent vs instrument — critical distinction (ISO/OPM standard):**
+- `agent` → an **intelligent, human or human-like** enabler that controls/initiates the process through decision-making (person, patient, clinician, organization). Use agent ONLY when the source object is human or acts with intelligence.
+- `instrument` → a **non-intelligent** enabler used in the process but not consumed (drug, molecule, enzyme, tool, device, software, document). Drugs, compounds, receptors, enzymes, and equipment are ALWAYS instrument, never agent.
+- `consumption` → an object destroyed or transformed by the process (a drug metabolized, a substrate broken down)
 
 Preferred (source_kind, relation, target_kind) triples — stick to these patterns:
-- (object, agent|instrument|consumption, process)
+- (object[human], agent, process)
+- (object[non-human tool/drug], instrument, process)
+- (object, consumption, process)
 - (process, result, object)
 - (process, effect, state)
 - (object, characterization, state)
 - (object, aggregation|specialization, object) with consistent direction
 
 How to use relations:
-- agent / instrument / consumption → source kind should be "object", target kind "process"
+- agent → only from a **human or intelligent** object to a process
+- instrument → from a **non-intelligent** object (drug, enzyme, device) to a process
+- consumption → object consumed/transformed by process
 - result → process to object
 - effect → process to state (not object→process; not state as source for effect)
 - characterization → object to state
@@ -196,7 +245,7 @@ Avoid confusing edges:
 For **effect** (process→state): the process should plausibly influence the state as the text states. If the text says an action is taken *because of* a risk, do not reverse direction (mitigation should not read as causing the risk).
 
 Structured or multi-part texts:
-- Prefer explicit actor objects with agent→process when the text names who does what.
+- When the text names a human actor (patient, clinician, physician) use agent→process. For non-human enablers (drugs, devices, enzymes) use instrument→process.
 - Keep risk or adverse states separate from procedural steps unless a valid relation applies.
 
 Dense passages (many sentences, lists, or constraints):
@@ -214,6 +263,70 @@ General:
 - Extract only what the text supports; do not invent facts.
 - For long structured passages, prefer richer graphs when the text enumerates requirements.
 - nodes and links must be arrays (use [] if empty).
+
+**Few-shot examples (pharmaceutical domain — study these patterns before extracting):**
+
+Example 1 — Mechanism of action: "GLP-1 receptor agonists bind the GLP-1 receptor on pancreatic beta cells, stimulating insulin secretion and reducing blood glucose levels."
+{"version":"1.0","nodes":[
+  {"id":"glp1_agonist","kind":"object","label":"GLP-1 receptor agonist"},
+  {"id":"glp1_receptor","kind":"object","label":"GLP-1 receptor"},
+  {"id":"binding","kind":"process","label":"Binding to GLP-1 receptor"},
+  {"id":"insulin_secretion","kind":"process","label":"Stimulating insulin secretion"},
+  {"id":"secreted_insulin","kind":"object","label":"Secreted insulin"},
+  {"id":"glucose_reduction","kind":"state","label":"Reduced blood glucose"}
+],"links":[
+  {"id":"l1","source":"glp1_agonist","target":"binding","relation":"instrument"},
+  {"id":"l2","source":"glp1_receptor","target":"binding","relation":"instrument"},
+  {"id":"l3","source":"glp1_agonist","target":"insulin_secretion","relation":"instrument"},
+  {"id":"l4","source":"insulin_secretion","target":"secreted_insulin","relation":"result"},
+  {"id":"l5","source":"insulin_secretion","target":"glucose_reduction","relation":"effect"}
+]}
+Key patterns: drug→instrument→process (drugs are non-intelligent, always instrument not agent); receptor→instrument→process; process→result→object; process→effect→state; process labels are verb phrases.
+
+Example 2 — Clinical protocol + adverse event: "Warfarin is administered orally to the patient. The liver metabolizes warfarin via CYP2C9. Drug–drug interactions may inhibit CYP2C9, increasing warfarin plasma levels and causing bleeding risk."
+{"version":"1.0","nodes":[
+  {"id":"warfarin","kind":"object","label":"Warfarin"},
+  {"id":"patient","kind":"object","label":"Patient"},
+  {"id":"cyp2c9","kind":"object","label":"CYP2C9 enzyme"},
+  {"id":"interacting_drug","kind":"object","label":"Interacting drug"},
+  {"id":"administration","kind":"process","label":"Administering warfarin orally"},
+  {"id":"metabolism","kind":"process","label":"Metabolising warfarin via CYP2C9"},
+  {"id":"inhibition","kind":"process","label":"Inhibiting CYP2C9"},
+  {"id":"anticoagulation","kind":"process","label":"Increasing anticoagulation"},
+  {"id":"elevated_plasma","kind":"object","label":"Elevated warfarin plasma levels"},
+  {"id":"bleeding_risk","kind":"state","label":"Bleeding risk"}
+],"links":[
+  {"id":"l1","source":"patient","target":"administration","relation":"agent"},
+  {"id":"l2","source":"warfarin","target":"administration","relation":"instrument"},
+  {"id":"l3","source":"warfarin","target":"metabolism","relation":"consumption"},
+  {"id":"l4","source":"cyp2c9","target":"metabolism","relation":"instrument"},
+  {"id":"l5","source":"interacting_drug","target":"inhibition","relation":"instrument"},
+  {"id":"l6","source":"cyp2c9","target":"inhibition","relation":"instrument"},
+  {"id":"l7","source":"inhibition","target":"elevated_plasma","relation":"result"},
+  {"id":"l8","source":"elevated_plasma","target":"anticoagulation","relation":"instrument"},
+  {"id":"l9","source":"anticoagulation","target":"bleeding_risk","relation":"effect"}
+]}
+Key patterns: patient (human)→agent→process; drug/enzyme (non-intelligent)→instrument→process; drug consumed in metabolism→consumption; process→result→object; process→effect→state; process labels are verb phrases/gerunds.
+
+Example 3 — Drug indication (COMMON MISTAKE TO AVOID): "[Drug X] injection is indicated as an adjunct to reduced calorie diet and increased physical activity for long-term weight management in adults."
+WRONG (do not produce this):
+  drug_x→agent→process("Weight management")   ← WRONG: any drug is instrument not agent; "Weight management" is a STATE not a process
+CORRECT output:
+{"version":"1.0","nodes":[
+  {"id":"drug_x","kind":"object","label":"Drug X injection"},
+  {"id":"patient","kind":"object","label":"Adult patient"},
+  {"id":"reduced_calorie_diet","kind":"object","label":"Reduced calorie diet"},
+  {"id":"increased_physical_activity","kind":"object","label":"Increased physical activity"},
+  {"id":"treating","kind":"process","label":"Treating long-term weight condition"},
+  {"id":"weight_management","kind":"state","label":"Long-term weight management"}
+],"links":[
+  {"id":"l1","source":"patient","target":"treating","relation":"agent"},
+  {"id":"l2","source":"drug_x","target":"treating","relation":"instrument"},
+  {"id":"l3","source":"reduced_calorie_diet","target":"treating","relation":"instrument"},
+  {"id":"l4","source":"increased_physical_activity","target":"treating","relation":"instrument"},
+  {"id":"l5","source":"treating","target":"weight_management","relation":"effect"}
+]}
+Key patterns (apply to ALL drugs, not just this example): any drug/compound/medication→instrument (NEVER agent regardless of brand name); patient (human)→agent; medical goal/indication/condition→state (NEVER process); process label is a verb phrase.
 
 Output raw JSON only. No markdown. No explanation."""
 
@@ -248,9 +361,44 @@ Requirements:
 </text>"""
 
 
+def _llm_extra_headers() -> dict[str, str] | None:
+    """
+    Optional HTTP headers for OpenAI-compatible gateways (e.g. X-User-ID).
+
+    Set OPM_OPENAI_EXTRA_HEADERS to a JSON object, e.g.
+    {"X-User-ID":"public-api-test"}
+    """
+    raw = os.environ.get("OPM_OPENAI_EXTRA_HEADERS", "").strip()
+    if not raw:
+        return None
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        logger.warning("OPM_OPENAI_EXTRA_HEADERS is not valid JSON; ignoring")
+        return None
+    if not isinstance(data, dict):
+        return None
+    out: dict[str, str] = {}
+    for k, v in data.items():
+        if v is None:
+            continue
+        out[str(k)] = str(v)
+    return out or None
+
+
+def _llm_top_p() -> float | None:
+    raw = os.environ.get("OPM_TOP_P", "").strip()
+    if not raw:
+        return None
+    try:
+        return float(raw)
+    except ValueError:
+        return None
+
+
 def _openai_client() -> OpenAI:
-    api_key = os.environ.get("OPENAI_API_KEY", "")
-    base_url = os.environ.get("OPENAI_BASE_URL")
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    base_url = os.environ.get("OPENAI_BASE_URL", "").strip() or None
     kwargs: dict[str, Any] = {"api_key": api_key}
     if base_url:
         kwargs["base_url"] = base_url
@@ -281,25 +429,30 @@ def call_llm(
     """
     One chat completion. 30s timeout. Raises OPMExtractionError on transport/empty/API errors.
     """
-    model = os.environ.get("OPM_MODEL", "").strip()
-    if not model:
-        raise OPMExtractionError(502, "OPM_MODEL is not set", None)
+    model = os.environ.get("OPM_MODEL", "gpt-4o-mini").strip()
 
     if temperature is None:
         temperature = _llm_temperature()
 
     client = _openai_client()
+    req: dict[str, Any] = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        "temperature": temperature,
+        "max_completion_tokens": 4096,
+        "timeout": _LLM_TIMEOUT_S,
+    }
+    top_p = _llm_top_p()
+    if top_p is not None:
+        req["top_p"] = top_p
+    xh = _llm_extra_headers()
+    if xh:
+        req["extra_headers"] = xh
     try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=temperature,
-            max_completion_tokens=4096,
-            timeout=_LLM_TIMEOUT_S,
-        )
+        response = client.chat.completions.create(**req)
     except APITimeoutError as exc:
         raise OPMExtractionError(502, "LLM request timed out", None) from exc
     except APIConnectionError as exc:
@@ -308,6 +461,14 @@ def call_llm(
         code = getattr(exc, "status_code", None)
         if code == 429:
             raise OPMExtractionError(502, "LLM rate limited", None) from exc
+        if code == 401:
+            raise OPMExtractionError(
+                502,
+                "LLM API rejected the key (401). "
+                "Set OPENAI_API_KEY to the token your provider expects (e.g. SeetaCloud dashboard API token, not OpenAI sk-proj). "
+                "Check for spaces in .env after OPENAI_API_KEY=.",
+                None,
+            ) from exc
         raise OPMExtractionError(502, f"LLM error ({code}): {exc}", None) from exc
     except OPMExtractionError:
         raise
@@ -396,6 +557,9 @@ def extract_opm_diagram(text: str) -> dict:
     On validation failure, sends the error back to the model (bounded attempts).
 
     Environment (optional):
+    - OPENAI_BASE_URL: OpenAI-compatible API base URL (omit for api.openai.com).
+    - OPM_OPENAI_EXTRA_HEADERS: JSON object of extra HTTP headers, e.g. {"X-User-ID":"public-api-test"}.
+    - OPM_TOP_P: optional top_p for chat.completions (e.g. 0.8).
     - OPM_MAX_LLM_ROUNDS: max extraction/repair loops (default 4, max 20). Lower for faster failure on bad inputs.
     - OPM_TEMPERATURE: sampling temperature for the main pass (default 0). Try 0.15–0.3 if graphs stay too small.
     - OPM_AUTO_EXPAND=1: after a valid but tiny graph, one extra LLM pass to add nodes (see OPM_EXPAND_*).
@@ -427,12 +591,13 @@ def extract_opm_diagram(text: str) -> dict:
                 raise OPMExtractionError(422, str(exc), last_raw, stage="validation") from exc
             continue
         try:
-            validate_diagram(data)
-            if _should_auto_expand(text, data):
-                expanded = _try_expand_diagram_once(text, data, system_prompt)
+            diagram = validate_diagram(data)
+            repaired = diagram.model_dump(mode="json")
+            if _should_auto_expand(text, repaired):
+                expanded = _try_expand_diagram_once(text, repaired, system_prompt)
                 if expanded is not None:
                     return expanded
-            return data
+            return repaired
         except (ValidationError, ValueError) as exc:
             vmsg = str(exc)
             # Model often repeats the same invalid graph; do not burn the full round budget on identical errors.

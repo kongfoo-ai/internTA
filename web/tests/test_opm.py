@@ -44,6 +44,75 @@ def test_normalize_strips_markdown_fence():
 
 
 # ---------------------------------------------------------------------------
+# Unit tests: system prompt content
+# ---------------------------------------------------------------------------
+
+
+def test_system_prompt_contains_pharma_object_vocab():
+    from web.app.services.opm_extract import build_system_prompt
+    prompt = build_system_prompt()
+    for term in ("receptor", "metabolite", "inhibitor"):
+        assert term in prompt, f"Expected pharma object term '{term}' in system prompt"
+
+
+def test_system_prompt_contains_pharma_process_vocab():
+    from web.app.services.opm_extract import build_system_prompt
+    prompt = build_system_prompt()
+    for term in ("metabolising", "administering", "activating"):
+        assert term in prompt, f"Expected pharma process term '{term}' in system prompt"
+
+
+def test_system_prompt_contains_pharma_state_vocab():
+    from web.app.services.opm_extract import build_system_prompt
+    prompt = build_system_prompt()
+    for term in ("adverse event", "toxicity", "bioavailability"):
+        assert term in prompt, f"Expected pharma state term '{term}' in system prompt"
+
+
+def test_system_prompt_contains_moa_example():
+    from web.app.services.opm_extract import build_system_prompt
+    prompt = build_system_prompt()
+    assert "glp1_agonist" in prompt, "Expected mechanism-of-action few-shot example in system prompt"
+
+
+def test_system_prompt_contains_adverse_event_example():
+    from web.app.services.opm_extract import build_system_prompt
+    prompt = build_system_prompt()
+    assert "warfarin" in prompt, "Expected adverse-event few-shot example in system prompt"
+
+
+# ---------------------------------------------------------------------------
+# Unit tests: default model
+# ---------------------------------------------------------------------------
+
+
+def test_call_llm_defaults_to_gpt4o_mini_when_model_unset(monkeypatch):
+    """When OPM_MODEL is not set, call_llm should use gpt-4o-mini."""
+    monkeypatch.delenv("OPM_MODEL", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+
+    mock_message = MagicMock()
+    mock_message.content = '{"version":"1.0","nodes":[],"links":[]}'
+    mock_choice = MagicMock()
+    mock_choice.message = mock_message
+    mock_response = MagicMock()
+    mock_response.choices = [mock_choice]
+
+    with patch("web.app.services.opm_extract.OpenAI") as MockOpenAI:
+        mock_client = MagicMock()
+        MockOpenAI.return_value = mock_client
+        mock_client.chat.completions.create.return_value = mock_response
+
+        from web.app.services.opm_extract import call_llm
+        call_llm("sys", "user")
+
+        call_kwargs = mock_client.chat.completions.create.call_args
+        assert call_kwargs.kwargs["model"] == "gpt-4o-mini", (
+            f"Expected model 'gpt-4o-mini', got '{call_kwargs.kwargs['model']}'"
+        )
+
+
+# ---------------------------------------------------------------------------
 # Unit tests: extract (mocked LLM)
 # ---------------------------------------------------------------------------
 

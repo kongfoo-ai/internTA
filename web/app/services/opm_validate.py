@@ -131,12 +131,28 @@ def _normalize_link_endpoints_inplace(out: dict) -> None:
             lk["target"] = canon(lk.get("target"))
 
 
+# Labels indicating a human or intelligent agent (case-insensitive substring match).
+# If NONE of these appear in the source label, an `agent` link is repaired to `instrument`.
+_HUMAN_LABEL_HINTS: frozenset[str] = frozenset({
+    "patient", "clinician", "physician", "doctor", "nurse", "provider",
+    "user", "operator", "administrator", "researcher", "scientist",
+    "organization", "company", "team", "committee", "person", "individual",
+    "staff", "pharmacist", "caregiver", "subject", "participant",
+})
+
+
+def _label_is_clearly_human(label: str) -> bool:
+    low = label.lower()
+    return any(hint in low for hint in _HUMAN_LABEL_HINTS)
+
+
 def _repair_common_llm_link_relations_inplace(out: dict) -> None:
     """
-    Fix frequent LLM mistakes (only when source is already a process):
+    Fix frequent LLM mistakes:
 
     - `result` with **process** source and **state** target → `effect`.
     - `effect` with **process** source and **object** target → `result`.
+    - `agent` where source label has no human indicator → `instrument`.
 
     Relation and node kinds are compared case-insensitively.
     """
@@ -144,10 +160,12 @@ def _repair_common_llm_link_relations_inplace(out: dict) -> None:
     if not isinstance(nodes, list):
         return
     kind_by_id: dict[str, str] = {}
+    label_by_id: dict[str, str] = {}
     for n in nodes:
         if isinstance(n, dict) and n.get("id") is not None:
             nid = str(n["id"]).strip()
             kind_by_id[nid] = str(n.get("kind", "")).strip().lower()
+            label_by_id[nid] = str(n.get("label", "")).strip()
 
     links = out.get("links")
     if not isinstance(links, list):
@@ -164,6 +182,11 @@ def _repair_common_llm_link_relations_inplace(out: dict) -> None:
             lk["relation"] = "effect"
         elif rel == "effect" and sk == "process" and tk == "object":
             lk["relation"] = "result"
+        elif rel == "agent" and sk == "object":
+            src_label = label_by_id.get(sid, "")
+            if not _label_is_clearly_human(src_label):
+                lk["relation"] = "instrument"
+                logger.debug("Repaired agent→instrument for non-human source '%s'", src_label)
 
 
 def repair_common_llm_link_relations(data: dict) -> dict:

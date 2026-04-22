@@ -208,6 +208,8 @@ def test_effect_object_to_state_rejected():
 
 
 def test_agent_object_to_state_rejected():
+    # "diet" has no human label hint, so agent is repaired to instrument first,
+    # then validation rejects instrument→state (must be object→process).
     bad = {
         "version": "1.0",
         "nodes": [
@@ -216,7 +218,7 @@ def test_agent_object_to_state_rejected():
         ],
         "links": [{"id": "l1", "source": "diet", "target": "goal", "relation": "agent"}],
     }
-    with pytest.raises(ValueError, match="agent.*object"):
+    with pytest.raises(ValueError, match="object→process"):
         validate_diagram(bad)
 
 

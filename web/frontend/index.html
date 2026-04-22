@@ -15,15 +15,25 @@
       .item { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; }
       .muted { color: #6b7280; font-size: 0.875rem; }
       .row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
-      .err-box { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; white-space: pre-wrap; font-size: 0.875rem; }
-      .err-box.hard { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+      .err-box { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 1rem 1.1rem; border-radius: 8px; margin-top: 0.75rem; font-size: 0.875rem; }
+      .err-box .err-headline { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }
+      .err-box .err-hint { background: #fff5f5; border-radius: 5px; padding: 0.5rem 0.75rem; margin: 0.5rem 0; color: #7f1d1d; }
+      .err-box .err-field { margin-top: 0.4rem; }
+      .err-box .err-field strong { color: #7f1d1d; }
+      .err-box.warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+      .err-box.warn .err-headline { color: #78350f; }
+      .err-box.warn .err-hint { background: #fefce8; color: #78350f; }
+      .err-box.warn .err-field strong { color: #78350f; }
       .ok-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; font-size: 0.875rem; }
       .json-out { background: #f9fafb; border: 1px solid #e5e7eb; padding: 0.75rem; border-radius: 6px; overflow: auto; max-height: 280px; font-size: 0.75rem; margin-top: 0.75rem; }
       .mermaid-wrap { margin-top: 1rem; overflow: auto; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 1rem; }
       .pill { display: inline-block; background: #eef2ff; color: #3730a3; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; margin-right: 0.35rem; }
-      .persist-banner { background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.75rem; border-radius: 6px; margin-top: 1rem; margin-bottom: 0.5rem; }
-      .persist-banner .mermaid-wrap { max-height: min(55vh, 480px); overflow: auto; }
+      .persist-section { margin-top: 2.5rem; border-top: 1px solid #e5e7eb; padding-top: 1rem; }
+      .persist-section .mermaid-wrap { max-height: min(55vh, 480px); overflow: auto; }
       .opm-input-block { position: relative; z-index: 2; background: #fff; padding-bottom: 0.25rem; }
+      .loading-box { display:flex; align-items:center; gap:0.6rem; color:#4b5563; font-size:0.9rem; margin-top:0.75rem; }
+      .spinner { width:18px; height:18px; border:2px solid #d1d5db; border-top-color:#6366f1; border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+      @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body>
@@ -56,12 +66,19 @@
       </div>
     </div>
 
-    <div id="persisted-banner" class="persist-banner" style="display:none;"></div>
-
+    <div id="opm-loading" class="loading-box" style="display:none;">
+      <div class="spinner"></div>
+      <span>Extracting OPM diagram&hellip; this may take a few seconds</span>
+    </div>
     <div id="opm-error"></div>
     <div id="opm-success"></div>
     <div id="opm-mermaid" class="mermaid-wrap" style="display:none;"></div>
     <pre id="opm-json" class="json-out" style="display:none;"></pre>
+
+    <div id="persisted-section" class="persist-section" style="display:none;">
+      <h2 style="border:none;margin-top:0;">Last saved diagram</h2>
+      <div id="persisted-banner"></div>
+    </div>
 
     <script>
       mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
@@ -149,49 +166,61 @@ This entire process coordinates receptor signaling, second messengers, and vesic
           const msgs = d.map((e) => (e && (e.msg || e.message)) || JSON.stringify(e)).filter(Boolean);
           d = { stage: 'validation', detail: msgs.join('; ') || 'Validation failed.' };
         }
-        let headline = "Something went wrong";
-        let hint = "";
+
+        let headline, hint, icon, boxClass;
         if (res.status === 422) {
-          headline = "This diagram could not be saved";
-          hint = "The service is running, but the model output did not match the diagram format we can store. Read the short explanation below, then try again or shorten the input.";
+          headline = "Diagram could not be generated";
+          hint = "The AI produced output that doesn\u2019t match the required diagram format. Try simplifying the input text, or click Extract again \u2014 the model will attempt a repair.";
+          icon = "\u26a0\ufe0f";
+          boxClass = "err-box warn";
         } else if (res.status === 502) {
-          headline = "The diagram generator is unavailable";
-          hint = "Try again in a moment or check your API settings.";
+          headline = "AI service is unavailable";
+          hint = "Could not reach the diagram generator. Check that your OPENAI_API_KEY is set correctly in .env, then try again.";
+          icon = "\u274c";
+          boxClass = "err-box";
         } else if (res.status === 400) {
-          headline = "Missing input";
+          headline = "No text provided";
+          hint = "Please enter some text in the input box before extracting.";
+          icon = "\u2139\ufe0f";
+          boxClass = "err-box warn";
+        } else {
+          headline = "Something went wrong";
+          hint = "";
+          icon = "\u274c";
+          boxClass = "err-box";
         }
 
         let stage = d && typeof d === 'object' ? d.stage : '';
         const detailStr = d && typeof d === 'object' && d.detail != null ? String(d.detail) : '';
-        const technicalStr =
-          d && typeof d === 'object' && d.technical_detail != null ? String(d.technical_detail) : '';
+        const technicalStr = d && typeof d === 'object' && d.technical_detail != null ? String(d.technical_detail) : '';
         if (res.status === 422 && /OpmDiagram|Value error|validation error/i.test(detailStr + technicalStr)) {
           stage = 'validation';
         }
 
-        let parts = [`<strong>${escapeHtml(headline)}</strong> <span class="muted">(HTTP ${res.status})</span>`];
-        if (hint) parts.push(`<span class="muted">${escapeHtml(hint)}</span>`);
+        let html = `<div class="${boxClass}">`;
+        html += `<div class="err-headline">${icon} ${escapeHtml(headline)}</div>`;
+        if (hint) html += `<div class="err-hint">${escapeHtml(hint)}</div>`;
 
         if (d && typeof d === 'object') {
-          parts.push(`<strong>Where</strong>: ${escapeHtml(opmStageLabel(stage))}`);
-          const mainDetail = detailStr || (technicalStr ? '(see technical details below)' : JSON.stringify(d));
-          parts.push(`<strong>Details</strong>: ${escapeHtml(mainDetail)}`);
+          if (stage) html += `<div class="err-field"><strong>Where:</strong> ${escapeHtml(opmStageLabel(stage))}</div>`;
+          const mainDetail = detailStr || (technicalStr ? '' : JSON.stringify(d));
+          if (mainDetail) html += `<div class="err-field"><strong>What happened:</strong> ${escapeHtml(mainDetail)}</div>`;
           if (technicalStr) {
-            const tech = escapeHtml(technicalStr.length > 6000 ? technicalStr.slice(0, 6000) + '…' : technicalStr);
-            parts.push(
-              `<details class="opm-tech-details" style="margin-top:0.5rem;"><summary style="cursor:pointer;" class="muted">Technical details (same as server log)</summary><pre style="white-space:pre-wrap;font-size:0.75rem;margin:0.5rem 0 0;">${tech}</pre></details>`
-            );
+            const tech = escapeHtml(technicalStr.length > 6000 ? technicalStr.slice(0, 6000) + '\u2026' : technicalStr);
+            html += `<details style="margin-top:0.6rem;"><summary style="cursor:pointer;color:#6b7280;font-size:0.8rem;">Show technical details</summary><pre style="white-space:pre-wrap;font-size:0.75rem;margin:0.5rem 0 0;background:#fff;padding:0.5rem;border-radius:4px;">${tech}</pre></details>`;
           }
           if (d.raw_response != null && String(d.raw_response).trim()) {
-            parts.push(`<strong>Model output (excerpt)</strong>: ${escapeHtml(String(d.raw_response).slice(0, 800))}`);
+            const raw = escapeHtml(String(d.raw_response).slice(0, 800));
+            html += `<details style="margin-top:0.4rem;"><summary style="cursor:pointer;color:#6b7280;font-size:0.8rem;">Show raw model output</summary><pre style="white-space:pre-wrap;font-size:0.75rem;margin:0.5rem 0 0;background:#fff;padding:0.5rem;border-radius:4px;">${raw}</pre></details>`;
           }
-        } else if (typeof d === 'string') {
-          parts.push(escapeHtml(d));
-        } else {
-          parts.push(escapeHtml(body && body.message ? String(body.message) : 'The request did not complete.'));
+        } else if (typeof d === 'string' && d) {
+          html += `<div class="err-field">${escapeHtml(d)}</div>`;
+        } else if (body && body.message) {
+          html += `<div class="err-field">${escapeHtml(String(body.message))}</div>`;
         }
-        const boxClass = res.status === 502 ? 'err-box hard' : 'err-box';
-        box.innerHTML = `<div class="${boxClass}">${parts.join('<br/>')}</div>`;
+        html += `</div>`;
+
+        box.innerHTML = html;
         document.getElementById('opm-success').innerHTML = '';
         document.getElementById('opm-mermaid').style.display = 'none';
         document.getElementById('opm-json').style.display = 'none';
@@ -208,22 +237,24 @@ This entire process coordinates receptor signaling, second messengers, and vesic
       }
 
       async function loadPersistedDiagram() {
+        const section = document.getElementById('persisted-section');
         const banner = document.getElementById('persisted-banner');
         try {
           const res = await fetch('/opm?limit=1');
           if (!res.ok) return;
           const data = await res.json();
           const list = data.diagrams || [];
-          banner.style.display = 'block';
           if (list.length === 0) {
-            banner.innerHTML = '<strong>Persistence</strong>: No diagram in the database yet. After a successful extraction, data is stored in SQLite and the latest record still appears after a service restart.';
+            section.style.display = 'none';
             return;
           }
+          section.style.display = 'block';
           const latest = list[0];
           banner.innerHTML = '';
-          const head = document.createElement('div');
-          head.innerHTML = `<strong>Last saved diagram</strong> diagram_id=<code>${escapeHtml(String(latest.id))}</code> · <span class="muted">${escapeHtml(String(latest.created_at || ''))}</span>`;
-          banner.appendChild(head);
+          const meta = document.createElement('p');
+          meta.className = 'muted';
+          meta.innerHTML = `diagram_id=<code>${escapeHtml(String(latest.id))}</code> &nbsp;&middot;&nbsp; ${escapeHtml(String(latest.created_at || ''))}`;
+          banner.appendChild(meta);
           const mj = document.createElement('div');
           mj.className = 'mermaid-wrap';
           banner.appendChild(mj);
@@ -243,11 +274,18 @@ This entire process coordinates receptor signaling, second messengers, and vesic
       document.getElementById('opm-extract').addEventListener('click', async () => {
         const text = document.getElementById('opm-text').value.trim();
         const saveNote = document.getElementById('opm-save-note').checked;
+        const loadingEl = document.getElementById('opm-loading');
+        const btn = document.getElementById('opm-extract');
         document.getElementById('opm-error').innerHTML = '';
+        document.getElementById('opm-success').innerHTML = '';
+        document.getElementById('opm-mermaid').style.display = 'none';
+        document.getElementById('opm-json').style.display = 'none';
         if (!text) {
-          document.getElementById('opm-error').innerHTML = '<div class="err-box">Please enter some text.</div>';
+          document.getElementById('opm-error').innerHTML = '<div class="err-box warn"><div class="err-headline">\u2139\ufe0f No text provided</div><div class="err-hint">Please enter some text in the input box before extracting.</div></div>';
           return;
         }
+        loadingEl.style.display = 'flex';
+        btn.disabled = true;
         try {
           const res = await fetch('/opm/extract', {
             method: 'POST',
@@ -262,7 +300,7 @@ This entire process coordinates receptor signaling, second messengers, and vesic
             body = {
               detail: {
                 stage: 'validation',
-                detail: 'The server did not return JSON (maybe a proxy error page).',
+                detail: 'The server did not return JSON (may be a proxy or startup error).',
                 technical_detail: rawText.slice(0, 4000),
               },
             };
@@ -275,7 +313,10 @@ This entire process coordinates receptor signaling, second messengers, and vesic
           await loadPersistedDiagram();
         } catch (err) {
           console.error(err);
-          document.getElementById('opm-error').innerHTML = '<div class="err-box hard">Could not reach the server. Check your connection and try again.</div>';
+          document.getElementById('opm-error').innerHTML = '<div class="err-box"><div class="err-headline">\u274c Cannot reach the server</div><div class="err-hint">Check that the server is running and try again.</div></div>';
+        } finally {
+          loadingEl.style.display = 'none';
+          btn.disabled = false;
         }
       });
 
